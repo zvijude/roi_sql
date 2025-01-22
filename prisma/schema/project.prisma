@@ -1,0 +1,279 @@
+model Qr {
+  id       Int     @id @default(autoincrement())
+  qrNum    Int
+  prjId    Int
+  floor    Int
+  aptNum   Int
+  front    String?
+  locInApt String
+  loc      String? @default(dbgenerated())
+
+  curTask   Task? @relation("curTask", fields: [curTaskId], references: [id])
+  curTaskId Int?  @unique
+
+  tasks Task[] @relation("tasks")
+
+  totalTasksCount     Int @default(0)
+  totalTasksCompleted Int @default(0)
+
+  part        Part @relation(fields: [partId], references: [id])
+  partId      Int
+  createdById Int
+  createdBy   User @relation(fields: [createdById], references: [id])
+
+  probs   Prob[]
+  bgtReqs BgtReq[]
+
+  status QrStatus @default(IN_PROGRESS)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scans     Scan[]
+
+  waitingTasks   WaitingTask[]
+  completedTasks CompletedTask[]
+  skippedTasks   SkippedTask[]
+
+  @@unique([qrNum, prjId])
+  @@index([qrNum, prjId])
+}
+
+model Task {
+  id       Int         @id @default(autoincrement())
+  status   TaskStatus?
+  mainTask MainTask    @relation(fields: [mainTaskId], references: [id])
+  media    String[]
+
+  order   Int
+  price   Int?
+  title   String
+  desc    String
+  isMedia Boolean @default(false)
+  for     Role    @default(INSTALLER)
+  needApproval Boolean? @default(false)
+
+  curTaskQr   Qr?  @relation("curTask")
+  curTaskQrId Int?
+
+  qr   Qr  @relation("tasks", fields: [qrId], references: [id])
+  qrId Int
+
+  mainTaskId Int
+  kablanId   Int?
+  note       String?
+  probs      Prob[]
+  bgtReqs    BgtReq[]
+
+  prj   Project? @relation(fields: [prjId], references: [id])
+  prjId Int?
+
+  waiting   WaitingTask[]
+  completed CompletedTask[]
+  skipped   SkippedTask[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WaitingTask {
+  id       Int     @id @default(autoincrement())
+  task     Task    @relation(fields: [taskId], references: [id])
+  taskId   Int
+  kablanId Int?
+  prj      Project @relation(fields: [prjId], references: [id])
+  prjId    Int
+
+  date DateTime @updatedAt
+
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdById Int
+  type        EventType @default(WAITING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  qr   Qr  @relation(fields: [qrId], references: [id])
+  qrId Int
+}
+
+model CompletedTask {
+  id       Int     @id @default(autoincrement())
+  task     Task    @relation(fields: [taskId], references: [id])
+  taskId   Int
+  kablanId Int?
+  prj      Project @relation(fields: [prjId], references: [id])
+  prjId    Int
+
+  date        DateTime @updatedAt
+  createdBy   User     @relation("completedBy", fields: [createdById], references: [id])
+  createdById Int
+
+  resBy   User?     @relation("approvedBy", fields: [resById], references: [id])
+  resById Int?
+  resAt   DateTime?
+  type    EventType @default(COMPLETED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  qr        Qr       @relation(fields: [qrId], references: [id])
+  qrId      Int
+}
+
+model SkippedTask {
+  id       Int     @id @default(autoincrement())
+  task     Task    @relation(fields: [taskId], references: [id])
+  taskId   Int
+  kablanId Int?
+  prj      Project @relation(fields: [prjId], references: [id])
+
+  date        DateTime  @updatedAt
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdById Int
+  type        EventType @default(SKIPPED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  prjId     Int
+  qr        Qr       @relation(fields: [qrId], references: [id])
+  qrId      Int
+}
+
+enum EventType {
+  PROB
+  BGT_REQ
+  COMPLETED
+  WAITING
+  SKIPPED
+}
+
+enum TaskStatus {
+  WAITING
+  SKIPPED
+  COMPLETED
+}
+
+enum ProbStatus {
+  WAITING
+  SOLVED
+  CANCELED
+}
+
+enum BgtReqStatus {
+  WAITING
+  GRANTED
+  DENIED
+  CANCELED
+}
+
+model Prob {
+  id       Int        @id @default(autoincrement())
+  desc     String
+  media    String[]
+  status   ProbStatus @default(WAITING)
+  kablanId Int?
+
+  qr          Qr        @relation(fields: [qrId], references: [id])
+  task        Task      @relation(fields: [taskId], references: [id])
+  createdBy   User      @relation(fields: [createdById], references: [id], name: "reqBy")
+  createdById Int
+  date        DateTime  @updatedAt
+  type        EventType @default(PROB)
+
+  resBy   User?     @relation(fields: [resById], references: [id], name: "solvedBy")
+  resById Int?
+  resAt   DateTime?
+
+  taskId Int
+  qrId   Int
+  msgs   Msg[]
+  prj    Project? @relation(fields: [prjId], references: [id])
+  prjId  Int?
+
+  duration  Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BgtReq {
+  id     Int          @id @default(autoincrement())
+  desc   String
+  media  String[]
+  status BgtReqStatus @default(WAITING)
+  amount Int
+
+  qr          Qr        @relation(fields: [qrId], references: [id])
+  task        Task      @relation(fields: [taskId], references: [id])
+  createdBy   User      @relation(fields: [createdById], references: [id], name: "reqBy")
+  createdById Int
+  type        EventType @default(BGT_REQ)
+
+  date     DateTime @updatedAt
+  kablanId Int?
+
+  qrId   Int
+  taskId Int
+  msgs   Msg[]
+
+  resBy   User?     @relation(fields: [resById], references: [id], name: "resBy")
+  resById Int?
+  resAt   DateTime?
+
+  prj   Project? @relation(fields: [prjId], references: [id])
+  prjId Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum QrStatus {
+  WARNING
+  FINISH
+  IN_PROGRESS
+  WAITING_TASK
+  ON_PROB
+  ON_BGT_REQ
+}
+
+model Msg {
+  id        Int    @id @default(autoincrement())
+  text      String
+  mentioned Int[]
+
+  user   User    @relation(fields: [userId], references: [id])
+  prob   Prob?   @relation(fields: [probId], references: [id])
+  bgtReq BgtReq? @relation(fields: [breqId], references: [id])
+
+  userId Int
+  probId Int?
+  breqId Int?
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Notification Notification[]
+}
+
+model Notification {
+  id   Int     @id @default(autoincrement())
+  user User    @relation(fields: [userId], references: [id])
+  seen Boolean @default(false)
+
+  msg Msg? @relation(fields: [msgId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  msgId     Int?
+}
+
+model Scan {
+  id      Int     @id @default(autoincrement())
+  qr      Qr      @relation(fields: [qrNum, prjId], references: [qrNum, prjId])
+  user    User    @relation(fields: [userId], references: [id])
+  project Project @relation(fields: [prjId], references: [id])
+
+  kablanId Int?
+  prjId    Int
+  qrNum    Int
+  userId   Int
+  scanAt   DateTime @default(now())
+}

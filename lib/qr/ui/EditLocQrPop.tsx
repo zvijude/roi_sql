@@ -1,0 +1,47 @@
+'use client'
+
+import { SelectAptOpt } from '@/lib/aptOpt/ui/SelectAptOpt'
+import { arrayOf } from '@/utils/func'
+import { Btn } from 'zvijude/btns'
+import { Select } from 'zvijude/form'
+import { getFormData } from 'zvijude/form/funcs'
+import Title from 'zvijude/general/Title'
+import { toast } from 'zvijude/pop'
+import { editQrLoc } from '../db/set'
+
+export default function EditLocQrPop({ qrData, aptOpt }) {
+  if (!qrData) return null
+  const { floor, aptNum, front, locInApt } = qrData
+
+  async function onEditSubmit(e) {
+    e.preventDefault()
+    const data = getFormData(e) as any
+    toast('loading')
+    await editQrLoc({ ...data, qrNum: qrData.qrNum, prjId: qrData.prjId })
+    toast('success')
+  }
+
+  return (
+    <div className='p-6 pop' popover='auto' id='editLocQrPop'>
+      <form onSubmit={onEditSubmit} className='grid gap-4'>
+        <Title lbl='עריכת מיקום הפרט' icon='map-location-dot' />
+        <div className='grid grid-cols-2 gap-6'>
+          <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} defaultValue={floor} />
+          <Select lbl='מספר דירה' name='aptNum' options={arrayOf(0, 1000)} defaultValue={aptNum} />
+        </div>
+
+        <SelectAptOpt noEdit={true} aptOpt={aptOpt} defaultValue={locInApt} />
+        <Select
+          lbl='חזית'
+          placeholder='בחר חזית'
+          name='front'
+          required={false}
+          options={['צפונית', 'דרומית', 'מערבית', 'מזרחית']}
+          defaultValue={front}
+        />
+
+        <Btn lbl='שמור' icon='floppy-disk' className='w-full' />
+      </form>
+    </div>
+  )
+}

@@ -1,0 +1,137 @@
+'use client'
+
+import { Select, SelectObj } from 'zvijude/form'
+import { Btn } from 'zvijude/btns'
+import { getFormData } from 'zvijude/form/funcs'
+import { useRouter } from 'next/navigation'
+import Icon from 'zvijude/icon'
+import { formToQueryPeriodic } from '@/utils/formToQuery'
+import { useState } from 'react'
+import { getTasksByPart } from '@/lib/part/db/get'
+
+export default function PeriodicFilter({ query, fields, parts }) {
+  const router = useRouter()
+  const { qrs = [], users = [], floors = [], aptNums = [] } = fields
+  const [partTasks, setPartTasks] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  function onSubmit(e) {
+    const data = getFormData(e) as any
+    console.log('data', data)
+
+    const query = formToQueryPeriodic(data)
+
+    const url = new URLSearchParams({ query: JSON.stringify(query) })
+    router.replace('?' + url, { scroll: false })
+  }
+
+  function resetFilter() {
+    const form = document.getElementById('periodic-form') as HTMLFormElement
+    form.reset()
+    router.replace('?', { scroll: false })
+
+    document.getElementById('periodic-filter')?.hidePopover()
+  }
+
+  async function onChangePrt(e) {
+    if (!e.target.value) return setPartTasks([])
+    setIsLoading(true)
+    const prtId = JSON.parse(e.target.value).id
+    const tasks = (await getTasksByPart(prtId)) as any
+    setPartTasks(tasks || [])
+    setIsLoading(false)
+  }
+
+  return (
+    <div
+      popover='auto'
+      className='pop max-h-[75vh] w-[560px] scroll-bar overflow-y-auto'
+      id='periodic-filter'>
+      <div className='inline-flex items-center gap-4 border-b pb-2 mb-6 border-slate-400'>
+        <Icon name='filter' type='reg' />
+        <p className='text-xl font-medium'>סינונים</p>
+      </div>
+
+      <form id='periodic-form' onSubmit={onSubmit}>
+        <div className='grid grid-cols-2 gap-4'>
+          <SelectObj
+            lbl='פרט'
+            name='part'
+            val='id'
+            show='name'
+            options={parts}
+            placeholder='הכל...'
+            defaultValue={query?.part}
+            required={false}
+            returnJson
+            onChange={onChangePrt}
+          />
+          <div className='relative'>
+            <SelectObj
+              lbl='שלב ביצוע'
+              name='taskStageId'
+              options={partTasks}
+              val='id'
+              show='title'
+              defaultValue={query?.taskStageId}
+              placeholder={
+                isLoading
+                  ? 'טוען...'
+                  : partTasks.length !== 0
+                  ? 'בחר שלב ביצוע'
+                  : 'לקביעת שלב, בחר פרט'
+              }
+              required={false}
+            />
+          </div>
+          <Select
+            lbl='בחר חזית'
+            options={['צפונית', 'דרומית', 'מזרחית', 'מערבית']}
+            name='front'
+            placeholder='הכל'
+            required={false}
+          />
+
+          <Select
+            lbl='מספר QR'
+            name='qrNum'
+            options={qrs}
+            defaultValue={query?.qrNum}
+            placeholder='הכל...'
+            required={false}
+          />
+          <Select
+            lbl='בוצע ע"י'
+            name='user'
+            options={users}
+            placeholder='כולם...'
+            defaultValue={query?.createdBy?.name}
+            required={false}
+          />
+
+          <Select
+            lbl='מספר קומה'
+            name='floor'
+            options={floors}
+            defaultValue={query?.floor}
+            placeholder='הכל...'
+            required={false}
+          />
+          <Select
+            lbl='מספר דירה'
+            name='aptNum'
+            options={aptNums}
+            defaultValue={query?.aptNum}
+            placeholder='הכל...'
+            required={false}
+          />
+        </div>
+
+        <section className='grid grid-cols-2 gap-4 mt-8'>
+          <Btn clr='text' lbl='אפס סינונים' type='button' onClick={resetFilter} icon='eraser' />
+          <Btn clr='solid' lbl='שמור סינונים' icon='floppy-disk' />
+        </section>
+      </form>
+    </div>
+  )
+}
