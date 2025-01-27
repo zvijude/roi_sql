@@ -1,0 +1,2 @@
+ALTER TABLE "Part"
+ALTER COLUMN "updatedAt" SET DEFAULT now();
