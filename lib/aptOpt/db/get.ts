@@ -8,6 +8,6 @@ export async function getAllAptOpt(data: { prjId: number; path?: string }) {
     where: { projectId: data.prjId },
   })
 
-  revalidatePath('/qr')
+  // revalidatePath('/qr')
   return res
 }

@@ -9,6 +9,7 @@ export async function insertPart(data: Part) {
   const res = (await db('Part').insert({
     ...data,
     name: data.name.trim(),
+    updatedAt: new Date(),
   })) as { rowCount: number }
 
   // const res = await db.part
@@ -37,23 +38,26 @@ export async function updatePart({ id, data }: { id: number; data: Part }) {
 }
 
 export async function updatePartsTasksId(partIds: number[], tasksId: number) {
-  const res = await pdb.part.updateMany({
-    where: {
-      id: { in: partIds },
-    },
-    data: {
-      tasksId,
-    },
-  })
+  const res = await db('Part').whereIn('id', partIds).update({ tasksId })
+  // const res = await pdb.part.updateMany({
+  //   where: {
+  //     id: { in: partIds },
+  //   },
+  //   data: {
+  //     tasksId,
+  //   },
+  // })
 
   revalidatePath(`/project`)
   return res
 }
 
 export async function deletePart(id) {
-  const res = await pdb.part.delete({
-    where: { id },
-  })
+  const res = await db('Part').where({ id }).del()
+
+  // const res = await pdb.part.delete({
+  //   where: { id },
+  // })
 
   revalidatePath(`/project`)
   return res
