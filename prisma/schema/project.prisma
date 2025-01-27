@@ -1,3 +1,9 @@
+// Part -> QR & MainTask
+// MainTask -> Part & Task
+// Qr -> Part & Task
+// Task -> MainTask & Qr
+// Prob -> Task
+
 model Qr {
   id     Int      @id @default(autoincrement())
   qrNum  Int
@@ -10,27 +16,19 @@ model Qr {
   locInApt String
   loc      String? @default(dbgenerated())
 
-  tasks Task[] @relation("tasks")
-  curTask   Task? @relation("curTask", fields: [curTaskId], references: [id])
-  curTaskId Int?  @unique
   totalTasksCount     Int @default(0)
   totalTasksCompleted Int @default(0)
 
-  part        Part @relation(fields: [partId], references: [id])
+  tasks     Task[] @relation("tasks")
+  scans     Scan[]
+  part      Part   @relation(fields: [partId], references: [id])
+  createdBy User   @relation(fields: [createdById], references: [id])
+
   partId      Int
   createdById Int
-  createdBy   User @relation(fields: [createdById], references: [id])
-
-  probs   Prob[]
-  bgtReqs BgtReq[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  scans     Scan[]
-
-  waitingTasks   WaitingTask[]
-  completedTasks CompletedTask[]
-  skippedTasks   SkippedTask[]
 
   @@unique([qrNum, prjId])
   @@index([qrNum, prjId])
@@ -38,228 +36,51 @@ model Qr {
 
 model Task {
   id       Int         @id @default(autoincrement())
-  status   TaskStatus?
-  mainTask MainTask    @relation(fields: [mainTaskId], references: [id])
-  media    String[]
-
-  order        Int
-  price        Int
-  title        String
-  desc         String
-  for          Role     @default(INSTALLER)
-  isMedia      Boolean  @default(false)
-  needApproval Boolean? @default(false)
-
-  curTaskQr   Qr?  @relation("curTask")
-  curTaskQrId Int?
-
-  qr   Qr  @relation("tasks", fields: [qrId], references: [id])
-  qrId Int
-
-  mainTaskId Int
-  kablanId   Int?
-  note       String?
-  probs      Prob[]
-  bgtReqs    BgtReq[]
-
-  prj   Project? @relation(fields: [prjId], references: [id])
-  prjId Int?
-
-  waiting   WaitingTask[]
-  completed CompletedTask[]
-  skipped   SkippedTask[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model WaitingTask {
-  id       Int     @id @default(autoincrement())
-  task     Task    @relation(fields: [taskId], references: [id])
-  taskId   Int
   kablanId Int?
-  prj      Project @relation(fields: [prjId], references: [id])
-  prjId    Int
+  status   TaskStatus? // WAITING, SKIPPED, COMPLETED, null
 
-  date DateTime @updatedAt
+  note  String?
+  media String[]
+  probs Prob[]
 
-  createdBy   User      @relation(fields: [createdById], references: [id])
+  qr        Qr       @relation("tasks", fields: [qrId], references: [id])
+  mainTask  MainTask @relation(fields: [mainTaskId], references: [id])
+  prj       Project  @relation(fields: [prjId], references: [id])
+  createdBy User     @relation("createdBy", fields: [createdById], references: [id])
+  resBy     User?    @relation(fields: [resById], references: [id])
+
+  qrId        Int
+  mainTaskId  Int
+  prjId       Int
   createdById Int
-  type        EventType @default(WAITING)
+  resById     Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  qr   Qr  @relation(fields: [qrId], references: [id])
-  qrId Int
-}
-
-model CompletedTask {
-  id       Int     @id @default(autoincrement())
-  task     Task    @relation(fields: [taskId], references: [id])
-  taskId   Int
-  kablanId Int?
-  prj      Project @relation(fields: [prjId], references: [id])
-  prjId    Int
-
-  date        DateTime @updatedAt
-  createdBy   User     @relation("completedBy", fields: [createdById], references: [id])
-  createdById Int
-
-  resBy   User?     @relation("approvedBy", fields: [resById], references: [id])
-  resById Int?
-  resAt   DateTime?
-  type    EventType @default(COMPLETED)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  qr        Qr       @relation(fields: [qrId], references: [id])
-  qrId      Int
-}
-
-model SkippedTask {
-  id       Int     @id @default(autoincrement())
-  task     Task    @relation(fields: [taskId], references: [id])
-  taskId   Int
-  kablanId Int?
-  prj      Project @relation(fields: [prjId], references: [id])
-
-  date        DateTime  @updatedAt
-  createdBy   User      @relation(fields: [createdById], references: [id])
-  createdById Int
-  type        EventType @default(SKIPPED)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  prjId     Int
-  qr        Qr       @relation(fields: [qrId], references: [id])
-  qrId      Int
-}
-
-enum EventType {
-  PROB
-  BGT_REQ
-  COMPLETED
-  WAITING
-  SKIPPED
-}
-
-enum TaskStatus {
-  WAITING
-  SKIPPED
-  COMPLETED
-}
-
-enum ProbStatus {
-  WAITING
-  SOLVED
-  CANCELED
-}
-
-enum BgtReqStatus {
-  WAITING
-  GRANTED
-  DENIED
-  CANCELED
 }
 
 model Prob {
   id       Int        @id @default(autoincrement())
+  type     ProbType
+  price    Int        @default(0)
+  kablanId Int?
   desc     String
   media    String[]
   status   ProbStatus @default(WAITING)
-  kablanId Int?
 
-  qr          Qr        @relation(fields: [qrId], references: [id])
-  task        Task      @relation(fields: [taskId], references: [id])
-  createdBy   User      @relation(fields: [createdById], references: [id], name: "reqBy")
+  task      Task    @relation(fields: [taskId], references: [id])
+  createdBy User    @relation(fields: [createdById], references: [id], name: "reqBy")
+  resBy     User?   @relation(fields: [resById], references: [id], name: "solvedBy")
+  prj       Project @relation(fields: [prjId], references: [id])
+
+  taskId      Int
   createdById Int
-  date        DateTime  @updatedAt
-  type        EventType @default(PROB)
+  resById     Int?
+  prjId       Int
 
-  resBy   User?     @relation(fields: [resById], references: [id], name: "solvedBy")
-  resById Int?
-  resAt   DateTime?
-
-  taskId Int
-  qrId   Int
-  msgs   Msg[]
-  prj    Project? @relation(fields: [prjId], references: [id])
-  prjId  Int?
-
-  duration  Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model BgtReq {
-  id     Int          @id @default(autoincrement())
-  desc   String
-  media  String[]
-  status BgtReqStatus @default(WAITING)
-  amount Int
-
-  qr          Qr        @relation(fields: [qrId], references: [id])
-  task        Task      @relation(fields: [taskId], references: [id])
-  createdBy   User      @relation(fields: [createdById], references: [id], name: "reqBy")
-  createdById Int
-  type        EventType @default(BGT_REQ)
-
-  date     DateTime @updatedAt
-  kablanId Int?
-
-  qrId   Int
-  taskId Int
-  msgs   Msg[]
-
-  resBy   User?     @relation(fields: [resById], references: [id], name: "resBy")
-  resById Int?
-  resAt   DateTime?
-
-  prj   Project? @relation(fields: [prjId], references: [id])
-  prjId Int?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum QrStatus {
-  FINISH
-  IN_PROGRESS
-  WAITING_TASK
-  ON_PROB
-  ON_BGT_REQ
-}
-
-model Msg {
-  id        Int    @id @default(autoincrement())
-  text      String
-  mentioned Int[]
-
-  user   User    @relation(fields: [userId], references: [id])
-  prob   Prob?   @relation(fields: [probId], references: [id])
-  bgtReq BgtReq? @relation(fields: [breqId], references: [id])
-
-  userId Int
-  probId Int?
-  breqId Int?
-
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  Notification Notification[]
-}
-
-model Notification {
-  id   Int     @id @default(autoincrement())
-  user User    @relation(fields: [userId], references: [id])
-  seen Boolean @default(false)
-
-  msg Msg? @relation(fields: [msgId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    Int
-  msgId     Int?
+  resAt     DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Scan {
@@ -273,4 +94,32 @@ model Scan {
   qrNum    Int
   userId   Int
   scanAt   DateTime @default(now())
+}
+
+enum QrStatus {
+  FINISH
+  IN_PROGRESS
+  WAITING_TASK
+  ON_PROB
+  ON_BGT_REQ
+}
+
+enum TaskStatus {
+  WAITING
+  SKIPPED
+  COMPLETED
+}
+
+enum ProbStatus {
+  WAITING // both
+  CANCELED // BgtReq
+
+  SOLVED // Prob
+  DENIED // BgtReq
+  GRANTED // BgtReq
+}
+
+enum ProbType {
+  PROB
+  BGT_REQ
 }

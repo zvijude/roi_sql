@@ -1,6 +1,6 @@
 'use server'
 
-import { db } from '@/db/db'
+import { db } from '@/sql'
 import { formatTasks, revalidateProject } from '@/lib/mainTask/funcs'
 import getDiff from 'diff-arrays-of-objects'
 import { genId } from '@/utils/func'
@@ -13,73 +13,55 @@ export async function crtMainTask({ tasks, partIds, prjId }) {
   tasks = formatTasks(tasks, prjId, tasksId)
   tasks.map((t) => (t.price = Number(t.price)))
 
-  await db
-    .$transaction([
-      db.mainTask.createMany({
-        data: tasks,
-      }),
-      db.part.updateMany({
-        where: {
-          id: { in: partIds },
-        },
-        data: {
-          tasksId,
-        },
-      }),
-    ])
-    .catch((err) => {
-      return { err: true, msg: `שגיאה בשמירת הנתונים ${err}` }
-    })
+  await db.transaction(async (trx) => {
+    await trx('MainTask').insert(tasks)
+    await trx('Part').whereIn('id', partIds).update({ tasksId })
+  })
 
   revalidateProject()
-
-  return { err: false, msg: 'המשימות נשמרו בהצלחה' }
 }
 
 // Update
 export async function updateMainTask({ tasks, oldTasks, partIds, oldPartsIds, prjId }) {
   const tasksId = oldTasks[0].tasksId
-
   tasks = formatTasks(tasks, prjId, tasksId)
 
   const { removed, updated, added } = getDiff(oldTasks, tasks)
   const removeParts = oldPartsIds.filter((element) => !partIds.includes(element))
   const addParts = partIds.filter((element) => !oldPartsIds.includes(element))
-
-  const updatedTasks = updated.map((tsk: any) => {
-    return db.mainTask.update({
-      where: {
-        id: tsk.id,
-      },
-      data: { ...tsk, price: Number(tsk.price) },
-    })
-  })
-
-  const addedTasks = added.map((tsk: any) => {
-    return db.mainTask.create({
-      data: { ...tsk, price: Number(tsk.price) },
-    })
-  })
-
-  const deletedTasks = db.mainTask.deleteMany({
-    where: {
-      id: { in: removed.map(({ id }) => id) },
-    },
-  })
-
-  const addedParts = db.part.updateMany({
-    where: { id: { in: addParts } },
-    data: { tasksId },
-  })
-
-  const removedParts = db.part.updateMany({
-    where: { id: { in: removeParts } },
-    data: { tasksId: null },
-  })
+  updated.map((t) => (t.price = Number(t.price)))
 
   const res = await db
-    .$transaction([addedParts, removedParts, ...updatedTasks, ...addedTasks, deletedTasks])
-    .catch(onErr)
+    .transaction(async (trx) => {
+      // Update existing tasks
+      for (const tsk of updated) {
+        await trx('MainTask')
+          .where({ id: tsk.id })
+          .update({ ...tsk })
+      }
+
+      // Add new tasks
+      for (const tsk of added) {
+        await trx('MainTask').insert({ ...tsk })
+      }
+
+      // Delete removed tasks
+      await trx('MainTask')
+        .whereIn(
+          'id',
+          removed.map(({ id }) => id)
+        )
+        .delete()
+
+      // Update added parts
+      await trx('Part').whereIn('id', addParts).update({ tasksId })
+
+      // Update removed parts
+      await trx('Part').whereIn('id', removeParts).update({ tasksId: null })
+    })
+    .catch((e) => {
+      return { failed: true, msg: `שגיאה בעדכון המשימות error: ${e}` }
+    })
 
   revalidateProject()
 
@@ -88,26 +70,23 @@ export async function updateMainTask({ tasks, oldTasks, partIds, oldPartsIds, pr
 
 // Delete
 export async function deleteMainTask({ tasks, partIds }) {
-  await db
-    .$transaction([
-      db.mainTask.deleteMany({
-        where: {
-          id: { in: tasks.map((el) => el.id) },
-        },
-      }),
-      db.part.updateMany({
-        where: {
-          id: { in: partIds },
-        },
-        data: {
-          tasksId: null,
-        },
-      }),
-    ])
+  const res = await db
+    .transaction(async (trx) => {
+      // Delete tasks
+      await trx('MainTask')
+        .whereIn(
+          'id',
+          tasks.map((el) => el.id)
+        )
+        .delete()
+
+      // Update parts to remove tasksId
+      await trx('Part').whereIn('id', partIds).update({ tasksId: null })
+    })
     .catch((e) => {
-      return { failed: true, msg: `שגיאה במחיקת המשימות error: ${e}` }
+      return { err: true, msg: `שגיאה במחיקת המשימות error: ${e}` }
     })
 
   revalidateProject()
-  return 'deleted'
+  return res
 }

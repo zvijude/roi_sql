@@ -26,34 +26,25 @@ model User {
   email     String  @unique
 
   phone    String?   @unique
-  otp      String?
   projects Project[]
 
-  company  Company @relation(fields: [companyId], references: [id])
-  kablanId Int?
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId Int
+  kablanId  Int?
 
   gglSub  String?
   gglName String?
   picture String?
 
+  probs        Prob[] @relation("reqBy")
+  solvedProbs  Prob[] @relation("solvedBy")
+  scans        Scan[]
+  qrCreatedBy  Qr[]
+  createdTasks Task[] @relation("createdBy")
+  resTasks     Task[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  companyId Int
-
-  probs       Prob[] @relation("reqBy")
-  solvedProbs Prob[] @relation("solvedBy")
-
-  bgtReqs    BgtReq[] @relation("reqBy")
-  resBgtReqs BgtReq[] @relation("resBy")
-
-  msgs           Msg[]
-  notifications  Notification[]
-  scans          Scan[]
-  waitingTasks   WaitingTask[]
-  completedTasks CompletedTask[] @relation("completedBy")
-  approvedTasks  CompletedTask[] @relation("approvedBy")
-  skippedTasks   SkippedTask[]
-  qrCreatedBy      Qr[]
 }
 
 model Company {
@@ -67,24 +58,20 @@ model Company {
 }
 
 model Project {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
-  company   Company @relation(fields: [companyId], references: [id])
+  company   Company  @relation(fields: [companyId], references: [id])
   companyId Int
   users     User[]
   printQntt Int?
+  aptOpts   String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tasks          Task[]
-  bgtReqs        BgtReq[]
-  probs          Prob[]
-  scans          Scan[]
-  aptOpts        AptOpt[]
-  waitingTasks   WaitingTask[]
-  completedTasks CompletedTask[]
-  skippedTasks   SkippedTask[]
+  tasks Task[]
+  probs Prob[]
+  scans Scan[]
 }
 
 model Part {
@@ -104,29 +91,18 @@ model Part {
 }
 
 model MainTask {
-  id      Int      @id @default(autoincrement())
-  title   String
-  desc    String
-  tasksId Int
-  prjId   Int
-  order   Int
-  media   Boolean? @default(false)
-  tasks   Task[]
-  for     Role     @default(INSTALLER)
-  price   Int?
+  id           Int      @id @default(autoincrement())
+  title        String
+  desc         String
+  tasksId      Int
+  prjId        Int
+  order        Int
+  tasks        Task[]
+  for          Role     @default(INSTALLER)
+  price        Int      @default(0)
+  needMedia    Boolean? @default(false)
   needApproval Boolean? @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model AptOpt {
-  id     Int    @id @default(autoincrement())
-  option String
-
-  project Project @relation(fields: [projectId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  projectId Int
 }

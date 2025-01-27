@@ -1,32 +1,11 @@
-import { db } from '@/db/db'
+import { db } from '@/sql'
 import { groupBy } from '@/utils/func'
 
 export async function getMainTask(prjId: number) {
-  const tasks = await db.mainTask.findMany({
-    where: { prjId },
-    orderBy: { order: 'asc' },
-    select: {
-      id: true,
-      title: true,
-      desc: true,
-      price: true,
-      media: true,
-      needApproval: true,
-      for: true,
-      order: true,
-      tasksId: true,
-      tasks: {select: {id: true}},
-      prjId: true,
-    },
-  })
+  const tasks = await db('MainTask').where({ prjId })
+  const parts = await db('Part').where({ prjId })
+  const prtsNoGrp = await db('Part').where({ prjId, tasksId: null })
+  const grpTasks = Object.values(groupBy(tasks, ({ tasksId }) => tasksId))
 
-  const objWithId = groupBy(tasks, ({ tasksId }) => tasksId)
-  const res = Object.values(objWithId)
-
-  const parts = await db.part.findMany({ where: { prjId } })
-  const prtsNoGrp = await db.part.findMany({
-    where: { AND: { prjId, tasksId: null } },
-  })
-
-  return JSON.stringify({ grpTasks: res, parts, prtsNoGrp })
+  return { grpTasks, parts, prtsNoGrp }
 }

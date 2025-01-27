@@ -6,16 +6,7 @@ export default async function MainTasks({ params }) {
   prjId = Number(prjId)
   if (!prjId) return null
 
-  const res = await getMainTask(prjId)
-  let { grpTasks, parts, prtsNoGrp } = JSON.parse(res)
+  const { grpTasks, parts, prtsNoGrp } = await getMainTask(prjId)
 
-  return (
-    <MainTask
-      grpTasks={grpTasks}
-      prtsNoGrp={prtsNoGrp}
-      parts={parts}
-      prjId={prjId}
-      key={Math.random()}
-    />
-  )
+  return <MainTask grpTasks={grpTasks} prtsNoGrp={prtsNoGrp} parts={parts} prjId={prjId} key={Math.random()} />
 }
