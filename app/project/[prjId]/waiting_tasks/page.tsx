@@ -3,7 +3,9 @@ import WaitingTasksTable from '@/lib/task/waitingTask/ui/WaitingTasksTable'
 import { getWaitingTasks } from '@/lib/task/waitingTask/db/get'
 import Stats from '@/lib/task/waitingTask/ui/Stats'
 
-export default async function WaitingTasks({ params: { prjId }, searchParams: { query } }) {
+export default async function WaitingTasks({ params, searchParams }) {
+  let { query } = await searchParams
+  let { prjId } = await params
   prjId = Number(prjId)
   if (query) query = JSON.parse(query)
 

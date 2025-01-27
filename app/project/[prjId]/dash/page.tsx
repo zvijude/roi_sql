@@ -8,7 +8,8 @@ import Dashboard from '@/lib/graph/ui/Dashboard'
 import { getTasksByFloor } from '@/lib/graph/db/get'
 import { getPrjScansByFloor } from '@/lib/scan/db/get'
 
-export default async function Page({ params: { prjId } }) {
+export default async function Page({ params }) {
+  let { prjId } = await params
   prjId = Number(prjId)
 
   const tasksByFloor = await getTasksByFloor(prjId)

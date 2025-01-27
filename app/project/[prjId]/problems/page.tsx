@@ -3,7 +3,9 @@ import Stats from '@/lib/prob/ui/Stats'
 import { getProbs } from '@/lib/prob/db/get'
 import ProbTable from '@/lib/prob/ui/ProbTable'
 
-export default async function Problems({ params: { prjId }, searchParams: { query } }) {
+export default async function Problems({ params, searchParams }) {
+  let { query } = await searchParams
+  let { prjId } = await params
   prjId = Number(prjId)
   if (query) query = JSON.parse(query)
 
