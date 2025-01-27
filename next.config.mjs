@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
 
-export default nextConfig;
+const nextConfig = {
+  serverExternalPackages: ['knex'],
+  productionBrowserSourceMaps: false,
+}
+
+export default nextConfig
