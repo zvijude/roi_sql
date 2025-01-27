@@ -2,7 +2,7 @@
 
 const nextConfig = {
   serverExternalPackages: ['knex'],
-  productionBrowserSourceMaps: false,
+  productionBrowserSourceMaps: false, // Disable source maps in production
 }
 
 export default nextConfig

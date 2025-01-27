@@ -14,7 +14,8 @@ const secretKey = 'secret'
 const key = new TextEncoder().encode(secretKey)
 
 export const getUser = cache(async () => {
-  const session = cookies().get('user')?.value
+  const cokis = await cookies()
+  const session = cokis.get('user')?.value
   if (!session) return null
   return (await decrypt(session)) as UserCookieType
 })
@@ -54,18 +55,16 @@ export async function checkUser(user) {
 
   const expires = daysFromNow(365)
   const userToken = await encrypt({ ...saveToCookie, expires })
-  cookies().set('user', userToken, { expires, httpOnly: true })
+
+  const cokis = await cookies()
+  cokis.set('user', userToken, { expires, httpOnly: true })
 
   // return saveToCookie
   return redirect('/')
 }
 
 export async function encrypt(payload: any) {
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime('365 days')
-    .sign(key)
+  return await new SignJWT(payload).setProtectedHeader({ alg: 'HS256' }).setIssuedAt().setExpirationTime('365 days').sign(key)
 }
 
 export async function decrypt(input: string): Promise<any> {
@@ -76,7 +75,8 @@ export async function decrypt(input: string): Promise<any> {
 }
 
 export async function logout() {
-  cookies().delete('user')
+  const cokis = await cookies()
+  cokis.delete('user')
   redirect('/auth')
 }
 

@@ -20,15 +20,15 @@
     "jwt-decode": "^4.0.0",
     "knex": "^3.1.0",
     "pg": "^8.13.1",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-qr-code": "^2.0.15",
     "react-to-print": "^2.15.1",
     "recharts": "^2.15.0",
     "tailwind-merge": "^2.6.0",
     "valtio": "^1.13.2",
-    "zvijude": "^0.1.114",
-    "next": "^15.1.6",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "zvijude": "^0.1.114"
   },
   "devDependencies": {
     "@types/node": "^22.10.10",

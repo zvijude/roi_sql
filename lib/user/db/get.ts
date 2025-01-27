@@ -29,15 +29,13 @@ export async function getUsers({ prjId }) {
     },
   })
 
-  revalidatePath('/users')
   return res?.users
 }
 
 export async function getCurUserQuery() {
   const user = (await getUser()) as any
 
-  if (user.role === Role.INSTALLER || user.role === Role.C_INSTALLER)
-    return { createdById: user.id }
+  if (user.role === Role.INSTALLER || user.role === Role.C_INSTALLER) return { createdById: user.id }
   if (user.role === Role.KABLAN) return { kablanId: user.id }
   return {}
 }
