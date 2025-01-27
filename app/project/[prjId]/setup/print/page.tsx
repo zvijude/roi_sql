@@ -3,7 +3,8 @@ import Icon from 'zvijude/icon'
 import { getPrjPrintQntt, getProjectName } from '@/db/project/get'
 import { getQrs } from '@/lib/qr/db/get'
 
-export default async function print({ params: { prjId } }) {
+export default async function print({ params }) {
+  let { prjId } = await params
   prjId = Number(prjId)
   if (!prjId) return null
 

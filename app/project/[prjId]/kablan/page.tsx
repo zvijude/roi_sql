@@ -5,7 +5,8 @@ import AllKablansTable from '@/lib/kablan/ui/AllKablanTable'
 import SelectKablan from '@/lib/kablan/ui/SelectKablan'
 import { redirect } from 'next/navigation'
 
-export default async function Kablans({ params: { prjId } }) {
+export default async function Kablans({ params }) {
+  let { prjId } = await params
   prjId = Number(prjId)
   const user = await getUser()
   if (!isManager(user!.role)) redirect(`/project/${prjId}`)

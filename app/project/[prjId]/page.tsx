@@ -4,7 +4,9 @@ import { getPartsByPrj } from '@/lib/part/db/get'
 import { getPeriodic, getPeriodicChartData } from '@/lib/periodicTable/db/get'
 import PeriodicTable from '@/lib/periodicTable/ui/PeriodicTable'
 
-export default async function Page({ params: { prjId }, searchParams: { query } }: any) {
+export default async function Page({ params, searchParams }) {
+  let { query } = await searchParams
+  let { prjId } = await params
   prjId = Number(prjId)
 
   if (query) query = JSON.parse(query)

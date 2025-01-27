@@ -1,7 +1,8 @@
 import Parts from '@/lib/part/ui/Parts'
 import { db } from '@/sql'
 
-export default async function partsPage({ params: { prjId } }) {
+export default async function partsPage({ params }) {
+  let { prjId } = await params
   prjId = Number(prjId)
   if (!prjId) return null
 

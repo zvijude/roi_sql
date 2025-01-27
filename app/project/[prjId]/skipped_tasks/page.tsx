@@ -3,7 +3,9 @@ import { getSkippedTasks } from '@/lib/task/skippedTask/db/get'
 import SkippedTasksTable from '@/lib/task/skippedTask/ui/SkippedTasksTable'
 import Stats from '@/lib/task/skippedTask/ui/Stats'
 
-export default async function SkippedTasks({ params: { prjId }, searchParams: { query } }) {
+export default async function SkippedTasks({ params, searchParams }) {
+  let { query } = await searchParams
+  let { prjId } = await params
   prjId = Number(prjId)
   if (query) query = JSON.parse(query)
 

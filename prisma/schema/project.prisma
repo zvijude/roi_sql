@@ -1,18 +1,18 @@
 model Qr {
-  id       Int     @id @default(autoincrement())
-  qrNum    Int
-  prjId    Int
+  id     Int      @id @default(autoincrement())
+  qrNum  Int
+  prjId  Int
+  status QrStatus @default(IN_PROGRESS)
+
   floor    Int
   aptNum   Int
   front    String?
   locInApt String
   loc      String? @default(dbgenerated())
 
+  tasks Task[] @relation("tasks")
   curTask   Task? @relation("curTask", fields: [curTaskId], references: [id])
   curTaskId Int?  @unique
-
-  tasks Task[] @relation("tasks")
-
   totalTasksCount     Int @default(0)
   totalTasksCompleted Int @default(0)
 
@@ -23,8 +23,6 @@ model Qr {
 
   probs   Prob[]
   bgtReqs BgtReq[]
-
-  status QrStatus @default(IN_PROGRESS)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,12 +42,12 @@ model Task {
   mainTask MainTask    @relation(fields: [mainTaskId], references: [id])
   media    String[]
 
-  order   Int
-  price   Int?
-  title   String
-  desc    String
-  isMedia Boolean @default(false)
-  for     Role    @default(INSTALLER)
+  order        Int
+  price        Int
+  title        String
+  desc         String
+  for          Role     @default(INSTALLER)
+  isMedia      Boolean  @default(false)
   needApproval Boolean? @default(false)
 
   curTaskQr   Qr?  @relation("curTask")
@@ -226,7 +224,6 @@ model BgtReq {
 }
 
 enum QrStatus {
-  WARNING
   FINISH
   IN_PROGRESS
   WAITING_TASK

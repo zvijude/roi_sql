@@ -7,7 +7,8 @@ import { redirect } from 'next/navigation'
 import { isInstaller, isManager } from '@/db/types'
 import Stats from '@/lib/kablan/ui/Stats'
 
-export default async function Kablan({ params: { prjId, kablanId } }) {
+export default async function Kablan({ params }) {
+  let { prjId, kablanId } = await params
   prjId = Number(prjId)
   kablanId = Number(kablanId)
 

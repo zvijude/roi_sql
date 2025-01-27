@@ -2,13 +2,14 @@ import LocForm from '@/lib/qr/ui/LocForm'
 import { scanQr } from '@/lib/qr/db/get'
 import { getUser, userInPrj } from '@/auth/authFuncs'
 import { isManager, roleLevels } from '@/db/types'
-import { getParts } from '@/lib/part/db/get'
+import { getPartsByPrj } from '@/lib/part/db/get'
 import { getAllAptOpt } from '@/lib/aptOpt/db/get'
 import { QrTask } from '@/lib/qr/ui/QrTask'
 import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
 
-export default async function Page({ params: { prjId, qrNum } }) {
+export default async function Page({ params }) {
+  let { prjId, qrNum } = await params
   prjId = Number(prjId)
   qrNum = Number(qrNum)
 
@@ -21,14 +22,12 @@ export default async function Page({ params: { prjId, qrNum } }) {
 
   // Case 1: QR not initialized
   if (!qrData) {
-    const parts = await getParts(prjId)
+    const parts = await getPartsByPrj(prjId)
 
     return isManager(user.role) ? (
       <LocForm qrNum={qrNum} aptOpt={aptOpt} parts={parts} />
     ) : (
-      <p className='text-center font-bold text-xl m-2'>
-        QR מספר {qrNum} עדין לא מאותחל, פנה למנהל על מנת לאתחל אותו
-      </p>
+      <p className='text-center font-bold text-xl m-2'>QR מספר {qrNum} עדין לא מאותחל, פנה למנהל על מנת לאתחל אותו</p>
     )
   }
 

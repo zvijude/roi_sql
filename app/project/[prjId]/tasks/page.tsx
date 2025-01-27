@@ -3,7 +3,9 @@ import { getCompletedTasks } from '@/lib/task/completedTask/db/get'
 import { getFields } from '@/components/filter/getFields'
 import Stats from '@/lib/task/completedTask/ui/Stats'
 
-export default async function Tasks({ params: { prjId }, searchParams: { query } }) {
+export default async function Tasks({ params, searchParams }) {
+  let { query } = await searchParams
+  let { prjId } = await params
   prjId = Number(prjId)
   if (query) query = JSON.parse(query)
 
