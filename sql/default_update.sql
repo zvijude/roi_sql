@@ -1,2 +1,2 @@
-ALTER TABLE "Part"
+ALTER TABLE "MainTask"
 ALTER COLUMN "updatedAt" SET DEFAULT now();

@@ -45,8 +45,7 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
 
     toast('loading')
 
-    const res = await crtMainTask({ tasks: newTasks, partIds, prjId })
-    if (res.err) return toast('error', res.msg)
+    await crtMainTask({ tasks: newTasks, partIds, prjId })
     refresh()
     toast('success')
   }
@@ -95,7 +94,7 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
     }) as any
 
     refresh()
-    toast(res.err ? 'error' : 'success', res.msg)
+    toast(res?.err ? 'error' : 'success', res?.msg)
     scrollBy(0, 200)
   }
 
