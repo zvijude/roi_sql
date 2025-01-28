@@ -2,9 +2,9 @@ import { isManager, roleDic, roleLevels } from '@/db/types'
 import Icon from 'zvijude/icon'
 import EditLocQrPop from './EditLocQrPop'
 
-export default function QrHeader({ userRole, qrData, aptOpt }) {
-  const curTask = qrData.curTask
-  const isAuthorized = roleLevels[userRole] >= roleLevels[qrData.curTask.for]
+export default function QrHeader({ userRole, qrData, aptOpt, curTask }) {
+  const taskFor =  curTask.for
+  const isAuthorized = roleLevels[userRole] >= roleLevels[taskFor]
 
   return (
     <>
@@ -12,7 +12,7 @@ export default function QrHeader({ userRole, qrData, aptOpt }) {
         <div className='text-center text-red-600 font-bold'>
           <p>* אין לך הרשאה לבצע משימה זו *</p>
           <p>
-            המשימה מיועדת ל{roleDic[curTask.for]} ותפקידך הוא {roleDic[userRole]}
+            המשימה מיועדת ל{roleDic[taskFor]} ותפקידך הוא {roleDic[userRole]}
           </p>
         </div>
       )}
@@ -41,7 +41,7 @@ export default function QrHeader({ userRole, qrData, aptOpt }) {
         <div className='flex gap-0.5 col-span-2'>
           <span className='font-bold'>פרט:</span>
           <p>
-            <span className='font-semibold'>{qrData.part.name}</span> {qrData.part.desc}
+            <span className='font-semibold'>{qrData.name}</span> {qrData.desc}
           </p>
         </div>
       </div>

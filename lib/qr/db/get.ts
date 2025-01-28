@@ -1,31 +1,45 @@
 'use server'
 
-import { db } from '@/db/db'
+import { db } from '@/sql'
 
 export async function getQrs({ prjId }) {
-  const res = await db.qr
-    .findMany({
-      where: { prjId: Number(prjId) },
-      include: { part: true },
-      orderBy: { updatedAt: 'desc' },
-    })
-    .catch((e) => {
-      return { failed: true, msg: e.message }
-    })
-
-  return res
+  return []
 }
 
 export async function scanQr(qrNum, prjId) {
-  qrNum = Number(qrNum)
-  prjId = Number(prjId)
-  const qr = await db.qr.findUnique({
-    where: { qrNum_prjId: { qrNum, prjId } },
-    include: {
-      part: true,
-      curTask: { include: { bgtReqs: true, probs: true } },
-    },
-  })
+  const res = await db.raw(`
+    SELECT 
+      q."id" AS "QrId",
+      q.* AS "Qr",
+      p.* AS "Part"
+    FROM 
+      "Qr" q
+    LEFT JOIN 
+      "Part" p ON q."partId" = p."id"
+    WHERE 
+      q."qrNum" = ${qrNum}
+      AND q."prjId" = ${prjId}
+    LIMIT 1;
+  `)
 
-  return qr
+  return res.rows[0]
+}
+
+export async function getCurTask(qrId) {
+  const res = await db.raw(`SELECT 
+    t.* AS "Task",
+    mt.* AS "MainTask",
+    q.* AS "Qr"
+  FROM 
+    "Task" t
+  JOIN 
+    "MainTask" mt ON t."mainTaskId" = mt."id"
+  JOIN 
+    "Qr" q ON t."qrId" = q."id"
+  WHERE 
+    q."id" = ${qrId}
+    AND q."totalTasksCompleted" = mt."order";
+`)
+
+  return res.rows[0]
 }

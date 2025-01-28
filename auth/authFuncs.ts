@@ -112,7 +112,7 @@ export async function userInPrj({ prjId }) {
   if (!res.length) redirect('/') // Not in project
   // if (mngrsOnly && roleLevels[user!.role] < 30) redirect('/app') // In Project, not authorized
 
-  return res.length
+  return user
 }
 
 export async function isUserExist(email: string) {

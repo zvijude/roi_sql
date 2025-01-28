@@ -1,14 +1,12 @@
 import { Btn } from 'zvijude/btns'
 import { Textarea } from 'zvijude/form'
 import { toast } from 'zvijude/pop'
-import { setTaskCompletion } from '@/lib/task/completedTask/db/set'
 import Icon from 'zvijude/icon'
+import { QrStatus } from '@prisma/client'
+import { setTaskCompletion } from '../../db/set'
 
-export default function TaskCompletionForm({ curTask, probsByStatus, bgtReqByStatus }) {
-  const hasErrors =
-    probsByStatus.waiting?.length > 0 ||
-    bgtReqByStatus.waiting?.length > 0 ||
-    (curTask.isMedia && !curTask.media.length)
+export default function TaskCompletionForm({ curTask, qrStatus }) {
+  const hasErrors = qrStatus !== QrStatus.IN_PROGRESS
   if (hasErrors) return <ErrorPop />
 
   async function onSubmit(e) {
@@ -25,12 +23,7 @@ export default function TaskCompletionForm({ curTask, probsByStatus, bgtReqBySta
 
   return (
     <form popover='auto' id='completedTaskPop' className='pop' onSubmit={onSubmit}>
-      <Textarea
-        lbl='הוסף הערה על המשימה'
-        name='note'
-        placeholder='המשימה הושלמה...'
-        required={false}
-      />
+      <Textarea lbl='הוסף הערה על המשימה' name='note' placeholder='המשימה הושלמה...' required={false} />
       <Btn lbl='סיים משימה' className='w-full my-1' />
     </form>
   )

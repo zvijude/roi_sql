@@ -1,6 +1,6 @@
 'use server'
 
-import { db } from '@/db/db'
+import { db } from '@/sql'
 import { getUser } from '@/auth/authFuncs'
 import { revalidatePath } from 'next/cache'
 import { QrStatus } from '@prisma/client'
@@ -9,79 +9,58 @@ export async function insertQr(data: QrData) {
   const user = await getUser()
 
   const prt = JSON.parse(data.prt)
-  const mainTasks = await db.mainTask.findMany({
-    where: {
-      tasksId: prt.tasksId,
-    },
-  })
+  const mainTasks = await db('MainTask').where({ tasksId: prt.tasksId })
 
-  const res = await db.qr.create({
-    data: {
+  const [qr] = await db('Qr')
+    .insert({
       qrNum: Number(data.qrNum),
       prjId: prt.prjId,
       floor: Number(data.floor),
       aptNum: Number(data.aptNum),
       locInApt: data.locInApt,
       front: data.front,
-      part: { connect: { id: prt.id } },
+      partId: prt.id,
       totalTasksCount: mainTasks.length,
-      createdBy: { connect: { id: user?.id } },
+      createdById: user?.id,
+    })
+    .returning('id')
+  const qrId = qr.id
 
-      tasks: {
-        createMany: {
-          data: mainTasks.map((m) => ({
-            mainTaskId: m.id,
-            prjId: prt.prjId,
-            order: m.order,
-            price: m.price,
-            title: m.title,
-            desc: m.desc,
-            isMedia: m.media ? true : false,
-            needApproval: m.needApproval ? true : false,
-          })),
-        },
-      },
-    },
-    select: {
-      id: true,
-      tasks: { select: { id: true, mainTask: { select: { id: true, order: true } } } },
-    },
-  })
+  const tasks = await db('Task')
+    .insert(
+      mainTasks.map((t) => ({
+        qrId,
+        prjId: prt.prjId,
+        mainTaskId: t.id,
+      }))
+    )
+    .returning('*')
 
   const curTask = data.taskStageId
-    ? res.tasks.find((t) => t.mainTask.id === Number(data.taskStageId))
-    : res.tasks.find((t) => t.mainTask.order === 0)
+    ? tasks.find((t) => t.mainTaskId === Number(data.taskStageId))
+    : tasks.find((t) => t.order === 0)
 
-  await db.qr.update({
-    where: { id: res.id },
-    data: {
-      curTask: { connect: { id: curTask?.id } },
-      totalTasksCompleted: { increment: curTask?.mainTask?.order || 0 },
-    },
-  })
+  await db('Qr')
+    .where({ id: qrId })
+    .update({ totalTasksCompleted: curTask?.order || 0 })
 
   revalidatePath('/project/[prjId]/qr/[qrNum]')
-  return res
 }
 
 export async function connectQrToNextTask(curTask) {
   const { order, qrId } = curTask
 
-  const nextTask = await db.task.findFirst({
-    where: { qrId, order: order + 1 },
-    select: { id: true },
-  })
+  const nextTask = await db('Task')
+    .where({ qrId })
+    .andWhere('MainTask.order', order + 1)
+    .join('MainTask', 'Task.mainTaskId', 'MainTask.id')
+    .select('Task.id')
+    .first()
 
   const nextTaskId = nextTask?.id
   if (!nextTaskId) return await updateQrStatus(qrId, QrStatus.FINISH)
 
-  await db.qr.update({
-    where: { id: qrId },
-    data: {
-      totalTasksCompleted: { increment: 1 },
-      curTask: { connect: { id: nextTaskId } },
-    },
-  })
+  await db('Qr').where({ id: qrId }).increment('totalTasksCompleted', 1)
 }
 
 export type QrData = {
@@ -96,22 +75,19 @@ export type QrData = {
 }
 
 export async function updateQrStatus(qrId: number, status: QrStatus) {
-  await db.qr.update({
-    where: { id: qrId },
-    data: { status },
-  })
+  await db('Qr').where({ id: qrId }).update({ status })
 }
 
 export async function editQrLoc(data) {
-  const res = await db.qr.update({
-    where: { qrNum_prjId: { qrNum: Number(data.qrNum), prjId: data.prjId } },
-    data: {
+  const res = await db('Qr')
+    .where({ qrNum: Number(data.qrNum), prjId: data.prjId })
+    .update({
       floor: Number(data.floor),
       aptNum: Number(data.aptNum),
       locInApt: data.locInApt,
       front: data.front,
-    },
-  })
+    })
+    .returning('*')
 
   revalidatePath('/project/[prjId]/qr/[qrNum]')
 

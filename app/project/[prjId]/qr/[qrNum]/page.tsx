@@ -1,5 +1,5 @@
 import LocForm from '@/lib/qr/ui/LocForm'
-import { scanQr } from '@/lib/qr/db/get'
+import { getCurTask, scanQr } from '@/lib/qr/db/get'
 import { getUser, userInPrj } from '@/auth/authFuncs'
 import { isManager, roleLevels } from '@/db/types'
 import { getPartsByPrj } from '@/lib/part/db/get'
@@ -13,11 +13,10 @@ export default async function Page({ params }) {
   prjId = Number(prjId)
   qrNum = Number(qrNum)
 
-  await userInPrj({ prjId })
-  const qrData = await scanQr(qrNum, prjId)
-  const user = await getUser()
-
+  const user = await userInPrj({ prjId })
   if (!user) return
+
+  const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
 
   // Case 1: QR not initialized
@@ -42,5 +41,6 @@ export default async function Page({ params }) {
   }
 
   // Case 3: QR in action
-  return <QrTask user={user} qrData={qrData} aptOpt={aptOpt} />
+  const curTask = await getCurTask(qrData.QrId)
+  return <QrTask user={user} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
 }

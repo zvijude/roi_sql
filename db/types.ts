@@ -1,19 +1,19 @@
-import { BgtReqStatus, EventType, ProbStatus, QrStatus, Role } from '@prisma/client'
+import { ProbStatus, QrStatus, Role } from '@prisma/client'
 
 // type granted
-export const grantedDic = {
-  [BgtReqStatus.WAITING]: 'טרם נבדק',
-  [BgtReqStatus.GRANTED]: 'אושר',
-  [BgtReqStatus.DENIED]: 'נדחה',
-  [BgtReqStatus.CANCELED]: 'בוטל',
-}
+// export const grantedDic = {
+//   [BgtReqStatus.WAITING]: 'טרם נבדק',
+//   [BgtReqStatus.GRANTED]: 'אושר',
+//   [BgtReqStatus.DENIED]: 'נדחה',
+//   [BgtReqStatus.CANCELED]: 'בוטל',
+// }
 
-export const grantedDicLbl = {
-  'טרם נבדק': BgtReqStatus.WAITING,
-  אושר: BgtReqStatus.GRANTED,
-  נדחה: BgtReqStatus.DENIED,
-  בוטל: BgtReqStatus.CANCELED,
-}
+// export const grantedDicLbl = {
+//   'טרם נבדק': BgtReqStatus.WAITING,
+//   אושר: BgtReqStatus.GRANTED,
+//   נדחה: BgtReqStatus.DENIED,
+//   בוטל: BgtReqStatus.CANCELED,
+// }
 
 // type problems
 export const probStatusDic = {
@@ -107,13 +107,13 @@ export const qrStatusDic = {
 //   [EventTypes.skippedTask]: 'skippedTask',
 // }
 
-export const eventTypeDic = {
-  [EventType.PROB]: 'בעית ביצוע',
-  [EventType.BGT_REQ]: 'בקשת חריגים',
-  [EventType.COMPLETED]: 'משימה הושלמה',
-  [EventType.WAITING]: 'ממתין לאישור',
-  [EventType.SKIPPED]: 'משימה שדולגה',
-}
+// export const eventTypeDic = {
+//   [EventType.PROB]: 'בעית ביצוע',
+//   [EventType.BGT_REQ]: 'בקשת חריגים',
+//   [EventType.COMPLETED]: 'משימה הושלמה',
+//   [EventType.WAITING]: 'ממתין לאישור',
+//   [EventType.SKIPPED]: 'משימה שדולגה',
+// }
 
 export const MAX_MB = 100 // Max upload file size in MB
 
