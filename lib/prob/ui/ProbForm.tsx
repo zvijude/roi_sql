@@ -8,6 +8,7 @@ import { getFormData } from 'zvijude/form/funcs'
 import { toast } from 'zvijude/pop'
 import Icon from 'zvijude/icon'
 import { useParams } from 'next/navigation'
+import { ProbType } from '@prisma/client'
 
 export default function ProblemForm({ taskId, qrId }) {
   const [media, setMedia] = useState<string[]>([])
@@ -22,7 +23,7 @@ export default function ProblemForm({ taskId, qrId }) {
     const data = getFormData(e)
     data.media = media
 
-    await addProb(taskId, qrId, data, prjId)
+    await addProb({ ...data, type: ProbType.PROB, taskId, qrId, prjId })
     toast('success', 'הבעיה נשלחה בהצלחה')
 
     setMedia([])
@@ -41,15 +42,14 @@ export default function ProblemForm({ taskId, qrId }) {
         <button
           type='button'
           onClick={() => document.getElementById('problemForm')?.hidePopover()}
-          className='absolute top-2 left-2'>
+          className='absolute top-2 left-2'
+        >
           <Icon name='circle-xmark' type='sol' className='size-5 m-1' />
         </button>
         <Textarea lbl='פירוט הבעיה' name='desc' />
         <UploadMedia onUpload={onUploadProbMedia} />
         <Btn lbl='שלח' disabled={!media.length} />
-        <p className={`${media.length && 'hidden'} text-sm text-red-700 font-semibold`}>
-          * חובה להעלות מדיה לתיאור הבעיה
-        </p>
+        <p className={`${media.length && 'hidden'} text-sm text-red-700 font-semibold`}>* חובה להעלות מדיה לתיאור הבעיה</p>
         <div className={`${!media.length && 'hidden'}`}>
           <ImgsCom urls={media} />
         </div>

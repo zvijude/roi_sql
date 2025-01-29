@@ -1,24 +1,15 @@
 'use client'
 
 import QrForm from './QrForm'
-import QrActiveData from './QrActiveData'
+import CurTaskEvents from './QrActiveData'
 import ImgsCom from '@/lib/imgsCom'
 import QrHeader from './QrHeader'
-import { ProbStatus, TaskStatus } from '@prisma/client'
+import { TaskStatus } from '@prisma/client'
 import ProblemForm from '@/lib/prob/ui/ProbForm'
 import BgtReqForm from '@/lib/bgtReq/ui/BgtReqForm'
 import TaskCompletionForm from '@/lib/task/completedTask/ui/TaskCompletionForm'
 
 export function QrTask({ user, qrData, aptOpt, curTask }) {
-  // const probsByStatus = formatProbStatus(curTask.probs)
-  // const bgtReqByStatus = formatBgtReqStatus(curTask.bgtReqs)
-  const probsByStatus = []
-  const bgtReqByStatus = []
-
-  // return <pre>
-  //   {JSON.stringify(curTask, null, 2)}
-  // </pre>
-
   return (
     <>
       <div className='grid place-items-center gap-4'>
@@ -26,44 +17,16 @@ export function QrTask({ user, qrData, aptOpt, curTask }) {
         <TaskDetails curTask={curTask} />
         <QrForm curTask={curTask} userRole={user.role} qrStatus={qrData.status} />
         <ImgsCom urls={curTask.media} />
-        <QrActiveData probs={probsByStatus} bgtReqs={bgtReqByStatus} />
+        <CurTaskEvents events={curTask.probs} />
       </div>
 
       {/* Popups */}
-      <ProblemForm taskId={curTask.id} qrId={curTask.qrId} />
-      <BgtReqForm taskId={curTask.id} qrId={curTask.qrId} />
+      <ProblemForm taskId={curTask.TaskId} qrId={curTask.qrId} />
+      <BgtReqForm taskId={curTask.TaskId} qrId={curTask.qrId} />
       <TaskCompletionForm curTask={curTask} qrStatus={qrData.status} />
     </>
   )
 }
-
-// function formatProbStatus(probs) {
-//   const waiting = [] as any,
-//     solved = [] as any,
-//     canceled = [] as any
-//   probs.forEach((p) => {
-//     if (p.status === ProbStatus.WAITING) waiting.push(p)
-//     if (p.status === ProbStatus.SOLVED) solved.push(p)
-//     if (p.status === ProbStatus.CANCELED) canceled.push(p)
-//   })
-
-//   return { waiting, solved, canceled }
-// }
-
-// function formatBgtReqStatus(bgtReqs) {
-//   const waiting = [] as any,
-//     granted = [] as any,
-//     denied = [] as any,
-//     canceled = [] as any
-//   bgtReqs.forEach((b) => {
-//     if (b.status === BgtReqStatus.WAITING) waiting.push(b)
-//     if (b.status === BgtReqStatus.GRANTED) granted.push(b)
-//     if (b.status === BgtReqStatus.DENIED) denied.push(b)
-//     if (b.status === BgtReqStatus.CANCELED) canceled.push(b)
-//   })
-
-//   return { waiting, granted, denied, canceled }
-// }
 
 function TaskDetails({ curTask }) {
   const isWaitingForApproval = curTask.status === TaskStatus.WAITING

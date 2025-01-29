@@ -21,7 +21,7 @@ export default function QrHeader({ userRole, qrData, aptOpt, curTask }) {
           <span className='font-bold'>ברקוד:</span> {qrData.qrNum}
         </p>
         <p>
-          <span className='font-bold'>מזהה משימה:</span> {curTask.id}
+          <span className='font-bold'>מזהה משימה:</span> {curTask.TaskId}
         </p>
         <p>
           <span className='font-bold'>עבור:</span> {roleDic[curTask.for]}

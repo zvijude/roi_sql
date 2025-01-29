@@ -1,4 +1,3 @@
-import { addBgtReq } from '@/lib/bgtReq/db/set'
 import ImgsCom from '@/lib/imgsCom'
 import { useState } from 'react'
 import { Btn } from 'zvijude/btns'
@@ -8,6 +7,8 @@ import { getFormData } from 'zvijude/form/funcs'
 import { toast } from 'zvijude/pop'
 import Icon from 'zvijude/icon'
 import { useParams } from 'next/navigation'
+import { addProb } from '@/lib/prob/db/set'
+import { ProbType } from '@prisma/client'
 
 export default function BgtReqForm({ taskId, qrId }) {
   const [media, setMedia] = useState<string[]>([])
@@ -22,7 +23,7 @@ export default function BgtReqForm({ taskId, qrId }) {
     toast('loading', 'שולח בקשת חריגים...')
     const data = getFormData(e)
     data.media = media
-    await addBgtReq(taskId, qrId, data, prjId)
+    await addProb({ type: ProbType.BGT_REQ, taskId, qrId, prjId, ...data })
     toast('success', 'הבקשה נשלחה בהצלחה')
 
     setMedia([])
@@ -41,7 +42,8 @@ export default function BgtReqForm({ taskId, qrId }) {
         <button
           type='button'
           onClick={() => document.getElementById('bgtReqForm')?.hidePopover()}
-          className='absolute top-2 left-2'>
+          className='absolute top-2 left-2'
+        >
           <Icon name='circle-xmark' type='sol' className='size-5 m-1' />
         </button>
 
@@ -49,9 +51,7 @@ export default function BgtReqForm({ taskId, qrId }) {
         <Input lbl='מחיר החריגה' type='number' min={0} name='amount' placeholder='10,000 שח' />
         <UploadMedia onUpload={onUploadMedia} />
         <Btn lbl='שלח' disabled={!media.length} />
-        <p className={`${media.length && 'hidden'} text-sm text-red-700 font-semibold`}>
-          * חובה להעלות מדיה לתיאור החריגה
-        </p>
+        <p className={`${media.length && 'hidden'} text-sm text-red-700 font-semibold`}>* חובה להעלות מדיה לתיאור החריגה</p>
         <div className={`${!media.length && 'hidden'}`}>
           <ImgsCom urls={media} />
         </div>

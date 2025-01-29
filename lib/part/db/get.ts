@@ -2,7 +2,7 @@
 import { db } from '@/sql'
 
 export async function getPartsByPrj(prjId: number) {
-  return await db('Part').where({ prjId }).andWhereNot({ tasksId: null })
+  return await db('Part').where({ prjId })
 }
 
 export async function getTasksByPart(prtId: number) {

@@ -26,23 +26,15 @@ export async function insertQr(data: QrData) {
     .returning('id')
   const qrId = qr.id
 
-  const tasks = await db('Task')
-    .insert(
-      mainTasks.map((t) => ({
-        qrId,
-        prjId: prt.prjId,
-        mainTaskId: t.id,
-      }))
-    )
-    .returning('*')
+  await db('Task').insert(
+    mainTasks.map((t) => ({
+      qrId,
+      prjId: prt.prjId,
+      mainTaskId: t.id,
+    }))
+  )
 
-  const curTask = data.taskStageId
-    ? tasks.find((t) => t.mainTaskId === Number(data.taskStageId))
-    : tasks.find((t) => t.order === 0)
-
-  await db('Qr')
-    .where({ id: qrId })
-    .update({ totalTasksCompleted: curTask?.order || 0 })
+  if (data.taskStageOrder) await db('Qr').where({ id: qrId }).update({ totalTasksCompleted: data.taskStageOrder })
 
   revalidatePath('/project/[prjId]/qr/[qrNum]')
 }
@@ -71,7 +63,7 @@ export type QrData = {
   aptNum: number
   locInApt: string
   prt: string
-  taskStageId?: number
+  taskStageOrder?: number
 }
 
 export async function updateQrStatus(qrId: number, status: QrStatus) {

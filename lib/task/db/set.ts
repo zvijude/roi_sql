@@ -5,7 +5,6 @@ import { getUser } from '@/auth/authFuncs'
 import { connectQrToNextTask, updateQrStatus } from '@/lib/qr/db/set'
 import { QrStatus, TaskStatus } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
-import { create } from 'domain'
 
 export async function setTaskCompletion(curTask: any, note: string) {
   const user = await getUser()
@@ -20,6 +19,7 @@ export async function setTaskCompletion(curTask: any, note: string) {
       status: needApproval ? TaskStatus.WAITING : TaskStatus.COMPLETED,
       note,
       kablanId: user?.kablanId,
+      createdById: user.id,
     })
 
   revalidatePath('/qr')
@@ -37,8 +37,14 @@ export async function approveTask({ curTask }) {
   revalidatePath('/qr')
 }
 
-export async function addMedia(taskId: number, media: string[]) {
-  const res = await db('Task').where({ id: taskId }).update({ media })
+export async function addMedia(taskId: number, media: string) {
+  console.log('addMedia', taskId, media)
+
+  const res = await db('Task')
+    .where({ id: taskId })
+    .update({ media: [media] })
+
+  console.log('addMediares', res)
 
   revalidatePath('/qr')
 
