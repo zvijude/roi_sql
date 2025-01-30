@@ -93,7 +93,7 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
       prjId,
     }) as any
 
-    refresh()
+    // refresh()
     toast(res?.err ? 'error' : 'success', res?.msg)
     scrollBy(0, 200)
   }

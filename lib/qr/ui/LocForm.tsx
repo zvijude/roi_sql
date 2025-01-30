@@ -71,9 +71,9 @@ export default function LocationForm({ qrNum, aptOpt, parts }) {
 
         <SelectObj
           lbl='שלב התקנה נוכחי'
-          name='taskStageId'
+          name='taskStageOrder'
           options={tasks}
-          val='id'
+          val='order'
           show='title'
           placeholder={
             isLoading ? 'טוען...' : tasks.length !== 0 ? 'בחר שלב ביצוע' : 'לקביעת שלב, בחר פרט'

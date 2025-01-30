@@ -3,11 +3,10 @@
 import { addSkippedTask } from '@/lib/task/skippedTask/db/set'
 import { isManager, roleLevels } from '@/db/types'
 import { Btn } from 'zvijude/btns'
-import { addMedia } from '@/lib/task/completedTask/db/set'
 import { toast } from 'zvijude/pop'
-import { approveTask } from '@/lib/task/waitingTask/db/set'
 import UploadMedia from '@/ui/UploadMedia'
 import { QrStatus, TaskStatus } from '@prisma/client'
+import { addMedia, approveTask } from '@/lib/task/db/set'
 
 export default function QrForm({ curTask, userRole, qrStatus }) {
   const isAuthorized = roleLevels[userRole] >= roleLevels[curTask.for]
@@ -33,7 +32,7 @@ export default function QrForm({ curTask, userRole, qrStatus }) {
 
   return (
     <>
-      {curTask.status === TaskStatus.WAITING && (
+      {curTask.status === QrStatus.WAITING_TASK && (
         <div className='w-full'>
           <p className='text-center font-semibold'>המשימה ממתינה לאישור מנהל</p>
           <Btn
