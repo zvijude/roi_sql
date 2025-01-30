@@ -1,13 +1,14 @@
 'use server'
 
-import { db } from '@/db/db'
+import { db } from '@/sql'
 import { revalidatePath } from 'next/cache'
 
-export async function getAllAptOpt(data: { prjId: number; path?: string }) {
-  const res = await db.aptOpt.findMany({
-    where: { projectId: data.prjId },
-  })
+export async function getAllAptOpt(prjId) {
+  prjId = Number(prjId)
+  console.log('prjId', prjId)
+
+  const res = await db('Project').where({ id: prjId }).select('aptOpt').first()
 
   // revalidatePath('/qr')
-  return res
+  return res.aptOpt
 }

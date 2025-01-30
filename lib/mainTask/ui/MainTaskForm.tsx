@@ -53,8 +53,8 @@ export default function MainTaskForm({ task }) {
       <div className="col-span-2 border p-2 rounded-md ">
         <Switch
           lbl="חובה להעלות תמונה או סרטון בסיום המשימה"
-          name="media"
-          defaultChecked={task.media}
+          name="needMedia"
+          defaultChecked={task.needMedia}
         />
       </div>
     </form>

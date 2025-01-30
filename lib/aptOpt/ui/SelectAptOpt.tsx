@@ -10,7 +10,7 @@ export function SelectAptOpt({ aptOpt, noEdit = false, defaultValue = '' }) {
       <Select
         lbl=' מיקום בדירה'
         name='locInApt'
-        options={aptOpt.map((opt) => opt.option)}
+        options={aptOpt}
         className='w-full'
         defaultValue={defaultValue}
       />

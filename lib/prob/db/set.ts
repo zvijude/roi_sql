@@ -1,72 +1,49 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { db } from '@/db/db'
+import { db } from '@/sql'
 import { getUser } from '@/auth/authFuncs'
-import { ProbStatus, QrStatus } from '@prisma/client'
+import { ProbStatus, ProbType, QrStatus } from '@prisma/client'
 import { updateQrStatus } from '@/lib/qr/db/set'
 
-// create
-export async function addProb(taskId, qrId, data, prjId) {
+// create prob
+export async function addProb(data) {
+  const { type, taskId, qrId, prjId, desc, media, price = 0 } = data
   const user = await getUser()
 
-  const problem = await db.prob.create({
-    data: {
-      desc: data.desc,
-      media: data.media,
-      status: ProbStatus.WAITING,
-      kablanId: Number(user?.kablanId) || null,
-      qr: { connect: { id: qrId } },
-      task: { connect: { id: taskId } },
-      createdBy: { connect: { id: Number(user?.id) } },
-      prj: { connect: { id: Number(prjId) } },
-    },
+  const problem = await db('Prob').insert({
+    type,
+    desc,
+    media,
+    price,
+    taskId,
+    prjId,
+    kablanId: user?.kablanId,
+    createdById: user?.id,
   })
 
-  await updateQrStatus(qrId, QrStatus.ON_PROB)
-
+  await updateQrStatus(qrId, type === ProbType.BGT_REQ ? QrStatus.ON_BGT_REQ : QrStatus.ON_PROB)
   revalidatePath('/qr')
 
   return problem
 }
 
-// update - solved
-export async function solvedProb(id) {
+// update prob
+export async function updateProbStatus(id: number, status: ProbStatus) {
   const user = await getUser()
 
-  const res = await db.prob.update({
-    where: { id },
-    data: {
-      status: ProbStatus.SOLVED,
+  const res = await db('Prob')
+    .where('id', id)
+    .update({
+      status,
       resAt: new Date(),
-      resById: Number(user?.id),
-    },
-  })
-  // .catch((e) => {
-  //   return { failed: true, msg: `Failed to update problem ${id}: ${e.message}` }
-  // })
+      resById: user?.id,
+    })
+    .returning('taskId')
 
-  await updateQrStatus(res.qrId, QrStatus.IN_PROGRESS)
+  const qr = await db('Task').where('id', res[0].taskId).select('qrId').first()
 
-  revalidatePath('/project/setup/problems')
-
-  return res
-}
-
-// update - cancel
-export async function cancelProb(id) {
-  const user = await getUser()
-
-  const res = await db.prob.update({
-    where: { id },
-    data: { status: ProbStatus.CANCELED },
-  })
-  // .catch((e) => {
-  //   return { failed: true, msg: `Failed to update problem ${id}: ${e.message}` }
-  // })
-
-  await updateQrStatus(res.qrId, QrStatus.IN_PROGRESS)
-
+  await updateQrStatus(qr.qrId, QrStatus.IN_PROGRESS)
   revalidatePath('/project/setup/problems')
 
   return res

@@ -4,7 +4,7 @@ import { toast } from 'zvijude/pop'
 import { setTaskCompletion } from '@/lib/task/completedTask/db/set'
 import Icon from 'zvijude/icon'
 
-export default function TaskCompletionForm({ curTask, openProbs }) {
+function TaskCompletionForm({ curTask, openProbs }) {
   async function onSubmit(e) {
     e.preventDefault()
     toast('loading')
