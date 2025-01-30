@@ -4,7 +4,6 @@ import { db } from '@/sql'
 import { formatTasks, revalidateProject } from '@/lib/mainTask/funcs'
 import getDiff from 'diff-arrays-of-objects'
 import { genId } from '@/utils/func'
-import { onErr } from '@/db/errors'
 
 // Create
 export async function crtMainTask({ tasks, partIds, prjId }) {
