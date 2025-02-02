@@ -1,4 +1,5 @@
-import { db } from '@/db/db'
+import { db as pdb } from '@/db/db'
+import { db } from '@/sql'
 import { BgtReqStatus, EventType, Role, TaskStatus } from '@prisma/client'
 import { groupBy } from '@/utils/func'
 
@@ -63,20 +64,21 @@ export async function isKablanExistsInPrj(prjId, kablanId): Promise<boolean> {
 
 export async function getKablansNames(prjId: number) {
   prjId = Number(prjId)
-  return await db.user.findMany({
-    where: {
-      projects: { some: { id: prjId } },
-      role: Role.KABLAN,
-    },
-    select: {
-      id: true,
-      name: true,
-      phone: true,
-      email: true,
-      role: true,
-    },
-    orderBy: { updatedAt: 'desc' },
-  })
+  // return await db.user.findMany({
+  //   where: {
+  //     projects: { some: { id: prjId } },
+  //     role: Role.KABLAN,
+  //   },
+  //   select: {
+  //     id: true,
+  //     name: true,
+  //     phone: true,
+  //     email: true,
+  //     role: true,
+  //   },
+  //   orderBy: { updatedAt: 'desc' },
+  // })
+  return await db('User').where({ role: Role.KABLAN }).select('id', 'name', 'phone', 'email')
 }
 
 export async function getKablanPrice(prjId, kablanId) {

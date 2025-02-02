@@ -1,12 +1,13 @@
-import { getCompletedTaskData } from '@/lib/task/completedTask/db/get'
+import { EventType } from '@/db/types'
 import EventPop from '@/lib/events/ui/EventPop'
+import { db } from '@/sql'
 
 export default async function CompletedTaskPage({ params: { taskId } }: any) {
-  const task = await getCompletedTaskData(taskId)
+  const task = await db("Task").where({ id: taskId }).first()
 
   return (
     <div>
-      <EventPop item={task} />
+      <EventPop item={task} type={EventType.COMPLETED} />
     </div>
   )
 }

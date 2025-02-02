@@ -1,4 +1,27 @@
-import { ProbStatus, QrStatus, Role } from '@prisma/client'
+import { QrStatus, Role } from '@prisma/client'
+
+export enum TaskStatus {
+  WAITING,
+  SKIPPED,
+  COMPLETED,
+}
+
+export enum ProbStatus {
+  WAITING, // both
+  CANCELED, // BgtReq
+
+  SOLVED, // Prob
+  DENIED, // BgtReq
+  GRANTED, // BgtReq
+}
+
+export const EventType = {
+  PROB: 'בעית ביצוע',
+  BGT_REQ: 'בקשת חריגים',
+  COMPLETED: 'משימה הושלמה',
+  WAITING: 'משימה ממתינה לאישור',
+  SKIPPED: 'משימה שדולגה',
+}
 
 // type granted
 // export const grantedDic = {

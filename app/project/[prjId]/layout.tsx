@@ -9,7 +9,7 @@ import ScanQrCamera from '@/utils/ScanQrCamera'
 export default async function RootLayout({ children, params }) {
   const user = await getUser()
   const { prjId } = await params
-  await userInPrj({ prjId })
+  await userInPrj({ prjId, userId: user.id })
   const prjName = await getProjectName(prjId)
 
   return (

@@ -1,12 +1,11 @@
 'use client'
 
-import { addSkippedTask } from '@/lib/task/skippedTask/db/set'
 import { isManager, roleLevels } from '@/db/types'
 import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 import UploadMedia from '@/ui/UploadMedia'
 import { QrStatus, TaskStatus } from '@prisma/client'
-import { addMedia, approveTask } from '@/lib/task/db/set'
+import { addMedia, approveTask, updateSkippedTask } from '@/lib/task/db/set'
 
 export default function QrForm({ curTask, userRole, qrStatus }) {
   const isAuthorized = roleLevels[userRole] >= roleLevels[curTask.for]
@@ -14,7 +13,7 @@ export default function QrForm({ curTask, userRole, qrStatus }) {
   async function onSkipped() {
     if (!confirm('האם אתה בטוח שברצונך לדלג על המשימה?')) return
     toast('loading')
-    await addSkippedTask(curTask)
+    await updateSkippedTask(curTask)
     toast('success', 'המשימה דולגה בהצלחה')
   }
 

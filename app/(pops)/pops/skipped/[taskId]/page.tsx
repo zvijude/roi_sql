@@ -1,12 +1,13 @@
+import { EventType } from '@/db/types'
 import EventPop from '@/lib/events/ui/EventPop'
-import { getSkippedTaskData } from '@/lib/task/skippedTask/db/get'
+import { db } from '@/sql'
 
 export default async function SkippedTaskPage({ params: { taskId } }: any) {
-  const task = await getSkippedTaskData(taskId)
+  const task = await db("Task").where({ id: taskId }).first()
 
   return (
     <div>
-      <EventPop item={task} />
+      <EventPop item={task} type={EventType.SKIPPED} />
     </div>
   )
 }

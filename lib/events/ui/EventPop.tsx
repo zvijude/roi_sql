@@ -1,23 +1,23 @@
 'use client'
-import { BgtReqStatus, EventType, ProbStatus } from '@prisma/client'
+import { ProbStatus } from '@prisma/client'
 import { formatDateTime } from 'zvijude/dates/funcs'
 import { formatCurrency } from 'zvijude/funcs'
-import Icon from 'zvijude/icon'
+import Icon, { IconNames } from 'zvijude/icon'
 import SelectEventStatus from './SelectEventStatus'
 import ImgsCom from '@/lib/imgsCom'
+import { EventType } from '@/db/types'
 
-export default function EventPop({ item }) {
+export default function EventPop({ item, type }) {
   if (!item.id) return null
-  const { title, icon } = titleIconDic[item.type]
+  const { title, icon } = titleIconDic[type]
 
   return (
     <div className='bg-white rounded-md p-4 shadow-md'>
       <div className='flex justify-between'>
         <section className='flex mb-4'>
-          <Icon name={icon} type='reg' flip={icon === 'hand-holding-dollar'} />
+          <Icon name={icon as IconNames} type='reg' flip={icon === 'hand-holding-dollar'} />
           <p className='text-lg font-semibold'>{title}</p>
-          <p>{item.type === EventType.PROB && item.status && probStatusDic[item.status]}</p>
-          <p>{item.type === EventType.BGT_REQ && item.status && bgtReqStatusDic[item.status]}</p>
+          <p className='ml-2'>{item.status}</p>
         </section>
         <SelectEventStatus item={item} />
       </div>
@@ -51,11 +51,11 @@ export default function EventPop({ item }) {
             <ImgsCom urls={item.task?.media} />
           </div>
         </section>
-        {item.task.note && (
+        {/* {item.task.note && (
           <section>
             <p>הערת המבצע: {item.task.note}</p>
           </section>
-        )}
+        )} */}
       </div>
     </div>
   )
@@ -65,13 +65,8 @@ const probStatusDic = {
   [ProbStatus.WAITING]: 'ממתינה לפתרון',
   [ProbStatus.SOLVED]: 'פתורה',
   [ProbStatus.CANCELED]: 'בוטלה',
-}
-
-const bgtReqStatusDic = {
-  [BgtReqStatus.WAITING]: 'ממתינה לאישור',
-  [BgtReqStatus.GRANTED]: 'אושרה',
-  [BgtReqStatus.DENIED]: 'נדחתה',
-  [BgtReqStatus.CANCELED]: 'בוטלה',
+  [ProbStatus.DENIED]: 'נדחתה',
+  [ProbStatus.GRANTED]: 'אושרה',
 }
 
 const titleIconDic = {

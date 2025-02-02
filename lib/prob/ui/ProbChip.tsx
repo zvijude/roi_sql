@@ -1,51 +1,47 @@
-import { EventType } from '@/db/types';
+import { ProbStatus } from '@prisma/client'
 import Icon, { IconNames } from 'zvijude/icon'
 
-export default function EventChip({ type }) {
-  const { cls, icon } = getType(type)
+export default function ProbChip({ status }) {
+  const { cls, icon } = getType(status)
 
   return (
     <span
       className={`${cls} 
-       py-1 px-3 text-center rounded-full font-semibold inline-flex items-center gap-2`}>
-      <Icon
-        name={icon.name}
-        className={`size-3 ${icon.clr}`}
-        type="reg"
-        flip={icon.name === 'hand-holding-dollar'}
-      />
-      <p className="whitespace-nowrap">{type}</p>
+       py-1 px-3 text-center rounded-full font-semibold inline-flex items-center gap-2`}
+    >
+      <Icon name={icon.name} className={`size-3 ${icon.clr}`} flip={icon.name === 'hand-holding-dollar'} />
+      <p className='whitespace-nowrap'>{status}</p>
     </span>
   )
 }
 
-function getType(type): { cls: string; icon: { name: IconNames; clr: string } } {
+function getType(status): { cls: string; icon: { name: IconNames; clr: string } } {
   const typeObj = {
-    [EventType.PROB]: {
+    [ProbStatus.DENIED]: {
       cls: 'bg-red-100 text-red-700',
       icon: { name: 'triangle-exclamation', clr: 'bg-red-700' },
     },
-    [EventType.BGT_REQ]: {
+    [ProbStatus.WAITING]: {
       cls: 'bg-yellow-100',
       icon: { name: 'hand-holding-dollar', clr: 'bg-yellow-800' },
     },
-    [EventType.COMPLETED]: {
+    [ProbStatus.CANCELED]: {
       cls: 'bg-green-100 text-green-700',
       icon: { name: 'check-double', clr: 'bg-green-700' },
     },
-    [EventType.WAITING]: {
+    [ProbStatus.GRANTED]: {
       cls: 'bg-blue-100 text-blue-700',
       icon: { name: 'hourglass-half', clr: 'bg-blue-700' },
     },
-    [EventType.SKIPPED]: {
+    [ProbStatus.SOLVED]: {
       cls: 'bg-gray-100 text-gray-700',
       icon: { name: 'arrow-rotate-left', clr: 'bg-gray-700' },
     },
   }
 
-  return typeObj[type]
+  return typeObj[status]
 
-  // switch (type) {
+  // switch (status) {
   //   case EventType.PROB:
   //     return {
   //       cls: 'bg-red-100 text-red-700',

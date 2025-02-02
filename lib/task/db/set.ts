@@ -5,6 +5,7 @@ import { getUser } from '@/auth/authFuncs'
 import { connectQrToNextTask, updateQrStatus } from '@/lib/qr/db/set'
 import { QrStatus, TaskStatus } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
+import { create } from 'domain'
 
 export async function setTaskCompletion(curTask: any, note: string) {
   const user = await getUser()
@@ -45,6 +46,28 @@ export async function addMedia(taskId: number, media: string) {
     .update({ media: [media] })
 
   console.log('addMediares', res)
+
+  revalidatePath('/qr')
+
+  return res
+}
+
+export async function updateSkippedTask(curTask: any) {
+  const user = (await getUser()) as any
+
+  console.log('updateSkippedTaskssss', curTask);
+  
+
+  const res = await db('Task').where({ id: curTask.id }).update({
+    status: TaskStatus.SKIPPED,
+    createdById: user.id,
+    resAt: new Date(),
+  })
+
+  console.log('updateSkippedTaskdddd', res);
+  
+
+  await connectQrToNextTask(curTask)
 
   revalidatePath('/qr')
 

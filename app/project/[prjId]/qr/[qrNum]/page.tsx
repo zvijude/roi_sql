@@ -13,8 +13,9 @@ export default async function Page({ params }) {
   prjId = Number(prjId)
   qrNum = Number(qrNum)
 
-  const user = await userInPrj({ prjId })
+  const user = await getUser()
   if (!user) return
+  await userInPrj({ prjId, userId: user.id })
 
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)

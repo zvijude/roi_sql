@@ -21,20 +21,14 @@ export default async function my_projects() {
   return (
     <>
       <InstallApp />
-      <p className="absolute top-0 right-0 m-4">
-        <span className="font-semibold text-xl">{user.name}</span> ({roleDic[user.role]})
+      <p className='absolute top-0 right-0 m-4'>
+        <span className='font-semibold text-xl'>{user.name}</span> ({roleDic[user.role]})
       </p>
-      <div className="grid place-items-center">
-        <Boxbtn
-          txt="פרויקט חדש"
-          icon="plus"
-          role="btn"
-          isAdmin={role === Role.ADMIN}
-          popoverTarget="newProjectPop"
-        />
-        <main className="flex m-6 justify-center">
+      <div className='grid place-items-center'>
+        <Boxbtn txt='פרויקט חדש' icon='plus' role='btn' isAdmin={role === Role.ADMIN} popoverTarget='newProjectPop' />
+        <main className='flex m-6 justify-center'>
           {userProjects.map((prj) => (
-            <Boxbtn txt={prj.name} icon="city" href={`/project/${prj.id}`} />
+            <Boxbtn txt={prj.name} icon='city' href={`/project/${prj.id}`} key={prj.id} />
           ))}
         </main>
         {/* <div>

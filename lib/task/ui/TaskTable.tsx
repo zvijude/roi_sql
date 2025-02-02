@@ -5,12 +5,10 @@ import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
 import { popWindow } from '@/ui/popWindow'
-import ProbChip from './ProbChip'
-import EventChip from '@/lib/events/ui/EventChip'
+import TaskChip from './TaskChip'
 
-export default function ProbTable({ data }) {
+export default function TaskTable({ data }) {
   const headers = [
-    { key: 'type', label: 'סוג בקשה' },
     { key: 'status', label: 'סטטוס', format: 'formatStatus' },
     { key: 'price', label: 'מחיר', format: 'formatCurrency' },
     { key: 'createdAt', label: 'תאריך', format: 'formatDateTime' },
@@ -20,7 +18,7 @@ export default function ProbTable({ data }) {
     { key: 'create_name', label: 'נוצר ע"י' },
     { key: 'res_name', label: 'אושר ע"י' },
     { key: 'title', label: 'משימה' },
-    { key: 'desc', label: 'תיאור' },
+    { key: 'desc', label: 'תיאור המשימה' },
     { key: 'id', label: 'מזהה' },
   ]
 
@@ -28,14 +26,11 @@ export default function ProbTable({ data }) {
   const [columns, setColumns] = useState(headers)
 
   function formatStatus(status) {
-    return <ProbChip status={status} />
-  }
-  function formatType(type) {
-    return <EventChip type={type} />
+    return <TaskChip status={status} />
   }
 
   function onRowClick(item) {
-    const type = item.type.toLowerCase()
+    const type = item.status.toLowerCase()
     popWindow(`/pops/${type}/${item.id}`)
   }
 
@@ -44,7 +39,7 @@ export default function ProbTable({ data }) {
     setColumns,
     data,
     noCheckboxs: true,
-    funcs: { formatStatus, formatType },
+    funcs: { formatStatus },
     state,
     setState,
     onRowClick,

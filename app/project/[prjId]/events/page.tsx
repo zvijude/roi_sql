@@ -1,26 +1,26 @@
-import { getEvents } from '@/lib/events/db/get'
-import { getEventStats2, getTasks } from '@/lib/events/db/getNew'
-import EventsTable from '@/lib/events/ui/EventsTable'
-import Stats from '@/lib/events/ui/Stats'
+import { getEventStats, getTasks } from '@/lib/events/db/getNew'
 import { getProbs } from '@/lib/prob/db/get'
+import ProbTable from '@/lib/prob/ui/ProbTable'
+import TaskTable from '@/lib/task/ui/TaskTable'
+import StatsUi from '@/ui/StatsUi'
 
 export default async function Events({ params }) {
   let { prjId } = await params
   prjId = Number(prjId)
-  // const events = await getEvents(prjId)
   const tasks = await getTasks(prjId)
   const probs = await getProbs(prjId)
-  const eventsStats = await getEventStats2(prjId)
+  const eventsStats = await getEventStats(prjId)
 
   return (
     <>
-    <pre>
-      {JSON.stringify(eventsStats, null, 2)}
-      {JSON.stringify(tasks, null, 2)}
-      {JSON.stringify(probs, null, 2)}
-    </pre>
-      {/* <Stats data={events} />
-      <EventsTable data={events} key={Math.random()} /> */}
+      <div className='flex mb-8'>
+        {Object.entries(eventsStats).map(([key, value]) => {
+          if (key === 'prjId') return null
+          return <StatsUi key={key} lbl={key} stat={value as string | number} />
+        })}
+      </div>
+      <TaskTable data={tasks} key={Math.random()} />
+      <ProbTable data={probs} key={Math.random()} />
     </>
   )
 }

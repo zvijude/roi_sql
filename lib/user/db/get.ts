@@ -1,6 +1,6 @@
 'use server'
 
-import { db } from '@/db/db'
+import { db } from '@/sql'
 import { revalidatePath } from 'next/cache'
 import { getUser } from '@/auth/authFuncs'
 import { Role } from '@prisma/client'
@@ -10,26 +10,17 @@ export async function getUsers({ prjId }) {
   const user = await getUser()
   if (!isManager(user!.role)) return false // Only managers can view users
 
-  const res = await db.project.findUnique({
-    where: { id: Number(prjId) },
-    select: {
-      users: {
-        select: {
-          id: true,
-          name: true,
-          firstName: true,
-          lastName: true,
-          role: true,
-          kablanId: true,
-          email: true,
-          phone: true,
-        },
-        orderBy: { updatedAt: 'desc' },
-      },
-    },
-  })
+  const res = await db.raw(`
+    SELECT
+      u.id, u.name, u.role, u."kablanId", u.email, u.phone
+    FROM
+      "User" u
+    JOIN "_prj_user" pu ON u.id = pu."userId"
+    WHERE
+      pu."prjId" = ?
+  `, [prjId])
 
-  return res?.users
+  return res.rows
 }
 
 export async function getCurUserQuery() {
