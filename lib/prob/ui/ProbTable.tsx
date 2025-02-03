@@ -5,13 +5,12 @@ import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
 import { popWindow } from '@/ui/popWindow'
-import ProbChip from './ProbChip'
 import EventChip from '@/lib/events/ui/EventChip'
 
 export default function ProbTable({ data }) {
   const headers = [
-    { key: 'type', label: 'סוג בקשה' },
     { key: 'status', label: 'סטטוס', format: 'formatStatus' },
+    { key: 'type', label: 'סוג בקשה', format: 'formatType' },
     { key: 'price', label: 'מחיר', format: 'formatCurrency' },
     { key: 'createdAt', label: 'תאריך', format: 'formatDateTime' },
     { key: 'qrNum', label: 'QR' },
@@ -27,11 +26,15 @@ export default function ProbTable({ data }) {
   const [state, setState] = useState(data)
   const [columns, setColumns] = useState(headers)
 
-  function formatStatus(status) {
-    return <ProbChip status={status} />
+  function formatStatus(type) {
+    return <EventChip type={type} />
   }
   function formatType(type) {
-    return <EventChip type={type} />
+    const probDic = {
+      BGT_REQ: 'בקשת תקציב',
+      PROB: 'בעית ביצוע',
+    }
+    return <p className='font-semibold'>{probDic[type]}</p>
   }
 
   function onRowClick(item) {

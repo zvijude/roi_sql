@@ -44,7 +44,7 @@ export async function updateProbStatus(id: number, status: ProbStatus) {
   const qr = await db('Task').where('id', res[0].taskId).select('qrId').first()
 
   await updateQrStatus(qr.qrId, QrStatus.IN_PROGRESS)
-  revalidatePath('/project/setup/problems')
+  revalidatePath('/project/[prjId]')
 
   return res
 }

@@ -5,7 +5,7 @@ import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
 import { popWindow } from '@/ui/popWindow'
-import TaskChip from './TaskChip'
+import EventChip from '@/lib/events/ui/EventChip'
 
 export default function TaskTable({ data }) {
   const headers = [
@@ -26,7 +26,7 @@ export default function TaskTable({ data }) {
   const [columns, setColumns] = useState(headers)
 
   function formatStatus(status) {
-    return <TaskChip status={status} />
+    return <EventChip type={status} />
   }
 
   function onRowClick(item) {

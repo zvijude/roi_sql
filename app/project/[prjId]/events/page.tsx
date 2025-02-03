@@ -1,4 +1,6 @@
 import { getEventStats, getTasks } from '@/lib/events/db/getNew'
+import EventsTable from '@/lib/events/ui/EventsTableOLD'
+import EventTables from '@/lib/events/ui/EventTables'
 import { getProbs } from '@/lib/prob/db/get'
 import ProbTable from '@/lib/prob/ui/ProbTable'
 import TaskTable from '@/lib/task/ui/TaskTable'
@@ -19,8 +21,7 @@ export default async function Events({ params }) {
           return <StatsUi key={key} lbl={key} stat={value as string | number} />
         })}
       </div>
-      <TaskTable data={tasks} key={Math.random()} />
-      <ProbTable data={probs} key={Math.random()} />
+      <EventTables probs={probs} tasks={tasks}/>
     </>
   )
 }

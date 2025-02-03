@@ -37,18 +37,18 @@ function getLinks(prjName?: string, prjId?: string | null) {
     { icon: 'building', href: `/project/${prjId}`, title: `פרויקט ${prjName ?? ''}` },
     { icon: 'chart-line', href: `/project/${prjId}/dash`, title:'גרפים' },
     { icon: 'bell', href: `/project/${prjId}/events`, title: 'אירועים' },
-    { icon: 'check-double', href: `/project/${prjId}/tasks`, title: 'ביצועים' },
-    { icon: 'hourglass-half', href: `/project/${prjId}/waiting_tasks`, title: 'ממתין לאישור' },
+    // { icon: 'check-double', href: `/project/${prjId}/tasks`, title: 'ביצועים' },
+    // { icon: 'hourglass-half', href: `/project/${prjId}/waiting_tasks`, title: 'ממתין לאישור' },
     calcUrl(prjId, user),
-    {
-      icon: 'hand-holding-dollar',
-      href: `/project/${prjId}/budget_requests`,
-      title: 'בקשות חריגים',
-      flip: true,
-    },
-    { icon: 'triangle-exclamation', href: `/project/${prjId}/problems`, title: 'בעיות ביצוע' },
+    // {
+    //   icon: 'hand-holding-dollar',
+    //   href: `/project/${prjId}/budget_requests`,
+    //   title: 'בקשות חריגים',
+    //   flip: true,
+    // },
+    // { icon: 'triangle-exclamation', href: `/project/${prjId}/problems`, title: 'בעיות ביצוע' },
 
-    { icon: 'arrow-rotate-left', href: `/project/${prjId}/skipped_tasks`, title: 'משימות שדולגו' },
+    // { icon: 'arrow-rotate-left', href: `/project/${prjId}/skipped_tasks`, title: 'משימות שדולגו' },
   ] as LinksType[]
 
   let bottomLinks = [] as any

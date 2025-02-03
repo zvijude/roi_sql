@@ -114,6 +114,11 @@ export async function userInPrj({ prjId, userId }) {
   if (!prj) redirect('/')
 }
 
+export async function isUserExist(email: string) {
+  email = email.trim().toLocaleLowerCase()
+  return await db('User').where({ email }).first()
+}
+
 export type UserDb = {
   id: number
   email: string
@@ -122,6 +127,7 @@ export type UserDb = {
   role: Role
   suspended: boolean
   kablanId: number
+  companyId: number
 }
 
 // return {

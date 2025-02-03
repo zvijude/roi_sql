@@ -13,7 +13,7 @@ export default function SelectKablan({ kablans, prjId }) {
   }
 
   return (
-    <div className='flex'>
+    <div className='flex mb-3'>
       <SelectObj
         lbl='בחר קבלן'
         name='kablanId'

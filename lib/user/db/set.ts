@@ -1,6 +1,7 @@
 'use server'
 
-import { db } from '@/db/db'
+import { db as pdb } from '@/db/db'
+import { db } from '@/sql'
 import { revalidatePath } from 'next/cache'
 import { Role } from '@prisma/client'
 import { getUser, isUserExist } from '@/auth/authFuncs'
@@ -9,31 +10,25 @@ import { getUser, isUserExist } from '@/auth/authFuncs'
 export async function addUser(prjId: number, data: TAddUser) {
   const user = await getUser() // get the current user for company
 
-  const isUser = await isUserExist(data.email)
-  if (isUser) return connectExistingUser(prjId, isUser.email)
+  // const isUser = await isUserExist(data.email)
+  // if (isUser) return connectExistingUser(prjId, isUser.email)
 
-  let res = await db.user
-    .create({
-      data: {
-        projects: { connect: [{ id: Number(prjId) }] },
-        companyId: user!.companyId,
-        ...data,
-        email: data.email.toLowerCase(),
-        kablanId: Number(data.kablanId),
-      },
+  const res = (await db('User')
+    .insert({
+      companyId: 1,
+      ...data,
+      email: data.email.toLowerCase(),
+      kablanId: Number(data.kablanId) || null,
     })
-    .catch((e: any) => {
-      return { failed: true, msg: `שגיאה ביצירת המשתמש ${e}` }
-    })
+    .returning('id')) as any
 
-  if (data.role === Role.KABLAN && !('failed' in res)) {
-    await db.user.update({
-      where: { id: res.id },
-      data: { kablanId: res.id },
-    })
+  const newId = res[0].id
+
+  if (res) await db('_prj_user').insert({ prjId, userId: newId })
+
+  if (data.role === Role.KABLAN) {
+    await db('User').where({ id: newId }).update({ kablanId: newId })
   }
-
-  console.log('resUser#', res)
 
   revalidatePath('/project/setup/users')
   return res
@@ -64,26 +59,27 @@ export async function addCompany(data: any) {
 export async function deleteUser(id: number, role: Role, prjId: number) {
   prjId = Number(prjId)
 
-  if (role === Role.KABLAN) {
-    const hasInstallers = await db.user.findFirst({
-      where: { kablanId: id, projects: { some: { id: prjId } } },
-    })
-    if (hasInstallers) return { failed: true, msg: 'לא ניתן למחוק קבלן בעל מתקינים' }
-  }
+  // if (role === Role.KABLAN) {
+  //   const hasInstallers = await db.user.findFirst({
+  //     where: { kablanId: id, projects: { some: { id: prjId } } },
+  //   })
+  //   if (hasInstallers) return { failed: true, msg: 'לא ניתן למחוק קבלן בעל מתקינים' }
+  // }
 
-  const isUserHasTasks = await db.completedTask.findFirst({
-    where: { createdById: id, prjId },
-  })
-  if (isUserHasTasks) return { failed: true, msg: 'לא ניתן למחוק משתמש עם משימות שהושלמו' }
+  // const isUserHasTasks = await db.completedTask.findFirst({
+  //   where: { createdById: id, prjId },
+  // })
+  // if (isUserHasTasks) return { failed: true, msg: 'לא ניתן למחוק משתמש עם משימות שהושלמו' }
 
-  await db.user
-    .update({
-      where: { id },
-      data: { projects: { disconnect: { id: prjId } } },
-    })
-    .catch((e: any) => {
-      return { failed: true, msg: `שגיאה במחיקת המשתמש ${id} ${e}` }
-    })
+  // await db.user
+  //   .update({
+  //     where: { id },
+  //     data: { projects: { disconnect: { id: prjId } } },
+  //   })
+
+  await db('_prj_user').where({ userId: id, prjId }).del()
+  await db('User').where({ id }).del()
+   
 
   revalidatePath('/project')
   return { failed: false, msg: `משתמש ${id} נמחק בהצלחה` }
@@ -102,10 +98,7 @@ export async function editUser(userToUpdate: TUpdateUser, userOld: any, prjId: n
   }
 
   if (userOld.role === Role.INSTALLER) {
-    if (
-      userToUpdate.role !== Role.INSTALLER ||
-      Number(userToUpdate.kablanId) !== userOld.kablanId
-    ) {
+    if (userToUpdate.role !== Role.INSTALLER || Number(userToUpdate.kablanId) !== userOld.kablanId) {
       const isUserHasTasks = await db.completedTask.findFirst({
         where: { createdById: id, prjId },
       })
@@ -126,6 +119,7 @@ export async function editUser(userToUpdate: TUpdateUser, userOld: any, prjId: n
   return res
 }
 
+// update - connect existing user
 export async function connectExistingUser(prjId: number, email: string) {
   prjId = Number(prjId)
   const user = (await isUserExist(email)) as any

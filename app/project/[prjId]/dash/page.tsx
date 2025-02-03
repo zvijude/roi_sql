@@ -1,4 +1,4 @@
-import { db } from '@/db/db'
+// import { db } from '@/db/db'
 import QrsCircleChart from '@/lib/graph/ui/QrsCircleChart'
 import { groupBy } from '@/utils/func'
 import ProjProgressBar from '@/lib/graph/ui/PrjProgressBar'
@@ -14,17 +14,18 @@ export default async function Page({ params }) {
 
   const tasksByFloor = await getTasksByFloor(prjId)
   const scansByFloor = await getPrjScansByFloor(prjId)
-  const qrs = await db.qr.findMany({
-    where: { prjId },
-    select: { status: true, updatedAt: true },
-  })
-  const completedTasks = await db.completedTask.findMany({
-    where: { prjId },
-    select: { createdAt: true },
-  })
+  // const qrs = await db.qr.findMany({
+    // where: { prjId },
+    // select: { status: true, updatedAt: true },
+  // })
+  // const completedTasks = await db.completedTask.findMany({
+    // where: { prjId },
+    // select: { createdAt: true },
+  // })
 
-  const qrsByStatus = groupBy(qrs, ({ status }) => status)
-  const data = { completedTasks, qrsByStatus, qrs, scansByFloor, tasksByFloor }
+  // const qrsByStatus = groupBy(qrs, ({ status }) => status)
+  // const data = { completedTasks, qrsByStatus, qrs, scansByFloor, tasksByFloor }
 
-  return <Dashboard data={data} key={Math.random()} />
+  // return <Dashboard data={data} key={Math.random()} />
+  return <div>DASH</div>
 }
