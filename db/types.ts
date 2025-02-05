@@ -23,21 +23,6 @@ export const EventType = {
   SKIPPED: 'משימה שדולגה',
 }
 
-// type granted
-// export const grantedDic = {
-//   [BgtReqStatus.WAITING]: 'טרם נבדק',
-//   [BgtReqStatus.GRANTED]: 'אושר',
-//   [BgtReqStatus.DENIED]: 'נדחה',
-//   [BgtReqStatus.CANCELED]: 'בוטל',
-// }
-
-// export const grantedDicLbl = {
-//   'טרם נבדק': BgtReqStatus.WAITING,
-//   אושר: BgtReqStatus.GRANTED,
-//   נדחה: BgtReqStatus.DENIED,
-//   בוטל: BgtReqStatus.CANCELED,
-// }
-
 // type problems
 export const probStatusDic = {
   [ProbStatus.WAITING]: 'ממתין לטיפול',
@@ -113,30 +98,6 @@ export const qrStatusDic = {
   [QrStatus.ON_BGT_REQ]: 'בקשת חריגים פתוחה',
   [QrStatus.ON_PROB]: 'בעית ביצוע',
 }
-
-// export enum EventTypes {
-//   prob = 'בעית ביצוע',
-//   bgtReq = 'בקשת חריגים',
-//   completedTask = 'משימה שהושלמה',
-//   waitingTask = 'ממתין לאישור',
-//   skippedTask = 'משימה שדולגה',
-// }
-
-// export const eventIdDic = {
-//   [EventTypes.prob]: 'prob',
-//   [EventTypes.bgtReq]: 'bgtReq',
-//   [EventTypes.completedTask]: 'completedTask',
-//   [EventTypes.waitingTask]: 'waitingTasks',
-//   [EventTypes.skippedTask]: 'skippedTask',
-// }
-
-// export const eventTypeDic = {
-//   [EventType.PROB]: 'בעית ביצוע',
-//   [EventType.BGT_REQ]: 'בקשת חריגים',
-//   [EventType.COMPLETED]: 'משימה הושלמה',
-//   [EventType.WAITING]: 'ממתין לאישור',
-//   [EventType.SKIPPED]: 'משימה שדולגה',
-// }
 
 export const MAX_MB = 100 // Max upload file size in MB
 

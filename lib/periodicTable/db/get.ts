@@ -1,5 +1,4 @@
 import { db } from '@/sql'
-import { db as pdb } from '@/db/db'
 import { groupBy } from '@/utils/func'
 
 export async function getPeriodic(prjId: number, query = {}) {

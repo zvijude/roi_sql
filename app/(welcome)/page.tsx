@@ -2,22 +2,17 @@ import { getUser } from '@/auth/authFuncs'
 import Boxbtn from '@/components/Boxbtn'
 import NewProject from '@/components/popovers/NewProject'
 import { getUserProjects } from '@/db/project/get'
-import { appOnlyUsers, roleDic } from '@/db/types'
+import { roleDic } from '@/db/types'
 import { redirect } from 'next/navigation'
 import { Role } from '@prisma/client'
-import Link from 'next/link'
-import { Btn } from 'zvijude/btns'
 import InstallApp from '@/ui/InstallApp'
 
-// before Changes in db
 export default async function my_projects() {
   const userProjects = await getUserProjects()
   const user = await getUser()
   if (!user) return redirect('/auth')
 
   const role = user.role
-  // if (appOnlyUsers.includes(role)) return redirect('/app')
-
   return (
     <>
       <InstallApp />
@@ -31,11 +26,6 @@ export default async function my_projects() {
             <Boxbtn txt={prj.name} icon='city' href={`/project/${prj.id}`} key={prj.id} />
           ))}
         </main>
-        {/* <div>
-          <Link href="/app">
-            <Btn lbl="צפה באפליקציית הסריקות" />
-          </Link>
-        </div> */}
       </div>
 
       <NewProject />

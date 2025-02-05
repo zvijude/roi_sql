@@ -55,6 +55,7 @@ export default function UploadMedia({ onUpload }) {
         clr="soft"
         onClick={openNativeCamera}
         size="small"
+        type='button'
       />
       <Btn
         lbl="צלם סרטון"
@@ -63,6 +64,7 @@ export default function UploadMedia({ onUpload }) {
         clr="soft"
         onClick={openNativeVideo}
         size="small"
+        type='button'
       />
       <input
         ref={nativeCameraRef}

@@ -10,3 +10,6 @@ ALTER COLUMN "updatedAt" SET DEFAULT now();
 ALTER TABLE "Prob"
 ALTER COLUMN "updatedAt" SET DEFAULT now();
 
+ALTER TABLE "Company"
+ALTER COLUMN "updatedAt" SET DEFAULT now();
+

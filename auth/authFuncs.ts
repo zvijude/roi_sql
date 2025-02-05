@@ -28,7 +28,7 @@ export const getUser = cache(async () => {
   const decryptUser = await decrypt(session)
 
   const dbUser = await db('User')
-    .select('id', 'email', 'name', 'role', 'suspended', 'kablanId')
+    .select('id', 'email', 'name', 'role', 'suspended', 'kablanId', 'companyId')
     .where({ id: decryptUser.id })
     .first()
   if (!dbUser) return redirect('/auth')

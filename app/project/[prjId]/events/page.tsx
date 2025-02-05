@@ -1,4 +1,4 @@
-import { getEventStats, getTasks } from '@/lib/events/db/getNew'
+import { getEventStats, getTasks } from '@/lib/events/db/get'
 import EventsTable from '@/lib/events/ui/EventsTableOLD'
 import EventTables from '@/lib/events/ui/EventTables'
 import { getProbs } from '@/lib/prob/db/get'

@@ -17,8 +17,6 @@ export default function PeriodicFilter({ query, fields, parts }) {
 
   function onSubmit(e) {
     const data = getFormData(e) as any
-    console.log('data', data)
-
     const query = formToQueryPeriodic(data)
 
     const url = new URLSearchParams({ query: JSON.stringify(query) })
@@ -100,9 +98,11 @@ export default function PeriodicFilter({ query, fields, parts }) {
             placeholder='הכל...'
             required={false}
           />
-          <Select
+          <SelectObj
             lbl='בוצע ע"י'
             name='user'
+            val='id'
+            show='name'
             options={users}
             placeholder='כולם...'
             defaultValue={query?.createdBy?.name}
