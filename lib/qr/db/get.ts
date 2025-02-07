@@ -40,8 +40,3 @@ export async function getCurTask(qrId) {
     probs: events,
   }
 }
-
-export async function getQrs({ prjId }) {
-  return [] //! Print Qr's Table
-  // TODO - get all qr's for project
-}

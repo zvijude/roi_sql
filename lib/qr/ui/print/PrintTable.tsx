@@ -15,9 +15,9 @@ import TableTopbar from 'zvijude/table/TableTopbar'
 export default function PrintTable({ qrs, prjId, prjName, printQntt }) {
   const headers = [
     { key: 'qrNum', label: 'QR' },
-    { key: 'part.name', label: 'פרט' },
-    { key: 'part.desc', label: 'תיאור הפרט' },
-    { key: 'part.qntt', label: 'כמות במלאי' },
+    { key: 'name', label: 'פרט' },
+    { key: 'desc', label: 'תיאור הפרט' },
+    { key: 'qntt', label: 'כמות במלאי' },
     { key: 'floor', label: 'קומה' },
     { key: 'aptNum', label: 'מספר דירה' },
     { key: 'locInApt', label: 'מיקום בדירה' },
