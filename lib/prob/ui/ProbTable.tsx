@@ -4,22 +4,27 @@ import { useState } from 'react'
 import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
-import { popWindow } from '@/ui/popWindow'
 import EventChip from '@/lib/events/ui/EventChip'
+import { probDic } from '@/db/types'
+import { Btn } from 'zvijude/btns'
+import SelectEventStatus from '@/lib/events/ui/SelectEventStatus'
 
 export default function ProbTable({ data }) {
   const headers = [
     { key: 'status', label: 'סטטוס', format: 'formatStatus' },
     { key: 'type', label: 'סוג בקשה', format: 'formatType' },
+    { key: '_', label: 'עדכון סטטוס', format: 'formatStatusUpdate' },
     { key: 'price', label: 'מחיר', format: 'formatCurrency' },
-    { key: 'createdAt', label: 'תאריך', format: 'formatDateTime' },
     { key: 'qrNum', label: 'QR' },
     { key: 'loc', label: 'מיקום' },
     { key: 'part_name', label: 'פרט' },
     { key: 'create_name', label: 'נוצר ע"י' },
-    { key: 'res_name', label: 'אושר ע"י' },
+    { key: 'createdAt', label: 'נוצר בתאריך', format: 'formatDateTime' },
+    { key: 'res_name', label: 'נענה ע"י' },
+    { key: 'resAt', label: 'נענה בתאריך', format: 'formatDateTime' },
     { key: 'title', label: 'משימה' },
     { key: 'desc', label: 'תיאור' },
+    { key: 'media', label: 'תמונות', format: 'formatMedia' },
     { key: 'id', label: 'מזהה' },
   ]
 
@@ -30,16 +35,29 @@ export default function ProbTable({ data }) {
     return <EventChip type={type} />
   }
   function formatType(type) {
-    const probDic = {
-      BGT_REQ: 'בקשת תקציב',
-      PROB: 'בעית ביצוע',
-    }
     return <p className='font-semibold'>{probDic[type]}</p>
   }
-
-  function onRowClick(item) {
-    const type = item.type.toLowerCase()
-    popWindow(`/pops/${type}/${item.id}`)
+  function formatMedia(media, item) {
+    if (!media?.[0]) return null
+    return (
+      <>
+        <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' />
+        <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
+          <img src={media[0]} alt='' />
+        </div>
+      </>
+    )
+  }
+  function formatStatusUpdate(_, item) {
+    if (item.status !== 'WAITING') return null
+    return (
+      <>
+        <Btn icon='pen' popoverTarget={`popStatus-${item.id}`} clr='icon' />
+        <div popover='auto' id={`popStatus-${item.id}`} className='pop'>
+          <SelectEventStatus item={item} />
+        </div>
+      </>
+    )
   }
 
   const config = {
@@ -47,10 +65,9 @@ export default function ProbTable({ data }) {
     setColumns,
     data,
     noCheckboxs: true,
-    funcs: { formatStatus, formatType },
+    funcs: { formatStatus, formatType, formatMedia, formatStatusUpdate },
     state,
     setState,
-    onRowClick,
   } as ConfigT
 
   return (

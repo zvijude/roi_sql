@@ -1,12 +1,14 @@
 import LocForm from '@/lib/qr/ui/LocForm'
 import { getCurTask, scanQr } from '@/lib/qr/db/get'
 import { getUser, userInPrj } from '@/auth/authFuncs'
-import { isManager, roleLevels } from '@/db/types'
+import { isManager } from '@/db/types'
 import { getPartsByPrj } from '@/lib/part/db/get'
 import { getAllAptOpt } from '@/lib/aptOpt/db/get'
 import { QrTask } from '@/lib/qr/ui/QrTask'
 import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
+import { getAllMissOpt, getMissActive } from '@/lib/missOpt/db/get'
+import { AddNewMiss } from '@/lib/missOpt/ui/AddNewMiss'
 
 export default async function Page({ params }) {
   let { prjId, qrNum } = await params
@@ -19,6 +21,7 @@ export default async function Page({ params }) {
 
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
+  const missOpt = await getAllMissOpt(prjId)
 
   // Case 1: QR not initialized
   if (!qrData) {
@@ -31,17 +34,27 @@ export default async function Page({ params }) {
     )
   }
 
-  // Case 2: All tasks completed
+  const missActive = await getMissActive(qrData.QrId)
+  // Case 2: No Task in QR, page חוסרים ומידות
+  if (qrData.totalTasksCount === 0) return <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
+
+  // Case 3: All tasks completed
   if (qrData.status === QrStatus.FINISH) {
     return (
       <div>
         <p>כל המשימות של ברקוד מספר {qrNum} הושלמו</p>
         <Btn lbl='היסטורית QR' href={`/pops/project/${prjId}/qr/${qrNum}`} />
+        <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
       </div>
     )
   }
 
-  // Case 3: QR in action
+  // Case 4: QR in action
   const curTask = await getCurTask(qrData.QrId)
-  return <QrTask user={user} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
+  return (
+    <div>
+      <QrTask user={user} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
+      <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
+    </div>
+  )
 }

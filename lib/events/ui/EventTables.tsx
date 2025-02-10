@@ -8,11 +8,11 @@ export default function EventTables({ tasks, probs }) {
     <div className='grid w-fit space-y-14 mx-auto'>
       <div>
         <h2 className='text-2xl font-semibold'>משימות</h2>
-        <TaskTable data={tasks} />
+        <TaskTable data={tasks} key={Math.random()} />
       </div>
       <div>
         <h2 className='text-2xl font-semibold'>בקשות חריגות</h2>
-        <ProbTable data={probs} />
+        <ProbTable data={probs} key={Math.random()} />
       </div>
     </div>
   )

@@ -105,3 +105,18 @@ export const appOnlyUsers = [Role.INSTALLER, Role.C_INSTALLER, Role.KABLAN] as R
 
 export const gradTxt =
   'bg-gradient-to-r from-blue-700 to-pink-700 inline-block text-transparent bg-clip-text font-black text-xl mobile:text-lg'
+
+export const eventDic = {
+  COMPLETED: 'משימה הושלמה',
+  WAITING: 'ממתין לאישור',
+  SKIPPED: 'משימה דולגה',
+  SOLVED: 'בעיה נפתרה',
+  GRANTED: 'בקשת תקציב אושרה',
+  DENIED: 'בקשת תקציב נדחתה',
+  CANCELED: 'בוטל',
+}
+
+export const probDic = {
+  BGT_REQ: 'בקשת תקציב',
+  PROB: 'בעית ביצוע',
+}

@@ -26,6 +26,7 @@ export async function insertQr(data: QrData) {
     .returning('id')
   const qrId = qr.id
 
+  if (!mainTasks.length) return revalidatePath('/project/[prjId]/qr/[qrNum]')
   await db('Task').insert(
     mainTasks.map((t) => ({
       qrId,

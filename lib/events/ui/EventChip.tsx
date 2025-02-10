@@ -1,3 +1,4 @@
+import { eventDic } from '@/db/types'
 import Icon, { IconNames } from 'zvijude/icon'
 
 export default function EventChip({ type }) {
@@ -19,15 +20,6 @@ export default function EventChip({ type }) {
   )
 }
 
-const eventDic = {
-  COMPLETED: 'משימה הושלמה',
-  WAITING: 'ממתין לאישור',
-  SKIPPED: 'משימה דולגה',
-  SOLVED: 'בעיה נפתרה',
-  GRANTED: 'בקשת תקציב אושרה',
-  DENIED: 'בקשת תקציב נדחתה',
-  CANCELED: 'בוטל',
-}
 
 function getType(type) {
   const typeObj = {

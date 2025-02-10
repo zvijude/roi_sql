@@ -9,6 +9,7 @@ SELECT
     t."updatedAt",
     t."resAt",
     t."resById",
+    t.media,
     
     -- QR Details
     q."qrNum",
@@ -37,4 +38,5 @@ JOIN "MainTask" mt ON t."mainTaskId" = mt.id
 JOIN "Part" p ON q."partId" = p.id
 LEFT JOIN "User" u_res ON u_res.id = t."resById"
 LEFT JOIN "User" u_create ON u_create.id = t."createdById"
-WHERE t.status IS NOT NULL;
+WHERE t.status IS NOT NULL
+ORDER BY t."updatedAt" DESC;

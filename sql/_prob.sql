@@ -12,6 +12,7 @@ SELECT
     p."resById",
     p.price,
     p.status,
+    p.media,
 
     -- QR Details
     q."qrNum",
@@ -39,4 +40,4 @@ JOIN "MainTask" mt ON t."mainTaskId" = mt.id
 JOIN "Part" pa ON q."partId" = pa.id
 LEFT JOIN "User" u_res ON u_res.id = p."resById"
 LEFT JOIN "User" u_create ON u_create.id = p."createdById"
-ORDER BY p."createdAt" DESC;
+ORDER BY p."updatedAt" DESC;

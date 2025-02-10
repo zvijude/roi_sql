@@ -19,7 +19,6 @@ export function SelectAptOpt({ aptOpt, noEdit = false, defaultValue = '' }) {
           lbl='ערוך מיקום'
           clr='text'
           popoverTarget='aptOptPop'
-          // popoverTargetAction='show'
           type='button'
           className='mt-1 shadow-none size-7'
         />

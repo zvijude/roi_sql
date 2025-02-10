@@ -1,41 +1,43 @@
 'use client'
 
-import { addAptOpt, deleteAptOpt } from '@/lib/aptOpt/db/set'
 import { useParams, usePathname } from 'next/navigation'
 import { Input } from 'zvijude/form'
 import { Btn } from 'zvijude/btns'
+import { addMissOpt, deleteMissOpt } from '../db/set'
 
-export default function AptOpt({ aptOpt }) {
+export default function EditMissOpts({ missOpt, editSetStats }) {
   const path = usePathname()
   const prjId = useParams().prjId
 
   async function onAdd() {
     const input = document.getElementById('inputOptId') as HTMLInputElement
     if (!input.value) return
-    await addAptOpt(prjId, input.value)
+    await addMissOpt(prjId, input.value)
 
     input.value = ''
   }
 
   async function onDelete(optVal) {
     if (!confirm('האם אתה בטוח שברצונך למחוק את האפשרות?')) return
-    await deleteAptOpt({ optVal, path, prjId })
+    await deleteMissOpt({ optVal, path, prjId })
   }
 
   return (
-    <div className='pop px-4 py-6 min-w-80 max-w-[90vw] max-h-[80svh] scrollbar-thin' popover='auto' id='aptOptPop'>
+    <div>
       <section className='mb-4'>
-        <h2 className='text-lg font-bold mb-2'>{'צור אפשרות חדשה'}</h2>
+        <div className='flex justify-between items-center mb-4'>
+          <h2 className='text-lg font-semibold mb-2'>{'צור אפשרות חדשה'}</h2>
+          <Btn lbl='סיים עריכה' clr='text' className='m-1 shadow-none size-7' onClick={() => editSetStats(false)} />
+        </div>
         <div>
-          <div className='flex gap-3'>
+          <div className='flex justify-between items-center m-2'>
             <Input name='option' id='inputOptId' placeholder='הכנס אפשרות' required={false} />
-
             <Btn clr='icon' type='button' icon='plus' onClick={onAdd} />
           </div>
         </div>
       </section>
       <ol>
-        {aptOpt
+        {missOpt
           .slice()
           .reverse()
           .map((opt, index) => (
