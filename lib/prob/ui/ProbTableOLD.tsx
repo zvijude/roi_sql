@@ -4,25 +4,35 @@ import { useState } from 'react'
 import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import { Btn } from 'zvijude/btns'
-import Filter from './Filter'
-import { mainHeader, roleDic } from '@/db/types'
+import Filter from './filter'
 import ActiveFilter from '@/components/filter/activeFilter'
+import TableChip from '@/ui/TableChip'
 import TableTopbar from 'zvijude/table/TableTopbar'
+import { mainHeader, probStatusDic } from '@/db/types'
+import { ProbStatus } from '@prisma/client'
 import { popWindow } from '@/ui/popWindow'
 
-export default function SkippedTasksTable({ data, query, fields }) {
-  const headers = [
-    ...mainHeader,
-    { key: 'price', label: 'מחיר', format: 'formatCurrency' },
-    { key: 'createdBy.name', label: 'אושר ע"י' },
-  ]
+export default function ProbTableOLD({ data, query, fields }) {
+  if (!data) return null
+  const headers = [{ key: 'status', label: 'סטטוס', format: 'statusColor' }, ...mainHeader]
+
+  function statusColor(val) {
+    return (
+      <TableChip
+        lbl={probStatusDic[val]}
+        type={
+          val === ProbStatus.WAITING
+            ? 'warning'
+            : val === ProbStatus.SOLVED
+            ? 'success'
+            : 'canceled'
+        }
+      />
+    )
+  }
 
   const [state, setState] = useState(data)
   const [columns, setColumns] = useState(headers)
-
-  function formatRole(val) {
-    return roleDic[val]
-  }
 
   function onRowClick(item) {
     const type = item.type.toLowerCase()
@@ -32,11 +42,11 @@ export default function SkippedTasksTable({ data, query, fields }) {
   const config = {
     columns,
     setColumns,
-    lsId: 'SkippedTaskTable123',
+    lsId: 'ProbTable123',
+    funcs: { statusColor: statusColor },
     data,
-    funcs: { formatRole },
-    noCheckboxs: true,
     state,
+    noCheckboxs: true,
     setState,
     onRowClick,
   } as ConfigT
@@ -49,12 +59,12 @@ export default function SkippedTasksTable({ data, query, fields }) {
           lbl='סינון'
           clr='text'
           icon='filter'
-          popoverTarget='filterSkippedTasks'
+          popoverTarget='filterProbPop'
           className='bg-white'
         />
         <ActiveFilter filter={query} />
       </TableTopbar>
-      <Table config={config} tblCls='rounded-t-none' />
+      <Table config={config} tblCls='rounded-none' />
       <Filter query={query} fields={fields} />
     </>
   )

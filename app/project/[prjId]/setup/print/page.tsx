@@ -1,7 +1,7 @@
 import PrintTable from '@/lib/qr/ui/print/PrintTable'
 import Icon from 'zvijude/icon'
 import { getPrjPrintQntt, getProjectName } from '@/db/project/get'
-import { getQrs } from '@/lib/qr/db/get'
+import { db } from '@/sql'
 
 export default async function print({ params }) {
   let { prjId } = await params
@@ -11,7 +11,7 @@ export default async function print({ params }) {
   const prjName = await getProjectName(prjId)
   const printQntt = await getPrjPrintQntt(prjId)
 
-  const qrs = await getQrs({ prjId })
+  const qrs = await db("_print_qrs").where({ prjId })
 
   return (
     <>

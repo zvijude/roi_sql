@@ -18,7 +18,7 @@ export default function BgtReqForm({ taskId, qrId }) {
     e.preventDefault()
     if (!media.length) return toast('error', 'חובה להעלות מדיה לתיאור החריגה!')
     if (!e.target.desc.value) return toast('error', 'חובה למלא תיאור לחריגה!')
-    if (!e.target.amount.value) return toast('error', 'חובה למלא סכום לחריגה!')
+    if (!e.target.price.value) return toast('error', 'חובה למלא סכום לחריגה!')
 
     toast('loading', 'שולח בקשת חריגים...')
     const data = getFormData(e)
@@ -48,9 +48,9 @@ export default function BgtReqForm({ taskId, qrId }) {
         </button>
 
         <Textarea lbl='פירוט החריגה' name='desc' />
-        <Input lbl='מחיר החריגה' type='number' min={0} name='amount' placeholder='10,000 שח' />
+        <Input lbl='מחיר החריגה' type='number' min={0} name='price' placeholder='10,000 שח' />
         <UploadMedia onUpload={onUploadMedia} />
-        <Btn lbl='שלח' disabled={!media.length} />
+        <Btn lbl='שלח' disabled={!media.length} type='button' />
         <p className={`${media.length && 'hidden'} text-sm text-red-700 font-semibold`}>* חובה להעלות מדיה לתיאור החריגה</p>
         <div className={`${!media.length && 'hidden'}`}>
           <ImgsCom urls={media} />

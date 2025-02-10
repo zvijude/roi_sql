@@ -1,19 +1,27 @@
-import { ProbStatus, QrStatus, Role } from '@prisma/client'
+import { QrStatus, Role } from '@prisma/client'
 
-// type granted
-// export const grantedDic = {
-//   [BgtReqStatus.WAITING]: 'טרם נבדק',
-//   [BgtReqStatus.GRANTED]: 'אושר',
-//   [BgtReqStatus.DENIED]: 'נדחה',
-//   [BgtReqStatus.CANCELED]: 'בוטל',
-// }
+export enum TaskStatus {
+  WAITING,
+  SKIPPED,
+  COMPLETED,
+}
 
-// export const grantedDicLbl = {
-//   'טרם נבדק': BgtReqStatus.WAITING,
-//   אושר: BgtReqStatus.GRANTED,
-//   נדחה: BgtReqStatus.DENIED,
-//   בוטל: BgtReqStatus.CANCELED,
-// }
+export enum ProbStatus {
+  WAITING, // both
+  CANCELED, // BgtReq
+
+  SOLVED, // Prob
+  DENIED, // BgtReq
+  GRANTED, // BgtReq
+}
+
+export const EventType = {
+  PROB: 'בעית ביצוע',
+  BGT_REQ: 'בקשת חריגים',
+  COMPLETED: 'משימה הושלמה',
+  WAITING: 'משימה ממתינה לאישור',
+  SKIPPED: 'משימה שדולגה',
+}
 
 // type problems
 export const probStatusDic = {
@@ -91,33 +99,24 @@ export const qrStatusDic = {
   [QrStatus.ON_PROB]: 'בעית ביצוע',
 }
 
-// export enum EventTypes {
-//   prob = 'בעית ביצוע',
-//   bgtReq = 'בקשת חריגים',
-//   completedTask = 'משימה שהושלמה',
-//   waitingTask = 'ממתין לאישור',
-//   skippedTask = 'משימה שדולגה',
-// }
-
-// export const eventIdDic = {
-//   [EventTypes.prob]: 'prob',
-//   [EventTypes.bgtReq]: 'bgtReq',
-//   [EventTypes.completedTask]: 'completedTask',
-//   [EventTypes.waitingTask]: 'waitingTasks',
-//   [EventTypes.skippedTask]: 'skippedTask',
-// }
-
-// export const eventTypeDic = {
-//   [EventType.PROB]: 'בעית ביצוע',
-//   [EventType.BGT_REQ]: 'בקשת חריגים',
-//   [EventType.COMPLETED]: 'משימה הושלמה',
-//   [EventType.WAITING]: 'ממתין לאישור',
-//   [EventType.SKIPPED]: 'משימה שדולגה',
-// }
-
 export const MAX_MB = 100 // Max upload file size in MB
 
 export const appOnlyUsers = [Role.INSTALLER, Role.C_INSTALLER, Role.KABLAN] as Role[]
 
 export const gradTxt =
   'bg-gradient-to-r from-blue-700 to-pink-700 inline-block text-transparent bg-clip-text font-black text-xl mobile:text-lg'
+
+export const eventDic = {
+  COMPLETED: 'משימה הושלמה',
+  WAITING: 'ממתין לאישור',
+  SKIPPED: 'משימה דולגה',
+  SOLVED: 'בעיה נפתרה',
+  GRANTED: 'בקשת תקציב אושרה',
+  DENIED: 'בקשת תקציב נדחתה',
+  CANCELED: 'בוטל',
+}
+
+export const probDic = {
+  BGT_REQ: 'בקשת תקציב',
+  PROB: 'בעית ביצוע',
+}

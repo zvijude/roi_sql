@@ -11,7 +11,7 @@ export async function addProb(data) {
   const { type, taskId, qrId, prjId, desc, media, price = 0 } = data
   const user = await getUser()
 
-  const problem = await db('Prob').insert({
+  await db('Prob').insert({
     type,
     desc,
     media,
@@ -24,8 +24,6 @@ export async function addProb(data) {
 
   await updateQrStatus(qrId, type === ProbType.BGT_REQ ? QrStatus.ON_BGT_REQ : QrStatus.ON_PROB)
   revalidatePath('/qr')
-
-  return problem
 }
 
 // update prob
@@ -44,7 +42,7 @@ export async function updateProbStatus(id: number, status: ProbStatus) {
   const qr = await db('Task').where('id', res[0].taskId).select('qrId').first()
 
   await updateQrStatus(qr.qrId, QrStatus.IN_PROGRESS)
-  revalidatePath('/project/setup/problems')
+  revalidatePath('/project')
 
   return res
 }

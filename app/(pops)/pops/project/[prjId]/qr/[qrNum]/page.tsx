@@ -34,7 +34,7 @@ export default async function QrHistory({ params: { prjId, qrNum } }: any) {
 
       <div className='grid gap-4'>
         {qrEvents.map((t) => (
-          <EventPop item={t} />
+          <EventPop item={t} type={''} />
         ))}
       </div>
     </div>

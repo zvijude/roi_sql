@@ -1,33 +1,29 @@
 'use server'
 
 import { getUser } from '@/auth/authFuncs'
-import { db } from '../db'
 import { revalidatePath } from 'next/cache'
-import { onErr } from '../errors'
+import { db } from '@/sql'
 
 export async function addProject(data) {
   const user = await getUser()
 
-  const projects = await db.project
-    .create({
-      data: {
-        name: data.name,
-        companyId: user!.companyId,
-        users: { connect: { id: user!.id } },
-      },
+  const prjId = await db('Project')
+    .insert({
+      name: data.name,
+      companyId: user!.companyId,
     })
-    .catch(onErr)
+    .returning('id')
+
+  await db('_prj_user').insert({ prjId: prjId[0].id, userId: user!.id })
 
   revalidatePath('/')
-
-  return projects
 }
 
-export async function addPrjPrintQntt(prjId, printQntt) {
-  const res = await db.project.update({
-    where: { id: Number(prjId) },
-    data: { printQntt: { increment: Number(printQntt) } },
-  })
+// export async function addPrjPrintQntt(prjId, printQntt) {
+//   const res = await db.project.update({
+//     where: { id: Number(prjId) },
+//     data: { printQntt: { increment: Number(printQntt) } },
+//   })
 
-  return res
-}
+//   return res
+// }

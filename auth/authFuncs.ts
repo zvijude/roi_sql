@@ -3,64 +3,69 @@
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { db } from '@/db/db'
+import { db } from '@/sql'
 import { daysFromNow } from 'zvijude/dates/funcs'
 import { NextRequest, NextResponse } from 'next/server'
-import { roleLevels } from '@/db/types'
 import { cache } from 'react'
-import { $Enums } from '@prisma/client'
+import { $Enums, Role } from '@prisma/client'
 
 const secretKey = 'secret'
 const key = new TextEncoder().encode(secretKey)
+
+export async function checkUserSuspended(user) {
+  const cokis = await cookies()
+
+  if (user?.suspended) {
+    cokis.delete('user')
+    redirect('/auth')
+  }
+}
 
 export const getUser = cache(async () => {
   const cokis = await cookies()
   const session = cokis.get('user')?.value
   if (!session) return null
-  return (await decrypt(session)) as UserCookieType
-})
+  const decryptUser = await decrypt(session)
+
+  const dbUser = await db('User')
+    .select('id', 'email', 'name', 'role', 'suspended', 'kablanId', 'companyId')
+    .where({ id: decryptUser.id })
+    .first()
+  if (!dbUser) return redirect('/auth')
+
+  return dbUser
+}) as () => Promise<UserDb>
 
 export async function checkUser(user) {
-  const userExist = (await isUserExist(user.email)) as any
+  console.log('checkUser user: ', user)
 
-  if (!userExist) return { msg: 'המשתמש לא קיים במערכת', icon: 'error' }
+  const userExist = await db('User').select('id', 'suspended').whereILike('email', user.email).first()
+  console.log('checkUser userExist: ', userExist)
 
-  if (!userExist.picture) {
-    // שמור נתונים מחשבון הגוגל
-    await db.user.update({
-      where: { email: user.email },
-      data: {
-        gglName: user.gglName,
-        picture: user.picture,
-        gglSub: user.gglSub,
-      },
-    })
-  }
-
-  // console.log('userExist', userExist)
+  if (!userExist) return { fail: true, msg: 'המשתמש לא קיים' }
+  if (userExist.suspended) return { fail: true, msg: 'המשתמש מושהה' }
+  await db('User').where({ id: userExist.id }).update({ gglName: user.gglName, picture: user.picture, gglSub: user.gglSub })
 
   // צור קוקי
   const saveToCookie = {
     id: userExist.id,
-    kablanId: userExist.kablanId,
-    email: user.email,
-    name: userExist.name,
-    picture: user.picture,
-    role: userExist.role,
-    companyId: userExist.companyId,
-    projects: userExist.projects,
   }
 
-  // console.log('saveToCookie', saveToCookie)
+  await saveUsercookie(saveToCookie)
+  redirect('/')
+}
+
+export async function saveUsercookie(cookieUser) {
+  const cokis = await cookies()
 
   const expires = daysFromNow(365)
-  const userToken = await encrypt({ ...saveToCookie, expires })
-
-  const cokis = await cookies()
+  const userToken = await encrypt({ ...cookieUser, expires })
   cokis.set('user', userToken, { expires, httpOnly: true })
+}
 
-  // return saveToCookie
-  return redirect('/')
+export async function deleteUserCookie() {
+  const cokis = await cookies()
+  cokis.delete('user')
 }
 
 export async function encrypt(payload: any) {
@@ -97,53 +102,54 @@ export async function updateSession(request: NextRequest) {
   return res
 }
 
-export async function userInPrj({ prjId }) {
-  const user = await getUser()
+export async function checkCookie() {
+  const cokis = await cookies()
+  const user = cokis.get('user')?.value
   if (!user) return null
-  prjId = Number(prjId)
+  const parsed = await decrypt(user)
+}
 
-  const res = await db.user.findMany({
-    where: {
-      id: user.id,
-      projects: { some: { id: prjId } },
-    },
-  })
-
-  if (!res.length) redirect('/') // Not in project
-  // if (mngrsOnly && roleLevels[user!.role] < 30) redirect('/app') // In Project, not authorized
-
-  return user
+export async function userInPrj({ prjId, userId }) {
+  const prj = await db('_prj_user').where({ prjId, userId }).first()
+  if (!prj) redirect('/')
 }
 
 export async function isUserExist(email: string) {
   email = email.trim().toLocaleLowerCase()
-
-  const res = await db.user.findFirst({
-    where: { email },
-    select: {
-      id: true,
-      kablanId: true,
-      email: true,
-      name: true,
-      role: true,
-      companyId: true,
-      projects: { select: { id: true, name: true } },
-      picture: true,
-    },
-  })
-  return res
+  return await db('User').where({ email }).first()
 }
 
-export type UserCookieType = {
+export type UserDb = {
   id: number
+  email: string
+  name: string
+  picture: string
+  role: Role
+  suspended: boolean
   kablanId: number
-  email: any
-  name: string | null
-  picture?: string
-  role: $Enums.Role
   companyId: number
-  projects: {
-    id: number
-    name: string
-  }[]
 }
+
+// return {
+//   id: 87,
+//   email: 'sarit@ziv-ins.co.il',
+//   name: 'תומר איזון',
+//   picture: 'https://avatars.githubusercontent.com/u/10198965?v=4',
+//   role: 'AGNT',
+// }
+
+// return {
+//   id: 70,
+//   email: 'sarit@ziv-ins.co.il',
+//   name: 'אדי אפריימוב',
+//   picture: 'https://avatars.githubusercontent.com/u/10198965?v=4',
+//   role: 'AGNT',
+// }
+
+// return {
+//   id: 54,
+//   email: 'sarit@ziv-ins.co.il',
+//   name: 'שי חוגה',
+//   picture: 'https://avatars.githubusercontent.com/u/10198965?v=4',
+//   role: 'MNGR',
+// }

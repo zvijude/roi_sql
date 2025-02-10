@@ -1,6 +1,6 @@
 'use client'
 
-import { isManager } from "@/db/types"
+import { EventType, isManager } from "@/db/types"
 import { updateProbStatus } from "@/lib/prob/db/set"
 import { useUser } from "@/utils/userCtx"
 import { ProbStatus } from "@prisma/client"
@@ -28,13 +28,13 @@ export default function SelectEventStatus({ item }) {
     <div>
       {item.status === 'WAITING' && isMng && (
         <div>
-          {item.type === EventType.PROB && <Btn lbl='פתור בעיה' onClick={onProb} />}
-          {item.type === EventType.BGT_REQ && (
+          {item.type === "PROB" && <Btn lbl='פתור בעיה' onClick={onProb} />}
+          {item.type === "BGT_REQ" && (
             <SelectObj
               placeholder='עדכן סטטוס'
               options={[
-                { label: 'אישור', value: BgtReqStatus.GRANTED },
-                { label: 'דחה', value: BgtReqStatus.DENIED },
+                { label: 'אישור', value: ProbStatus.GRANTED },
+                { label: 'דחה', value: ProbStatus.DENIED },
               ]}
               onChange={onBgt}
             />

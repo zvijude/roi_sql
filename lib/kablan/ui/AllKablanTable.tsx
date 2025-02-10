@@ -11,12 +11,12 @@ import { blue } from 'tailwindcss/colors'
 
 export default function AllKablansTable({ kablans, prjId }) {
   const headers = [
-    { key: 'name', label: 'שם הקבלן' },
-    { key: 'totalPrice', label: 'סה"כ לתשלום', format: 'formatCurrency' },
-    { key: 'totalCompleted', label: 'משימות שהושלמו' },
-    { key: 'totalWaiting', label: 'משימות שממתינות לאישור' },
-    { key: 'totalProbs', label: 'בעיות שנוצרו' },
-    { key: 'totalBgtReqs', label: 'בקשות תקציב שנוצרו' },
+    { key: 'kablan_name', label: 'שם הקבלן' },
+    { key: 'total_price', label: 'סה"כ לתשלום', format: 'formatCurrency' },
+    { key: 'price_tasks', label: 'מחיר משימות', format: 'formatCurrency' },
+    { key: 'price_bgt_reqs', label: 'מחיר בקשות תקציב', format: 'formatCurrency' },
+    { key: 'total_completed_tasks', label: 'משימות שהושלמו' },
+    { key: 'total_granted_bgt_reqs', label: 'בקשות תקציב שאושרו' },
   ]
 
   const [state, setState] = useState(kablans)
@@ -24,13 +24,12 @@ export default function AllKablansTable({ kablans, prjId }) {
   const router = useRouter()
 
   function onRowClick(kablan) {
-    router.push(`/project/${prjId}/kablan/${kablan.id}`)
+    router.push(`/project/${prjId}/kablan/${kablan.kablanId}`)
   }
 
   const config = {
     columns,
     setColumns,
-    lsId: 'AllKablanTable123',
     data: kablans,
     state,
     setState,
@@ -49,7 +48,7 @@ export default function AllKablansTable({ kablans, prjId }) {
       {/* <AllKablanStats stats={stats} /> */}
       {kablans.length > 1 && (
         <div className='w-[70%] h-[320px] justify-self-center mb-4'>
-          <BarsChart config={configBars} />
+          {/* <BarsChart config={configBars} /> */}
         </div>
       )}
 

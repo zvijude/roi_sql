@@ -1,13 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { addAptOpt, updateAptOpt, deleteAptOpt } from '@/lib/aptOpt/db/set'
+import { addAptOpt, deleteAptOpt } from '@/lib/aptOpt/db/set'
 import { useParams, usePathname } from 'next/navigation'
 import { Input } from 'zvijude/form'
 import { Btn } from 'zvijude/btns'
 
 export default function AptOpt({ aptOpt }) {
-  const [editObj, setEditObj] = useState({ optVal: '', optId: 0, isEditing: false })
   const path = usePathname()
   const prjId = useParams().prjId
 
@@ -16,55 +14,23 @@ export default function AptOpt({ aptOpt }) {
     if (!input.value) return
     await addAptOpt(prjId, input.value)
 
-    clearInput()
+    input.value = ''
   }
 
-  async function onSaveEdit() {
-    const input = document.getElementById('inputOptId') as HTMLInputElement
-    if (!input.value) return
-    await updateAptOpt({ optId: editObj.optId, opt: input.value, path })
-
-    setEditObj({ optVal: '', optId: 0, isEditing: false })
-    clearInput()
-  }
-
-  async function onDelete(id) {
-    await deleteAptOpt({ optId: id, path })
-    setEditObj({ optVal: '', optId: 0, isEditing: false })
-    clearInput()
-  }
-
-  function onCancelEdit() {
-    setEditObj({ optVal: '', optId: 0, isEditing: false })
-    clearInput()
-  }
-
-  function clearInput() {
-    ;(document.getElementById('inputOptId') as HTMLInputElement).value = ''
+  async function onDelete(optVal) {
+    if (!confirm('האם אתה בטוח שברצונך למחוק את האפשרות?')) return
+    await deleteAptOpt({ optVal, path, prjId })
   }
 
   return (
     <div className='pop px-4 py-6 min-w-80 max-w-[90vw] max-h-[80svh] scrollbar-thin' popover='auto' id='aptOptPop'>
       <section className='mb-4'>
-        <h2 className='text-lg font-bold mb-2'>{editObj.isEditing ? `ערוך אפשרות "${editObj.optVal}"` : 'צור אפשרות חדשה'}</h2>
+        <h2 className='text-lg font-bold mb-2'>{'צור אפשרות חדשה'}</h2>
         <div>
           <div className='flex gap-3'>
-            <Input
-              name='option'
-              id='inputOptId'
-              defaultValue={editObj.optVal}
-              key={editObj.optId}
-              placeholder='הכנס אפשרות'
-              required={false}
-            />
-            {editObj.isEditing ? (
-              <>
-                <Btn clr='icon' type='button' icon='xmark' onClick={onCancelEdit} />
-                <Btn clr='icon' type='button' icon='check' onClick={onSaveEdit} />
-              </>
-            ) : (
-              <Btn clr='icon' type='button' icon='plus' onClick={onAdd} />
-            )}
+            <Input name='option' id='inputOptId' placeholder='הכנס אפשרות' required={false} />
+
+            <Btn clr='icon' type='button' icon='plus' onClick={onAdd} />
           </div>
         </div>
       </section>
@@ -74,14 +40,9 @@ export default function AptOpt({ aptOpt }) {
           .reverse()
           .map((opt, index) => (
             <li key={index} className='flex items-center px-2 py-3 border-b last:border-0'>
-              <span className='flex-grow '>{opt}</span>
+              <span className='flex-grow'>{opt}</span>
               <div className='flex'>
-                <button type='button' onClick={() => setEditObj({ optVal: opt.option, optId: opt.id, isEditing: true })}>
-                  ערוך
-                </button>
-                <button type='button' onClick={() => onDelete(opt.id)}>
-                  מחק
-                </button>
+                <Btn clr='icon' type='button' icon='trash' onClick={() => onDelete(opt)} />
               </div>
             </li>
           ))}

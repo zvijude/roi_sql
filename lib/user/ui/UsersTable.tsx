@@ -17,8 +17,7 @@ export default function UsersTable({ users, kablans }) {
     if (!confirm(`האם אתה בטוח שברצונך למחוק את המשתמש ${user.name}?`)) return
 
     toast('loading')
-    const res = await deleteUser(user.id, user.role, prjId)
-    if (res.failed) return toast('error', res.msg)
+    await deleteUser(user.id, user.role, prjId)
     toast('success', `המשתמש ${user.name} נמחק בהצלחה`)
   }
 
@@ -40,6 +39,7 @@ export default function UsersTable({ users, kablans }) {
                     <Btn
                       clr='icon'
                       icon='pen'
+                      type='button'
                       disabled={u.role === Role.ADMIN}
                       onClick={() => setEditUser({ ...u })}
                       popoverTarget='editUserForm'
@@ -47,6 +47,7 @@ export default function UsersTable({ users, kablans }) {
                     <Btn
                       clr='icon'
                       icon='trash'
+                      type='button'
                       onClick={() => onDelete(u)}
                       disabled={u.role === Role.ADMIN}
                       popoverTarget='editUserForm'

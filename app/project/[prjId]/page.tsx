@@ -10,9 +10,12 @@ export default async function Page({ params, searchParams }) {
   prjId = Number(prjId)
 
   if (query) query = JSON.parse(query)
+  // Periodic Table
   const qrsData = await getPeriodic(prjId, query)
+  // filter
   const fields = await getFields(prjId)
   const parts = await getPartsByPrj(prjId)
+  // chart
   const qrsByStatus = await getPeriodicChartData(prjId)
 
   return (

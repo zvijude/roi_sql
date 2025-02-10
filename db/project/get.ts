@@ -1,39 +1,27 @@
 'use server'
 
 import { getUser } from '@/auth/authFuncs'
-import { db } from '../db'
+import { db } from '@/sql'
 
 export async function getUserProjects() {
   const user = await getUser()
-
-  // console.log('user#', user)
-
-  const projects = await db.project.findMany({
-    where: { users: { some: { id: user?.id } } },
-    select: { users: { select: { id: true, name: true } }, id: true, name: true },
-  })
-
-  console.log('projects#', projects)
-
-  return projects
+  const res = await db('_prj_user')
+    .join('Project', { '_prj_user.prjId': 'Project.id' })
+    .select('Project.id', 'Project.name')
+    .where({ userId: user?.id })
+  return res
 }
 
 export async function getProjectName(prjId) {
   prjId = Number(prjId)
-  const res = await db.project.findUnique({
-    where: { id: Number(prjId) },
-    select: { name: true, printQntt: true },
-  })
-
-  return res?.name
+  const res = await db('Project').where({ id: prjId }).select('name').first()
+  return res.name
 }
 
 export async function getPrjPrintQntt(prjId) {
   prjId = Number(prjId)
-  const res = await db.project.findUnique({
-    where: { id: Number(prjId) },
-    select: { printQntt: true },
-  })
+  //TODO - check print
 
-  return res?.printQntt
+  const res = await db('Project').where({ id: prjId }).select('printQntt').first()
+  return res.printQntt
 }

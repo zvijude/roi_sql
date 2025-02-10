@@ -1,7 +1,7 @@
 'use server'
 
 import { getUser } from '@/auth/authFuncs'
-import { db } from '@/db/db'
+import { db } from '@/sql'
 
 export async function addScan({ prjId, qrNum }) {
   prjId = Number(prjId)
@@ -9,16 +9,10 @@ export async function addScan({ prjId, qrNum }) {
 
   const user = await getUser()
   const kablanId = user?.kablanId
-  return await db.scan
-    .create({
-      data: {
-        prjId,
-        qrNum,
-        userId: user!.id,
-        kablanId,
-      },
-    })
-    .catch((e) => {
-      console.log('QR not exist \naddScan error: ', e)
-    })
+  await db('Scan').insert({
+    prjId,
+    qrNum,
+    userId: user!.id,
+    kablanId,
+  })
 }
