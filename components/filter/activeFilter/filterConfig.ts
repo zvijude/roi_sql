@@ -1,4 +1,4 @@
-import { grantedDic, roleDic } from '@/db/types'
+import { eventDic, roleDic } from '@/db/types'
 import { formatDate } from 'zvijude/dates/funcs'
 
 export const filterConfig = [
@@ -30,7 +30,7 @@ export const filterConfig = [
   {
     key: 'granted',
     title: 'סטטוס',
-    formatter: (value) => grantedDic[value],
+    formatter: (value) => eventDic[value],
   },
   {
     key: 'qr.qrNum',

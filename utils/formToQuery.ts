@@ -1,11 +1,11 @@
-import { grantedDicLbl, roleDicLbl } from '@/db/types'
+import { roleDicLbl } from '@/db/types'
 import { ProbStatus, QrStatus } from '@prisma/client'
 
 export function formToQuery(data: any) {
   const query = { qr: {} } as any
 
   if (data.solved) query.status = data.solved === 'פתור' ? ProbStatus.SOLVED : ProbStatus.WAITING
-  if (data.granted) query.granted = grantedDicLbl[data.granted]
+  // if (data.granted) query.granted = grantedDicLbl[data.granted]
   if (data.role) query.mainTask = { for: roleDicLbl[data.role] }
   if (data.floor) query.qr.floor = Number(data.floor)
   if (data.aptNum) query.qr.aptNum = Number(data.aptNum)

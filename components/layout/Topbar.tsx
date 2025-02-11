@@ -1,9 +1,9 @@
-import { UserCookieType } from '@/auth/authFuncs'
+// import { UserCookieType } from '@/auth/authFuncs'
 import { gradTxt, roleDic } from '@/db/types'
 import Link from 'next/link'
 import Topbar from 'zvijude/nav/Topbar'
 
-export default function TopbarUi({ user, prjId }: { user: UserCookieType | null; prjId: string }) {
+export default function TopbarUi({ user, prjId }: { user, prjId: string }) {
   if (!user) return null
 
   return (
