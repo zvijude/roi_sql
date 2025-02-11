@@ -7,8 +7,8 @@ import { getAllAptOpt } from '@/lib/aptOpt/db/get'
 import { QrTask } from '@/lib/qr/ui/QrTask'
 import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
-import { getAllMissOpt, getMissActive } from '@/lib/missOpt/db/get'
-import { AddNewMiss } from '@/lib/missOpt/ui/AddNewMiss'
+import { getAllMissOpt, getMissActive } from '@/lib/missing/db/get'
+import { AddNewMiss } from '@/lib/missing/ui/AddNewMiss'
 
 export default async function Page({ params }) {
   let { prjId, qrNum } = await params

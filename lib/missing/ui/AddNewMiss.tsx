@@ -65,10 +65,3 @@ export function AddNewMiss({ missOpt, qrId, active }) {
     </>
   )
 }
-
-//* Missing
-// qrId
-// item (missing Item)
-// qntt (number)
-// isActive (Boolean)
-//  */
