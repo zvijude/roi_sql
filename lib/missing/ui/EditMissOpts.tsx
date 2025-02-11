@@ -4,17 +4,21 @@ import { useParams, usePathname } from 'next/navigation'
 import { Input } from 'zvijude/form'
 import { Btn } from 'zvijude/btns'
 import { addMissOpt, deleteMissOpt } from '../db/set'
+import { createRef } from 'react'
 
 export default function EditMissOpts({ missOpt, editSetStats }) {
   const path = usePathname()
   const prjId = useParams().prjId
+  const inputRef = createRef<HTMLInputElement>()
 
   async function onAdd() {
-    const input = document.getElementById('inputOptId') as HTMLInputElement
-    if (!input.value) return
-    await addMissOpt(prjId, input.value)
+    if (!inputRef.current) return
 
-    input.value = ''
+    const inputValue = inputRef.current.value.trim()
+    if (!inputValue) return
+
+    await addMissOpt(prjId, inputValue)
+    inputRef.current.value = ''
   }
 
   async function onDelete(optVal) {
@@ -31,7 +35,7 @@ export default function EditMissOpts({ missOpt, editSetStats }) {
         </div>
         <div>
           <div className='flex justify-between items-center m-2'>
-            <Input name='option' id='inputOptId' placeholder='הכנס אפשרות' required={false} />
+            <Input ref={inputRef} name='option' id='inputOptId' placeholder='הכנס אפשרות' />
             <Btn clr='icon' type='button' icon='plus' onClick={onAdd} />
           </div>
         </div>

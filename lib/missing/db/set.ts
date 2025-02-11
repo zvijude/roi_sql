@@ -13,7 +13,7 @@ export async function addMiss({ qrId, item, qntt }) {
 
 export async function missCompleted({ id }) {
   const user = await getUser()
-  await db('missing').where({ id }).update({ isActive: false, updatedById: user.id })
+  await db('missing').where({ id }).update({ isActive: false, resById: user.id, resAt: new Date() })
   revalidatePath('/qr')
 }
 
@@ -31,6 +31,8 @@ export async function deleteMissOpt({ optVal, path, prjId }) {
 
 export async function addMissOpt(prjId, option) {
   prjId = Number(prjId)
+  console.log('prjId', prjId)
+  console.log('wdwdwoption', option)
 
   const project = await db('Project').where({ id: prjId }).select('missOpt').first()
   const updatedAptOpt = [...(project.missOpt || []), option]
