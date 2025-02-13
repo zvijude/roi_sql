@@ -22,32 +22,34 @@ const bgColors = {
 
 export default function QrBox({ qr, prjId }) {
   return (
-    <div className="relative group inline-block">
+    <div className='relative group inline-block'>
       <button
         onClick={() => popWindow(`/pops/project/${prjId}/qr/${qr.qrNum}`)}
         className={`${
           bgColors[qr.status]
-        } size-[64px] mobile:size-[52px] text-sm text-center cursor-pointer hover:scale-125 shadow-1 rounded-md`}>
-        <div className="mobile:hidden justify-self-center">
+        } p-2.5 mobile:size-[52px] text-sm text-center cursor-pointer hover:scale-125 transition-all shadow-2 rounded-md`}
+      >
+        <div className='mobile:hidden justify-self-center'>
           {qr.status !== QrStatus.FINISH ? (
             <p>
               שלב {qr.totalTasksCompleted + 1}/{qr.totalTasksCount}
             </p>
           ) : (
-            <Icon name="check" className="size-5" />
+            <Icon name='check' className='size-5' />
           )}
         </div>
-        <p className="px-1">QR {qr.qrNum}</p>
+        <p className='px-1'>QR {qr.qrNum}</p>
       </button>
       <div
         // hover text
-        className="
+        className='
          absolute -top-8 left-1/2 -translate-x-1/2
          whitespace-nowrap
        bg-gray-800 text-white
          text-xs px-3 py-1
          rounded-md opacity-0
-         group-hover:opacity-100 pointer-events-none">
+         group-hover:opacity-100 pointer-events-none'
+      >
         {qrStatusDic[qr.status]}
       </div>
     </div>

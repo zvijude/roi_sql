@@ -17,7 +17,7 @@ export default function TaskTable({ data }) {
     { key: 'create_name', label: 'נוצר ע"י' },
     { key: 'createdAt', label: 'נוצר בתאריך', format: 'formatDateTime' },
     { key: 'res_name', label: 'אושר ע"י' },
-    { key: 'resAt', label: 'אושר בתאריך' , format: 'formatDateTime' },
+    { key: 'resAt', label: 'אושר בתאריך', format: 'formatDateTime' },
     { key: 'title', label: 'משימה' },
     { key: 'desc', label: 'תיאור המשימה' },
     { key: 'media', label: 'תמונות', format: 'formatMedia' },
@@ -52,9 +52,14 @@ export default function TaskTable({ data }) {
     setState,
   } as ConfigT
 
+  // bg-green-900 text-green-50
+  // bg-slate-700 text-white
+
   return (
     <>
-      <TableTopbar>
+      <TableTopbar className=''>
+        {/* <h2 className='text-2xl rounded-md font-semibold self-start leading-none mx-1'>משימות</h2> */}
+
         <Search config={config} />
       </TableTopbar>
       <Table config={config} tblCls='rounded-t-none' />

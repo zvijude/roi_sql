@@ -13,7 +13,7 @@ export default async function Events({ params }) {
 
   return (
     <>
-      {/* <StatsEvents /> */}
+      <StatsEvents />
       <div className='flex mb-8'>
         {Object.entries(eventsStats).map(([key, value]) => {
           if (key === 'prjId') return null

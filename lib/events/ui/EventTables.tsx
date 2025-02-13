@@ -5,9 +5,8 @@ import TaskTable from '@/lib/task/ui/TaskTable'
 
 export default function EventTables({ tasks, probs }) {
   return (
-    <div className='grid w-fit space-y-14 mx-auto'>
+    <div className='grid gap-8'>
       <div>
-        <h2 className='text-2xl font-semibold'>משימות</h2>
         <TaskTable data={tasks} key={Math.random()} />
       </div>
       <div>
