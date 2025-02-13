@@ -8,7 +8,6 @@ import { toast } from 'zvijude/pop'
 import Icon from 'zvijude/icon'
 import { useParams } from 'next/navigation'
 import { addProb } from '@/lib/prob/db/set'
-import { ProbType } from '@prisma/client'
 
 export default function BgtReqForm({ taskId, qrId }) {
   const [media, setMedia] = useState<string[]>([])
@@ -23,7 +22,7 @@ export default function BgtReqForm({ taskId, qrId }) {
     toast('loading', 'שולח בקשת חריגים...')
     const data = getFormData(e)
     data.media = media
-    await addProb({ type: ProbType.BGT_REQ, taskId, qrId, prjId, ...data })
+    await addProb({ type: 'BGT_REQ', taskId, qrId, prjId, ...data })
     toast('success', 'הבקשה נשלחה בהצלחה')
 
     setMedia([])

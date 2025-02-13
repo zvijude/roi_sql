@@ -3,7 +3,7 @@ import { formatCurrency } from 'zvijude/funcs'
 
 export default function StatsUi({ lbl, stat, onClick, className }: Props) {
   lbl = lbl.replaceAll('-', ' ')
-  stat = lbl.startsWith('סכום') ? formatCurrency(stat) : stat
+  // stat = lbl.startsWith('סכום') ? formatCurrency(stat) : stat
 
   return (
     <div

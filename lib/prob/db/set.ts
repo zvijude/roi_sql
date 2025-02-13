@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { db } from '@/sql'
 import { getUser } from '@/auth/authFuncs'
-import { ProbStatus, ProbType, QrStatus } from '@prisma/client'
+import { ProbStatus, QrStatus } from '@prisma/client'
 import { updateQrStatus } from '@/lib/qr/db/set'
 
 // create prob
@@ -22,7 +22,7 @@ export async function addProb(data) {
     createdById: user?.id,
   })
 
-  await updateQrStatus(qrId, type === ProbType.BGT_REQ ? QrStatus.ON_BGT_REQ : QrStatus.ON_PROB)
+  await updateQrStatus(qrId, type === 'BGT_REQ' ? QrStatus.ON_BGT_REQ : QrStatus.ON_PROB)
   revalidatePath('/qr')
 }
 

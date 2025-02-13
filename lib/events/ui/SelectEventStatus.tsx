@@ -1,12 +1,12 @@
 'use client'
 
-import { EventType, isManager } from "@/db/types"
-import { updateProbStatus } from "@/lib/prob/db/set"
-import { useUser } from "@/utils/userCtx"
-import { ProbStatus } from "@prisma/client"
-import { Btn } from "zvijude/btns"
-import { SelectObj } from "zvijude/form"
-import { toast } from "zvijude/pop"
+import { isManager } from '@/db/types'
+import { updateProbStatus } from '@/lib/prob/db/set'
+import { useUser } from '@/utils/userCtx'
+import { ProbStatus } from '@prisma/client'
+import { Btn } from 'zvijude/btns'
+import { SelectObj } from 'zvijude/form'
+import { toast } from 'zvijude/pop'
 
 export default function SelectEventStatus({ item }) {
   const { user } = useUser() as any
@@ -28,13 +28,13 @@ export default function SelectEventStatus({ item }) {
     <div>
       {item.status === 'WAITING' && isMng && (
         <div>
-          {item.type === "PROB" && <Btn lbl='פתור בעיה' onClick={onProb} />}
-          {item.type === "BGT_REQ" && (
+          {item.type === 'PROB' && <Btn lbl='פתור בעיה' onClick={onProb} />}
+          {item.type === 'BGT_REQ' && (
             <SelectObj
               placeholder='עדכן סטטוס'
               options={[
-                { label: 'אישור', value: ProbStatus.GRANTED },
-                { label: 'דחה', value: ProbStatus.DENIED },
+                { label: 'אישור', value: 'GRANTED' },
+                { label: 'דחה', value: 'DENIED' },
               ]}
               onChange={onBgt}
             />

@@ -61,13 +61,13 @@ export default function EventPop({ item, type }) {
   )
 }
 
-const probStatusDic = {
-  [ProbStatus.WAITING]: 'ממתינה לפתרון',
-  [ProbStatus.SOLVED]: 'פתורה',
-  [ProbStatus.CANCELED]: 'בוטלה',
-  [ProbStatus.DENIED]: 'נדחתה',
-  [ProbStatus.GRANTED]: 'אושרה',
-}
+// const probStatusDic = {
+//   [ProbStatus.WAITING]: 'ממתינה לפתרון',
+//   [ProbStatus.SOLVED]: 'פתורה',
+//   [ProbStatus.CANCELED]: 'בוטלה',
+//   [ProbStatus.DENIED]: 'נדחתה',
+//   [ProbStatus.GRANTED]: 'אושרה',
+// }
 
 const titleIconDic = {
   [EventType.PROB]: { title: 'בעית ביצוע', icon: 'triangle-exclamation' },

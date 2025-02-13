@@ -8,7 +8,6 @@ import { getFormData } from 'zvijude/form/funcs'
 import { toast } from 'zvijude/pop'
 import Icon from 'zvijude/icon'
 import { useParams } from 'next/navigation'
-import { ProbType } from '@prisma/client'
 
 export default function ProblemForm({ taskId, qrId }) {
   const [media, setMedia] = useState<string[]>([])
@@ -23,7 +22,7 @@ export default function ProblemForm({ taskId, qrId }) {
     const data = getFormData(e)
     data.media = media
 
-    await addProb({ ...data, type: ProbType.PROB, taskId, qrId, prjId })
+    await addProb({ ...data, type: 'PROB', taskId, qrId, prjId })
     toast('success', 'הבעיה נשלחה בהצלחה')
 
     setMedia([])
