@@ -16,18 +16,18 @@ BEGIN
 
         -- משימות
         json_build_array(
-            json_build_object('name', 'משימות בהמתנה', 'value', COALESCE(COUNT(*) FILTER (WHERE t.status = 'WAITING'), 0)),
             json_build_object('name', 'משימות שבוצעו', 'value', COALESCE(COUNT(*) FILTER (WHERE t.status = 'COMPLETED'), 0)),
-            json_build_object('name', 'משימות שדולגו', 'value', COALESCE(COUNT(*) FILTER (WHERE t.status = 'SKIPPED'), 0)),
+            json_build_object('name', 'משימות בהמתנה', 'value', COALESCE(COUNT(*) FILTER (WHERE t.status = 'WAITING'), 0), 'sum', COALESCE(SUM(mt.price) FILTER (WHERE t.status = 'WAITING'), 0)),
+            json_build_object('name', 'משימות שדולגו', 'value', COALESCE(COUNT(*) FILTER (WHERE t.status = 'SKIPPED'), 0), 'sum', COALESCE(SUM(mt.price) FILTER (WHERE t.status = 'SKIPPED'), 0)),
             json_build_object('name', 'סכום משימות שבוצעו', 'value', COALESCE(SUM(mt.price) FILTER (WHERE t.status = 'COMPLETED'), 0))
         ) AS "tasks",
 
         -- חריגים
         json_build_array(
-            json_build_object('name', 'חריגים בהמתנה', 'value', COALESCE(COUNT(*) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'WAITING'), 0)),
             json_build_object('name', 'חריגים שאושרו', 'value', COALESCE(COUNT(*) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'GRANTED'), 0)),
-            json_build_object('name', 'חריגים שנדחו', 'value', COALESCE(COUNT(*) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'DENIED'), 0)),
-            json_build_object('name', 'חריגים שבוטלו', 'value', COALESCE(COUNT(*) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'CANCELED'), 0)),
+            json_build_object('name', 'חריגים בהמתנה', 'value', COALESCE(COUNT(*) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'WAITING'), 0), 'sum', COALESCE(SUM(p.price) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'WAITING'), 0)),
+            json_build_object('name', 'חריגים שנדחו', 'value', COALESCE(COUNT(*) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'DENIED'), 0), 'sum', COALESCE(SUM(p.price) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'DENIED'), 0)),
+            json_build_object('name', 'חריגים שבוטלו', 'value', COALESCE(COUNT(*) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'CANCELED'), 0), 'sum', COALESCE(SUM(p.price) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'CANCELED'), 0)),
             json_build_object('name', 'סכום חריגים שאושרו', 'value', COALESCE(SUM(p.price) FILTER (WHERE p.type = 'BGT_REQ' AND p.status = 'GRANTED'), 0))
         ) AS "bgtReqs",
 

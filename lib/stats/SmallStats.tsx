@@ -3,14 +3,14 @@
 import { PieChart, Pie, Cell } from 'recharts'
 import { formatCurrency } from 'zvijude/funcs'
 
-// const COLORS = ['#46DB9C', '#FE6F42', '#2042F5', '#7092E7', '#6B4BEC']
+// const COLORS = ['#FE6F42', '#46DB9C', '#2042F5', '#7092E7', '#6B4BEC']
 
 const COLORS = [
-  '#20D1C2', // Teal
-  '#F98B71', // Soft coral
-  '#78B5FF', // Light blue
-  '#1E4DB4', // Deep blue
-  '#0E1B3D', // Dark navy
+  '#D34C3F', // Deep warm red
+  '#3A9B78', // Darker teal green
+  '#405DD4', // Rich deep blue
+  '#C78A2A', // Warm bronze gold
+  '#783DC2', // Dark violet
 ]
 
 // const COLORS = [
@@ -27,7 +27,7 @@ type Props = {
   title: string
 }
 
-export default function StatsEvents({ data, sum, title }: Props) {
+export default function SmallStats({ data, sum, title }: Props) {
   return (
     <main className={`bg-white py-4 px-5 mobile:py-3 rounded-md shadow-1`}>
       <section className='flex justify-between items-start'>
@@ -38,22 +38,21 @@ export default function StatsEvents({ data, sum, title }: Props) {
             <p className='text-2xl mobile:text-xl'>{formatCurrency(sum.value)}</p>
           </div>
         ) : (
-          <div className='h-[61px]' />
+          <div className='h-[61px' />
         )}
       </section>
 
       <section className='flex mt-4 gap-9 flex-nowrap'>
         <TaskPieChart data={data} />
-        <div className='grid gap-1 mt-1'>
+        <div className='grid gap-2 mt-1'>
           {data.map((el, i) => {
             return (
               <section className='flex gap-4 flex-nowrap'>
                 <div className='size-3 rounded-full' style={{ background: COLORS[i] }} />
-                <div className='flex gap-x-4 gap-y-1 justify-between'>
-                  <p className='font-semibold  leading-none'>{el.name}</p>
-                  <p className='text-lg'>{el.value}</p>
-                  {el.sum ? <p className='text-slate-700'>{formatCurrency(el.sum)}</p> : null}
-                </div>
+                <span className='flex gap-x-4 gap-y-1'>
+                  <p className=' leading-none'>{el.name}</p>
+                  <p className='font-semibold'>{1357}</p>
+                </span>
               </section>
             )
           })}
@@ -64,7 +63,7 @@ export default function StatsEvents({ data, sum, title }: Props) {
 }
 
 function TaskPieChart({ data }) {
-  const radius = 60
+  const radius = 50
 
   return (
     <PieChart width={radius * 2} height={radius * 2}>
