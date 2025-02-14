@@ -27,7 +27,7 @@ type Props = {
   title: string
 }
 
-export default function StatsEvents({ data, sum, title }: Props) {
+export default function StatsBox({ data, sum, title }: Props) {
   return (
     <main className={`bg-white py-4 px-5 mobile:py-3 rounded-md shadow-1`}>
       <section className='flex justify-between items-start'>

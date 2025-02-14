@@ -1,7 +1,7 @@
 import { getEventStats, getTasks } from '@/lib/events/db/get'
 import EventTables from '@/lib/events/ui/EventTables'
 import { getProbs } from '@/lib/prob/db/get'
-import StatsEvents from '@/lib/stats'
+import StatsEvents from '@/components/stats/StatsBox'
 import StatsUi from '@/ui/StatsUi'
 
 export default async function Events({ params }) {

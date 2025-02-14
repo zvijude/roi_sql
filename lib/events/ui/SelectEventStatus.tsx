@@ -3,7 +3,6 @@
 import { isManager } from '@/db/types'
 import { updateProbStatus } from '@/lib/prob/db/set'
 import { useUser } from '@/utils/userCtx'
-import { ProbStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
 import { SelectObj } from 'zvijude/form'
 import { toast } from 'zvijude/pop'
@@ -14,14 +13,14 @@ export default function SelectEventStatus({ item }) {
   function onBgt(e) {
     if (!confirm('האם אתה בטוח שברצונך לעדכן סטטוס?')) return
     toast('loading', `מעדכן סטטוס`)
-    updateProbStatus(item.id, e.target.value as ProbStatus)
+    updateProbStatus(item.id, e.target.value)
     toast('success', `סטטוס עודכן בהצלחה`)
   }
 
   function onProb() {
     if (!confirm('האם אתה בטוח שברצונך לסמן את הבעיה כפתורה?')) return
     toast('loading')
-    updateProbStatus(item.id, ProbStatus.SOLVED)
+    updateProbStatus(item.id, 'SOLVED')
     toast('success', `בעיה עודכנה בהצלחה`)
   }
   return (

@@ -17,8 +17,9 @@ const config: Config = {
         desktop: { min: '1000px' },
       },
       colors: {
-        solid: 'rgb(29 78 216)',
+        solid: '#1E4DB4',
         soft: 'rgb(219 234 254)',
+        sec: '#f5866d', // '#F98B71',
       },
       boxShadow,
       size: {

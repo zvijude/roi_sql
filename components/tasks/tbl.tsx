@@ -4,8 +4,8 @@ import { useState } from 'react'
 import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
-import EventChip from '@/lib/events/ui/EventChip'
 import { Btn } from 'zvijude/btns'
+import EventChip from '../global/EventChip'
 
 export default function TaskTable({ data }) {
   const headers = [
