@@ -31,7 +31,7 @@ export default function StatsEvents({ data, sum, title }: Props) {
   return (
     <main className={`bg-white py-4 px-5 mobile:py-3 rounded-md shadow-1`}>
       <section className='flex justify-between items-start'>
-        <p className='font-bold text-lg'>{title}</p>
+        <p className='font-bold text-xl'>{title}</p>
         {sum ? (
           <div>
             <p className=''>{sum.name}</p>
