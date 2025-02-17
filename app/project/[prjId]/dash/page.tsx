@@ -10,8 +10,8 @@ export default async function Events({ params }) {
 
   return (
     <>
-      <Filter className='mb-8' prjId={prjId} />
-      <EventsStats prjId={prjId} />
+      {/* <Filter className='mb-8' prjId={prjId} />
+      <EventsStats prjId={prjId} /> */}
       <EventsNav />
       <TaskTable data={tasksTbl} key={Math.random()} />
     </>
