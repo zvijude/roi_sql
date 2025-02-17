@@ -1,0 +1,12 @@
+CREATE TABLE measure (
+  "id" SERIAL PRIMARY KEY,
+  "qrId" INT NOT NULL REFERENCES "Qr" ("id") ON DELETE CASCADE,
+  "item" TEXT NOT NULL,
+  "width" INT,
+  "height" INT,
+  "depth" INT,
+  "media" TEXT,
+  "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  "createdById" INT REFERENCES "User"("id") ON DELETE SET NULL
+);

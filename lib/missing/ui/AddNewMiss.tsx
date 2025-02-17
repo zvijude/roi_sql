@@ -26,7 +26,7 @@ export function AddNewMiss({ missOpt, qrId, active }) {
 
   return (
     <>
-      <Btn lbl='הוסף חוסרים' clr='text' popoverTarget='missOptPop' className='my-2 w-full' />
+      <Btn lbl='הוסף חוסרים' clr='text' popoverTarget='missOptPop' className='my-2 w-3/4 mx-auto' />
       {active.length > 0 && (
         <div className='border bg-white rounded-md m-1 w-3/4 mx-auto'>
           <h3 className='font-semibold text-center'>

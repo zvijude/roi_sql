@@ -9,6 +9,8 @@ import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
 import { getAllMissOpt, getMissActive } from '@/lib/missing/db/get'
 import { AddNewMiss } from '@/lib/missing/ui/AddNewMiss'
+import { getAllMeasureOpt, getMeasureByQr } from '@/lib/measure/db/get'
+import { AddNewMeasure } from '@/lib/measure/ui/AddNewMeasure'
 
 export default async function Page({ params }) {
   let { prjId, qrNum } = await params
@@ -22,6 +24,7 @@ export default async function Page({ params }) {
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
   const missOpt = await getAllMissOpt(prjId)
+  const measureOpt = await getAllMeasureOpt(prjId)
 
   // Case 1: QR not initialized
   if (!qrData) {
@@ -35,8 +38,16 @@ export default async function Page({ params }) {
   }
 
   const missActive = await getMissActive(qrData.QrId)
+  const measures = await getMeasureByQr(qrData.QrId)
+
   // Case 2: No Task in QR, page חוסרים ומידות
-  if (qrData.totalTasksCount === 0) return <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
+  if (qrData.totalTasksCount === 0)
+    return (
+      <div>
+        <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
+        <AddNewMeasure measureOpt={measureOpt} qrId={qrData.QrId} measures={measures} />
+      </div>
+    )
 
   // Case 3: All tasks completed
   if (qrData.status === QrStatus.FINISH) {
@@ -45,6 +56,7 @@ export default async function Page({ params }) {
         <p>כל המשימות של ברקוד מספר {qrNum} הושלמו</p>
         <Btn lbl='היסטורית QR' href={`/pops/project/${prjId}/qr/${qrNum}`} />
         <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
+        <AddNewMeasure measureOpt={measureOpt} qrId={qrData.QrId} measures={measures} />
       </div>
     )
   }
@@ -55,6 +67,7 @@ export default async function Page({ params }) {
     <div>
       <QrTask user={user} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
       <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
+      <AddNewMeasure measureOpt={measureOpt} qrId={qrData.QrId} measures={measures} />
     </div>
   )
 }
