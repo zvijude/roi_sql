@@ -8,6 +8,7 @@ import TableTopbar from 'zvijude/table/TableTopbar'
 export default function MeasureTable({ data }) {
   const headers = [
     { key: 'qrNum', label: 'QR' },
+    { key: 'item', label: 'פריט מידה' },
     { key: 'loc', label: 'מיקום' },
     { key: 'part_name', label: 'פרט' },
     { key: 'width', label: 'רוחב', format: 'formatMeasure' },
