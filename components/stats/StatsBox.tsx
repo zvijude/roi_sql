@@ -47,9 +47,9 @@ export default function StatsBox({ data, sum, title }: Props) {
         <div className='grid gap-1 mt-1'>
           {data.map((el, i) => {
             return (
-              <section className='flex gap-4 flex-nowrap'>
+              <section className='flex gap-4 flex-nowrap' key={i}>
                 <div className='size-3 rounded-full' style={{ background: COLORS[i] }} />
-                <div className='flex gap-x-4 gap-y-1 justify-between'>
+                <div className='flex gap-x-3 gap-y-1 justify-between'>
                   <p className='font-semibold  leading-none'>{el.name}</p>
                   <p className='text-lg'>{el.value}</p>
                   {el.sum ? <p className='text-slate-700'>{formatCurrency(el.sum)}</p> : null}

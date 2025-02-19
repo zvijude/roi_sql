@@ -1,13 +1,15 @@
 import Probs from '@/components/probs'
-import EventsNav from '@/components/TblNavs/EventsNav'
+import ProbsNav from '@/components/probs/ProbsNav'
 
-export default async function Problems({ params }) {
+export default async function Problems({ params, searchParams }) {
   let { prjId } = await params
+  let { filter } = await searchParams
+  filter = filter ? JSON.parse(filter) : {}
 
   return (
-    <>
-      <EventsNav />
-      <Probs prjId={prjId} />
-    </>
+    <div className='grid'>
+      <ProbsNav filter={filter} />
+      <Probs prjId={prjId} filter={filter} />
+    </div>
   )
 }

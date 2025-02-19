@@ -9,7 +9,7 @@ export default async function StatsDash({ prjId }) {
   const bgtReqsSum = eventsStats.bgtReqs.pop()
 
   return (
-    <div className='flex gap-4 items-start flex-nowrap *:h-[232px]'>
+    <div className='flex gap-4 items-start flex-nowrap *:min-h-[232px]'>
       <StatsBox data={eventsStats.tasks} sum={taskSum} title='משימות' />
       <StatsBox data={eventsStats.bgtReqs} sum={bgtReqsSum} title='חריגים' />
       <StatsBox data={eventsStats.probs} title='בעיות ביצוע' />
