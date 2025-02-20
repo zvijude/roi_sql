@@ -16,6 +16,12 @@ html {
   scroll-behavior: smooth;
 }
 
+.grid_fill {
+  --size: 200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--size), 100%), 1fr));
+}
+
 body {
   @apply text-base text-slate-900 bg-slate-100;
   /* background-color: #ddd; */
