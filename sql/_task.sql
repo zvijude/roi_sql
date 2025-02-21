@@ -1,3 +1,5 @@
+-- DROP VIEW _tasks 
+
 CREATE VIEW _tasks AS 
 SELECT 
     t.id,
@@ -30,7 +32,9 @@ SELECT
 
     -- User Details
     u_res."name" AS res_name,
-    u_create."name" AS create_name
+    u_create."name" AS create_name,
+    u_create.id AS created_by_id
+
     
 FROM "Task" t
 JOIN "Qr" q ON t."qrId" = q.id

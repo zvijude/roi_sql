@@ -9,6 +9,7 @@ export default async function Probs({ prjId, filter }) {
   if (date) query.whereRaw(dateFilters[date])
 
   const tblData = await query
+  console.log('tblData: ', tblData)
 
   return <ProbTable data={tblData} key={Math.random()} />
 }

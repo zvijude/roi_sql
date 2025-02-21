@@ -31,7 +31,8 @@ SELECT
 
     -- User Details
     u_res."name" AS res_name,
-    u_create."name" AS create_name
+    u_create."name" AS create_name,
+    u_create.id AS created_by_id
     
 FROM "Prob" p
 LEFT JOIN "Task" t ON p."taskId" = t.id

@@ -13,51 +13,35 @@ type Props = {
   className?: string
 }
 
-export default function SideNav({
-  topLinks,
-  bottomLinks,
-  open = false,
-  logout,
-  children,
-  className,
-}: Props) {
-  let cls =
-    'max-w-[50px] z-[9999] ps-2 pe-8 overflow-hidden hover:max-w-60 hover:shadow-8 transition-all duration-300'
+export default function SideNav({ topLinks, bottomLinks, open = false, logout, children, className }: Props) {
+  let cls = 'max-w-[50px] z-[9999] ps-2 pe-8 overflow-hidden hover:max-w-60 hover:shadow-8 transition-all duration-300'
   if (open) cls = 'ps-2 pe-6 max-w-60'
 
   return (
     <>
       {/* Desktop Nav */}
-      <div className="mobile:hidden">
+      <div className='mobile:hidden'>
         <nav
-          className={`overflow-y-auto hide-scrollbar hover:scrollbar-thin py-4 shadow-2 bg-white h-screen fixed top-0 right-0 ${cls} ${className}`}>
-          <div className="flex flex-nowrap items-start flex-col justify-between h-full">
-            <NavUi
-              topLinks={topLinks}
-              bottomLinks={bottomLinks}
-              logout={logout}
-              children={children}
-            />
+          className={`overflow-y-auto hide-scrollbar hover:scrollbar-thin py-4 shadow-2 bg-white h-screen fixed top-0 right-0 ${cls} ${className}`}
+        >
+          <div className='flex flex-nowrap items-start flex-col justify-between h-full'>
+            <NavUi topLinks={topLinks} bottomLinks={bottomLinks} logout={logout} children={children} />
           </div>
         </nav>
       </div>
       {/* <div className='mobile:hidden' /> */}
 
       {/* Mobile Nav */}
-      <nav className="desktop:hidden">
-        <div popover="auto" id="mobile-nav" className="pop">
-          <NavUi
-            topLinks={topLinks}
-            bottomLinks={bottomLinks}
-            logout={logout}
-            children={children}
-          />
+      <nav className='desktop:hidden'>
+        <div popover='auto' id='mobile-nav' className='pop'>
+          <NavUi topLinks={topLinks} bottomLinks={bottomLinks} logout={logout} children={children} />
         </div>
 
         <button
-          className="fixed top-0 right-0 bg-white h-10 w-[50px] grid place-items-center border-e border-b"
-          popoverTarget="mobile-nav">
-          <Icon name="bars" className="size-4" type="reg" />
+          className='fixed top-0 right-0 bg-white h-10 w-[50px] grid place-items-center border-e border-b'
+          popoverTarget='mobile-nav'
+        >
+          <Icon name='bars' className='size-4' type='reg' />
         </button>
       </nav>
     </>
@@ -80,16 +64,16 @@ function NavUi({
       <div>
         {children}
 
-        <div className="grid gap-4">
+        <div className='grid gap-4'>
           {topLinks.map((link, i) => {
             return <NavLink link={link} key={i} />
           })}
         </div>
       </div>
 
-      <div className="grid gap-2 mt-4">
+      <div className='grid gap-2 mt-4'>
         {bottomLinks.map((link, i) => {
-          return <NavLink link={link} key={i} iconSize="size-4" />
+          return <NavLink link={link} key={i} iconSize='size-4' />
         })}
         {logout && <LogoutBtn logout={logout} />}
       </div>
@@ -98,22 +82,29 @@ function NavUi({
 
   function NavLink({ link, iconSize }: { link: any; iconSize?: string }) {
     const pathname = usePathname()
-    const active = pathname === link?.href
+    const { href, query, icon, flip, type } = link
+    const term = pathname.split('/')[3]
+
+    const isActive = () => {
+      if (href === pathname) return true
+      return href.includes(term)
+    }
 
     return (
       <Link
         onClick={() => document.getElementById('mobile-nav')?.hidePopover()}
-        href={{ pathname: link?.href, query: link?.query }}
-        className="flex items-center flex-nowrap gap-5">
-        <span className={`size-8 grid place-items-center rounded-xl  ${active ? 'bg-soft' : ''}`}>
+        href={{ pathname: href, query }}
+        className='flex items-center flex-nowrap gap-5'
+      >
+        <span className={`size-8 grid place-items-center rounded-xl  ${isActive() ? 'bg-soft' : ''}`}>
           <Icon
-            name={link?.icon}
-            className={`${iconSize || 'size-[18px]'} ${active ? 'bg-solid size-4' : ''}`}
-            type="sol"
-            flip={link?.flip}
+            name={icon}
+            className={`${iconSize || 'size-[18px]'} ${isActive() ? 'bg-solid size-4' : ''}`}
+            type={isActive() ? 'sol' : 'reg'}
+            flip={flip}
           />
         </span>
-        <p className={`text-nowrap font-semibold ${active ? 'text-solid' : ''}`}>{link?.title}</p>
+        <p className={`text-nowrap font-semibold ${isActive() ? 'text-solid' : ''}`}>{link?.title}</p>
       </Link>
     )
   }
@@ -121,11 +112,11 @@ function NavUi({
 
 function LogoutBtn({ logout }: { logout: () => void }) {
   return (
-    <button onClick={logout} className="flex items-center flex-nowrap gap-5">
-      <span className="size-8 grid place-items-center rounded-xl">
-        <Icon name="right-from-bracket" type="sol" className="size-4" />
+    <button onClick={logout} className='flex items-center flex-nowrap gap-5'>
+      <span className='size-8 grid place-items-center rounded-xl'>
+        <Icon name='right-from-bracket' type='sol' className='size-4' />
       </span>
-      <p className="text-nowrap font-semibold">התנתקות</p>
+      <p className='text-nowrap font-semibold'>התנתקות</p>
     </button>
   )
 }
