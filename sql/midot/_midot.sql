@@ -1,6 +1,6 @@
 
--- DROP VIEW IF EXISTS _miss;
-CREATE VIEW _measure AS
+-- DROP VIEW IF EXISTS _measure;
+CREATE VIEW _midot AS
 SELECT m.id AS "id",
     m.item AS "item",
     m.width AS "width",
