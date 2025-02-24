@@ -15,10 +15,10 @@ export default async function RootLayout({ children, params }) {
   return (
     <GlobalLayout>
       <Topbar user={user} prjId={prjId} />
-      <div className="grid grid-cols-[50px_1fr] mobile:grid-cols-1">
+      <div className='grid grid-cols-[50px_1fr] mobile:grid-cols-1'>
         <MainNav prjId={prjId} prjName={prjName} />
-        <div className="grid m-8 mobile:mx-2 mobile:my-0 overflow-x-hidden">{children}</div>
-        <div className="desktop:hidden">
+        <div className='grid m-8 mobile:mx-2 mobile:my-0 overflow-x-hidden'>{children}</div>
+        <div className='desktop:hidden'>
           <GoogleTranslate />
           <ScanQrCamera />
         </div>

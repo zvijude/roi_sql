@@ -1,6 +1,6 @@
 
 -- DROP VIEW IF EXISTS _measure;
-CREATE VIEW _midot AS
+CREATE VIEW _medidot AS
 SELECT m.id AS "id",
     m.item AS "item",
     m.width AS "width",
@@ -19,4 +19,3 @@ FROM measure m
     LEFT JOIN "User" u_create ON m."createdById" = u_create.id
 ORDER BY m."createdById" DESC;
 
--- DELETE FROM missing;

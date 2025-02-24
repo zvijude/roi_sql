@@ -35,9 +35,9 @@ function getLinks(prjName?: string, prjId?: string | null) {
   const topLinks = [
     { icon: 'city', href: '/', title: 'הפרוייקטים שלי' },
     { icon: 'building', href: `/project/${prjId}`, title: `פרויקט ${prjName ?? ''}` },
-    { icon: 'chart-line', href: `/project/${prjId}/dash`, title:'גרפים' },
+    { icon: 'chart-line', href: `/project/${prjId}/dash`, title: 'גרפים' },
+    { icon: 'ruler-triangle', type: 'reg', flip: true, href: `/project/${prjId}/medidot`, title: 'מדידות וחוסרים' },
     { icon: 'bell', href: `/project/${prjId}/events`, title: 'אירועים' },
-    // { icon: 'check-double', href: `/project/${prjId}/tasks`, title: 'ביצועים' },
     // { icon: 'hourglass-half', href: `/project/${prjId}/waiting_tasks`, title: 'ממתין לאישור' },
     calcUrl(prjId, user),
     // {

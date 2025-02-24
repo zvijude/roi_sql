@@ -5,16 +5,15 @@ import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
 
-export default function MeasureTable({ data }) {
+export default function MedidotTbl({ data }) {
   const headers = [
-    { key: 'qrNum', label: 'QR' },
     { key: 'item', label: 'פריט מידה' },
-    { key: 'loc', label: 'מיקום' },
-    { key: 'item', label: 'פריט מידה' },
-    { key: 'part_name', label: 'פרט' },
     { key: 'width', label: 'רוחב', format: 'formatMeasure' },
     { key: 'height', label: 'אורך', format: 'formatMeasure' },
     { key: 'depth', label: 'עומק', format: 'formatMeasure' },
+    { key: 'loc', label: 'מיקום' },
+    { key: 'part_name', label: 'פרט' },
+    { key: 'qrNum', label: 'QR' },
     { key: 'create_name', label: 'נוצר ע"י' },
     { key: 'createdAt', label: 'נוצר בתאריך', format: 'formatDateTime' },
   ]

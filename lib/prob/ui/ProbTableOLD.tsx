@@ -5,7 +5,7 @@ import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import { Btn } from 'zvijude/btns'
 import Filter from './filter'
-import ActiveFilter from '@/components/filter/activeFilter'
+import ActiveFilter from '@/OLD/activeFilter'
 import TableChip from '@/ui/TableChip'
 import TableTopbar from 'zvijude/table/TableTopbar'
 import { mainHeader, probStatusDic } from '@/db/types'
@@ -20,13 +20,7 @@ export default function ProbTableOLD({ data, query, fields }) {
     return (
       <TableChip
         lbl={probStatusDic[val]}
-        type={
-          val === ProbStatus.WAITING
-            ? 'warning'
-            : val === ProbStatus.SOLVED
-            ? 'success'
-            : 'canceled'
-        }
+        type={val === ProbStatus.WAITING ? 'warning' : val === ProbStatus.SOLVED ? 'success' : 'canceled'}
       />
     )
   }
@@ -55,13 +49,7 @@ export default function ProbTableOLD({ data, query, fields }) {
     <>
       <TableTopbar>
         <Search config={config} />
-        <Btn
-          lbl='סינון'
-          clr='text'
-          icon='filter'
-          popoverTarget='filterProbPop'
-          className='bg-white'
-        />
+        <Btn lbl='סינון' clr='text' icon='filter' popoverTarget='filterProbPop' className='bg-white' />
         <ActiveFilter filter={query} />
       </TableTopbar>
       <Table config={config} tblCls='rounded-none' />

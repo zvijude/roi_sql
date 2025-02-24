@@ -1,5 +1,5 @@
-import TaskNav from '@/components/tasks/TaskNav'
-import Tasks from '@/components/tasks'
+import Medidot from '@/components/medidot'
+import MedidotNav from '@/components/medidot/MedidotNav'
 
 export default async function Events({ params, searchParams }) {
   let { prjId } = await params
@@ -8,8 +8,8 @@ export default async function Events({ params, searchParams }) {
 
   return (
     <div className='grid'>
-      <TaskNav filter={filter} />
-      <Tasks prjId={prjId} filter={filter} />
+      <MedidotNav filter={filter} />
+      <Medidot prjId={prjId} filter={filter} />
     </div>
   )
 }

@@ -13,6 +13,13 @@ BEGIN
                     FROM "Qr" q 
                     JOIN "Part" p ON q."partId" = p."id" 
                     WHERE q."prjId" = prj_id),
+        'kablans',   (SELECT json_agg(json_build_object(
+                        'id', u.id,
+                        'name', u.name
+                    ))
+                    FROM "User" u
+                    JOIN "_prj_user" pu ON u.id = pu."userId"
+                    WHERE pu."prjId" = prj_id AND u."role" = 'KABLAN'),
         'users',   (SELECT json_agg(json_build_object(
                         'id', u.id,
                         'name', u.name

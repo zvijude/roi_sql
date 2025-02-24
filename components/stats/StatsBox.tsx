@@ -1,6 +1,6 @@
 'use client'
 
-import { PieChart, Pie, Cell } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 import { formatCurrency } from 'zvijude/funcs'
 
 // const COLORS = ['#46DB9C', '#FE6F42', '#2042F5', '#7092E7', '#6B4BEC']
@@ -12,14 +12,6 @@ const COLORS = [
   '#1E4DB4', // Deep blue
   '#0E1B3D', // Dark navy
 ]
-
-// const COLORS = [
-//   '#ff8800', // Saturated orange
-//   '#00c176', // Vibrant green
-//   '#1d4ed8', // Base blue
-//   '#b620e0', // Bold purple
-//   '#ff3b3b', // Intense red
-// ]
 
 type Props = {
   data: Record<any, any>[]
@@ -47,9 +39,9 @@ export default function StatsBox({ data, sum, title }: Props) {
         <div className='grid gap-1 mt-1'>
           {data.map((el, i) => {
             return (
-              <section className='flex gap-4 flex-nowrap'>
+              <section className='flex gap-4 flex-nowrap' key={i}>
                 <div className='size-3 rounded-full' style={{ background: COLORS[i] }} />
-                <div className='flex gap-x-4 gap-y-1 justify-between'>
+                <div className='flex gap-x-3 gap-y-1 justify-between'>
                   <p className='font-semibold  leading-none'>{el.name}</p>
                   <p className='text-lg'>{el.value}</p>
                   {el.sum ? <p className='text-slate-700'>{formatCurrency(el.sum)}</p> : null}
@@ -67,12 +59,14 @@ function TaskPieChart({ data }) {
   const radius = 60
 
   return (
-    <PieChart width={radius * 2} height={radius * 2}>
-      <Pie dataKey='value' data={data} innerRadius={radius - 18} outerRadius={radius} isAnimationActive={false}>
-        {data.map((entry, i) => (
-          <Cell key={i} fill={COLORS[i]} />
-        ))}
-      </Pie>
-    </PieChart>
+    <ResponsiveContainer width={radius * 2} height={radius * 2}>
+      <PieChart>
+        <Pie dataKey='value' data={data} innerRadius={radius - 18} outerRadius={radius} isAnimationActive={false}>
+          {data.map((entry, i) => (
+            <Cell key={i} fill={COLORS[i]} />
+          ))}
+        </Pie>
+      </PieChart>
+    </ResponsiveContainer>
   )
 }

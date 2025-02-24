@@ -10,7 +10,7 @@ export default async function Events({ params, children }) {
   return (
     <div>
       <Filter className='mb-8' opts={opts} />
-      <EventsStats prjId={prjId} />
+      {/* <EventsStats prjId={prjId} /> */}
 
       {children}
     </div>
