@@ -4,8 +4,8 @@ import { Input, Select } from 'zvijude/form'
 import { Btn } from 'zvijude/btns'
 import EditMissOpts from './EditMissOpts'
 import { useState } from 'react'
-import { addMiss, missCompleted } from '../db/set'
 import { toast } from 'zvijude/pop'
+import { addMiss, missCompleted } from './api'
 
 export function AddNewMiss({ missOpt, qrId, active }) {
   const [isEdit, setIsEdit] = useState(false)

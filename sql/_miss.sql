@@ -8,9 +8,15 @@ SELECT m.id AS "id",
     m."createdAt" AS "createdAt",
     m."resAt" AS "resAt",
     m."updatedAt" AS "updatedAt",
+
     q."qrNum" AS "qrNum",
     q.loc AS "loc",
     q."prjId" AS "prjId",
+    q.floor,
+    q."aptNum",
+    q.front,
+    q."locInApt",
+
     p.name AS "part_name",
     u_create.name AS "create_name",
     u_res.name AS "resBy"

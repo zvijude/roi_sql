@@ -1,4 +1,4 @@
-CREATE TABLE measure (
+CREATE TABLE medidot (
   "id" SERIAL PRIMARY KEY,
   "qrId" INT NOT NULL REFERENCES "Qr" ("id") ON DELETE CASCADE,
   "item" TEXT NOT NULL,

@@ -1,14 +1,12 @@
-import { getAllMiss } from '@/lib/missing/db/get'
-import MissTable from '@/lib/missing/ui/MissTable'
+import Missing from "@/components/missing"
 
 export default async function Page({ params }) {
   let { prjId } = await params
   prjId = Number(prjId)
-  const data = await getAllMiss(prjId)
 
   return (
     <div>
-      <MissTable data={data} />
+      <Missing prjId={prjId} filter={[]} />
     </div>
   )
 }

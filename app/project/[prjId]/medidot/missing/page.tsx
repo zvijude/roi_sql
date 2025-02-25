@@ -1,5 +1,5 @@
-import Medidot from '@/components/medidot'
-import MedidotNav from '@/components/medidot/MedidotNav'
+import Missing from '@/components/missing'
+import MissingNav from '@/components/missing/MissingNav'
 
 export default async function Page({ params, searchParams }) {
   let { prjId } = await params
@@ -8,8 +8,8 @@ export default async function Page({ params, searchParams }) {
 
   return (
     <div className='grid'>
-      <MedidotNav filter={filter} />
-      <Medidot prjId={prjId} filter={filter} />
+      <MissingNav filter={filter} />
+      <Missing prjId={prjId} filter={filter} />
     </div>
   )
 }

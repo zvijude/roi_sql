@@ -1,13 +1,12 @@
 'use client'
 
-import { useParams, usePathname } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { Input } from 'zvijude/form'
 import { Btn } from 'zvijude/btns'
-import { addMissOpt, deleteMissOpt } from '../db/set'
 import { createRef } from 'react'
+import { addMedidotOpt, deleteMedidaOpt } from './api'
 
-export default function EditMissOpts({ missOpt, editSetStats }) {
-  const path = usePathname()
+export default function EditMedidotOpts({ measureOpt, editSetStats }) {
   const prjId = useParams().prjId
   const inputRef = createRef<HTMLInputElement>()
 
@@ -17,13 +16,13 @@ export default function EditMissOpts({ missOpt, editSetStats }) {
     const inputValue = inputRef.current.value.trim()
     if (!inputValue) return
 
-    await addMissOpt(prjId, inputValue)
+    await addMedidotOpt(prjId, inputValue)
     inputRef.current.value = ''
   }
 
   async function onDelete(optVal) {
     if (!confirm('האם אתה בטוח שברצונך למחוק את האפשרות?')) return
-    await deleteMissOpt({ optVal, path, prjId })
+    await deleteMedidaOpt({ optVal, prjId })
   }
 
   return (
@@ -41,7 +40,7 @@ export default function EditMissOpts({ missOpt, editSetStats }) {
         </div>
       </section>
       <ol>
-        {missOpt
+        {measureOpt
           .slice()
           .reverse()
           .map((opt, index) => (

@@ -1,18 +1,18 @@
 import { db } from '@/sql'
-import MedidotTbl from './MedidotTbl'
+import MissTable from './MissTable'
 import { dateFilters } from '../filter/formatFilter'
 
-export default async function Medidot({ prjId, filter }) {
+export default async function Missing({ prjId, filter }) {
   const date = filter.date
   delete filter.date
-  let query = db('_medidot').where({ prjId, ...filter })
+  let query = db('_miss').where({ prjId, ...filter })
   if (date) query.whereRaw(dateFilters[date])
 
   const tblData = await query
 
   return (
     <div>
-      <MedidotTbl data={tblData} key={Math.random()} />
+      <MissTable data={tblData} key={Math.random()} />
     </div>
   )
 }
