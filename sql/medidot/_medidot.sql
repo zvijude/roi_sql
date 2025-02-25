@@ -19,3 +19,4 @@ FROM measure m
     LEFT JOIN "User" u_create ON m."createdById" = u_create.id
 ORDER BY m."createdById" DESC;
 
+-- DROP VIEW IF EXISTS _medidot;

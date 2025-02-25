@@ -7,10 +7,10 @@ import { getAllAptOpt } from '@/lib/aptOpt/db/get'
 import { QrTask } from '@/lib/qr/ui/QrTask'
 import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
-import { getAllMissOpt, getMissActive } from '@/lib/missing/db/get'
-import { AddNewMiss } from '@/lib/missing/ui/AddNewMiss'
-import { getAllMeasureOpt, getMeasureByQr } from '@/lib/measure/db/get'
-import { AddNewMeasure } from '@/lib/measure/ui/AddNewMeasure'
+import { getAllMissOpt, getMissActive } from '@/components/missing/db'
+import { AddNewMiss } from '@/components/missing/AddNewMiss'
+import { getAllMedidotOpt, getMedidotByQr } from '@/components/medidot/db'
+import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
 
 export default async function Page({ params }) {
   let { prjId, qrNum } = await params
@@ -24,7 +24,8 @@ export default async function Page({ params }) {
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
   const missOpt = await getAllMissOpt(prjId)
-  const measureOpt = await getAllMeasureOpt(prjId)
+  const medidotOpt = await getAllMedidotOpt(prjId)
+
 
   // Case 1: QR not initialized
   if (!qrData) {
@@ -38,14 +39,14 @@ export default async function Page({ params }) {
   }
 
   const missActive = await getMissActive(qrData.QrId)
-  const measures = await getMeasureByQr(qrData.QrId)
+  const medidot = await getMedidotByQr(qrData.QrId)
 
   // Case 2: No Task in QR, page חוסרים ומידות
   if (qrData.totalTasksCount === 0)
     return (
       <div>
         <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
-        <AddNewMeasure measureOpt={measureOpt} qrId={qrData.QrId} measures={measures} />
+        <AddNewMedidot medidotOpt={medidotOpt} qrId={qrData.QrId} medidot={medidot} />
       </div>
     )
 
@@ -56,7 +57,7 @@ export default async function Page({ params }) {
         <p>כל המשימות של ברקוד מספר {qrNum} הושלמו</p>
         <Btn lbl='היסטורית QR' href={`/pops/project/${prjId}/qr/${qrNum}`} />
         <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
-        <AddNewMeasure measureOpt={measureOpt} qrId={qrData.QrId} measures={measures} />
+        <AddNewMedidot medidotOpt={medidotOpt} qrId={qrData.QrId} medidot={medidot} />
       </div>
     )
   }
@@ -67,7 +68,7 @@ export default async function Page({ params }) {
     <div>
       <QrTask user={user} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
       <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
-      <AddNewMeasure measureOpt={measureOpt} qrId={qrData.QrId} measures={measures} />
+      <AddNewMedidot medidotOpt={medidotOpt} qrId={qrData.QrId} medidot={medidot} />
     </div>
   )
 }
