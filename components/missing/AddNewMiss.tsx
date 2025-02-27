@@ -8,6 +8,7 @@ import { toast } from 'zvijude/pop'
 import { addMiss, deleteMiss, missCompleted } from './api'
 import UploadMedia from '@/ui/UploadMedia'
 import Icon from 'zvijude/icon'
+import BtnMedia from '@/ui/BtnMedia'
 
 export function AddNewMiss({ missOpt, qrId, active }) {
   const [isEdit, setIsEdit] = useState(false)
@@ -50,7 +51,8 @@ export function AddNewMiss({ missOpt, qrId, active }) {
 
   return (
     <>
-      <Btn lbl='הוסף חוסרים' clr='text' popoverTarget='missOptPop' className='my-2 w-3/4 mx-auto mt-8' />
+      <Btn lbl='הוסף חוסרים' clr='text' popoverTarget='missOptPop' className='my-2 w-3/4 mx-auto mt-8' disabled={loading} />
+
       {active.length > 0 && (
         <div className='border bg-white rounded-md m-1 w-3/4 mx-auto'>
           <h3 className='font-semibold text-center'>
@@ -59,12 +61,24 @@ export function AddNewMiss({ missOpt, qrId, active }) {
           {active.map((miss, i) => (
             <div key={i} className='flex justify-between items-center py-1 px-2 border-b last:border-0'>
               <div className='flex'>
-                <Btn icon='trash' clr='icon' className='size-5 border-none shadow-none' onClick={() => onMissDelete(miss.id)} />
-                <Btn lbl='הושלם' clr='text' className='size-5 text-xs' onClick={() => onMissCompleted(miss.id)} />
+                <Btn
+                  icon='trash'
+                  clr='icon'
+                  className='size-5 border-none shadow-none'
+                  onClick={() => onMissDelete(miss.id)}
+                  disabled={loading}
+                />
+                <Btn
+                  lbl='הושלם'
+                  clr='text'
+                  className='size-5 text-xs'
+                  onClick={() => onMissCompleted(miss.id)}
+                  disabled={loading}
+                />
                 <span>{miss.item}</span>
               </div>
               <div className='flex space-x-2'>
-                {miss?.media && formatMedia(miss.media, miss)}
+                {miss?.media && BtnMedia(miss.media, miss)}
                 <span>כמות: {miss.qntt}</span>
               </div>
             </div>
@@ -83,37 +97,26 @@ export function AddNewMiss({ missOpt, qrId, active }) {
         {!isEdit && (
           <div className='grid gap-2 w-full'>
             <div className='grid'>
-              <Select lbl='הוסף חוסרים' name='missingItems' options={missOpt} className='w-full' />
+              <Select lbl='הוסף חוסרים' name='missingItems' options={missOpt} className='w-full' disabled={loading} />
               <Btn
                 lbl='ערוך חוסרים'
                 type='button'
                 clr='text'
                 className='shadow-none size-6 text-xs'
                 onClick={() => setIsEdit(!isEdit)}
+                disabled={loading}
               />
             </div>
 
-            <Input lbl='כמות' name='quantity' type='number' min='1' className='w-full' required />
-            <UploadMedia onUpload={(url) => setUrl(url)} />
+            <Input lbl='כמות' name='quantity' type='number' min='1' className='w-full' required disabled={loading} />
+            <UploadMedia onUpload={(url) => setUrl(url)} setLoading={setLoading} />
 
-            <Btn lbl='הוסף' type='submit' className='mt-1' />
+            <Btn lbl='הוסף' type='submit' className='mt-1' disabled={loading} />
           </div>
         )}
 
         {isEdit && <EditMissOpts missOpt={missOpt} editSetStats={setIsEdit} />}
       </form>
-    </>
-  )
-}
-
-function formatMedia(media, item) {
-  if (!media?.[0]) return null
-  return (
-    <>
-      <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' className='size-7 border-none shadow-none' />
-      <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
-        <img src={media} alt='' />
-      </div>
     </>
   )
 }
