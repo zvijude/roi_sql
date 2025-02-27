@@ -6,32 +6,51 @@ import EditMissOpts from './EditMissOpts'
 import { useState } from 'react'
 import { toast } from 'zvijude/pop'
 import { addMiss, deleteMiss, missCompleted } from './api'
+import UploadMedia from '@/ui/UploadMedia'
+import Icon from 'zvijude/icon'
 
 export function AddNewMiss({ missOpt, qrId, active }) {
   const [isEdit, setIsEdit] = useState(false)
+  const [url, setUrl] = useState('')
+  const [loading, setLoading] = useState(false)
 
   async function onSubmit(e) {
     e.preventDefault()
+    setLoading(true)
     toast('loading')
-    await addMiss({ qrId, item: e.target.missingItems.value, qntt: e.target.quantity.value })
+
+    const item = e.target.missingItems.value
+    const qntt = Number(e.target.quantity.value)
+
+    await addMiss({ qrId, item, qntt, media: url })
     toast('success', 'החוסרים נוספו בהצלחה')
+
+    document.getElementById('missOptPop')?.hidePopover()
+    setLoading(false)
+    setUrl('')
     e.target.reset()
   }
 
   async function onMissCompleted(id) {
+    setLoading(true)
     toast('loading')
     await missCompleted({ id })
     toast('success', 'החוסר הושלם בהצלחה')
+    setLoading(false)
   }
+
   async function onMissDelete(id) {
+    if (!confirm('האם אתה בטוח שברצונך למחוק את החוסר?')) return
+    setLoading(true)
     toast('loading')
     await deleteMiss({ id })
     toast('success', 'החוסר נמחק בהצלחה')
+    setLoading(false)
   }
 
   return (
     <>
-      <Btn lbl='הוסף חוסרים' clr='text' popoverTarget='missOptPop' className='my-2 w-3/4 mx-auto' />
+      <Btn lbl='הוסף חוסרים' clr='text' popoverTarget='missOptPop' className='my-2 w-3/4 mx-auto mt-8' />
       {active.length > 0 && (
         <div className='border bg-white rounded-md m-1 w-3/4 mx-auto'>
           <h3 className='font-semibold text-center'>
@@ -44,30 +63,57 @@ export function AddNewMiss({ missOpt, qrId, active }) {
                 <Btn lbl='הושלם' clr='text' className='size-5 text-xs' onClick={() => onMissCompleted(miss.id)} />
                 <span>{miss.item}</span>
               </div>
-              <span>{miss.qntt}</span>
+              <div className='flex space-x-2'>
+                {miss?.media && formatMedia(miss.media, miss)}
+                <span>כמות: {miss.qntt}</span>
+              </div>
             </div>
           ))}
         </div>
       )}
 
-      <form className='pop px-4 py-6 min-w-80 ' popover='auto' id='missOptPop' onSubmit={onSubmit}>
+      <form className='pop px-4 py-6 min-w-80 ' popover='manual' id='missOptPop' onSubmit={onSubmit}>
+        <button
+          type='button'
+          onClick={() => document.getElementById('missOptPop')?.hidePopover()}
+          className='absolute top-1 left-1'
+        >
+          <Icon name='circle-xmark' type='sol' className='size-5 m-1' />
+        </button>
         {!isEdit && (
-          <div>
-            <Select lbl='הוסף חוסרים' name='missingItems' options={missOpt} className='w-full' />
-            <Input lbl='כמות' name='quantity' type='number' min='1' className='w-full' />
-            <Btn
-              lbl='ערוך חוסרים'
-              type='button'
-              clr='text'
-              className='mt-1 shadow-none size-7'
-              onClick={() => setIsEdit(!isEdit)}
-            />
+          <div className='grid gap-2 w-full'>
+            <div className='grid'>
+              <Select lbl='הוסף חוסרים' name='missingItems' options={missOpt} className='w-full' />
+              <Btn
+                lbl='ערוך חוסרים'
+                type='button'
+                clr='text'
+                className='shadow-none size-6 text-xs'
+                onClick={() => setIsEdit(!isEdit)}
+              />
+            </div>
+
+            <Input lbl='כמות' name='quantity' type='number' min='1' className='w-full' required />
+            <UploadMedia onUpload={(url) => setUrl(url)} />
+
             <Btn lbl='הוסף' type='submit' className='mt-1' />
           </div>
         )}
 
         {isEdit && <EditMissOpts missOpt={missOpt} editSetStats={setIsEdit} />}
       </form>
+    </>
+  )
+}
+
+function formatMedia(media, item) {
+  if (!media?.[0]) return null
+  return (
+    <>
+      <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' className='size-7 border-none shadow-none' />
+      <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
+        <img src={media} alt='' />
+      </div>
     </>
   )
 }
