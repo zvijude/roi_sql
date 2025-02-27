@@ -7,7 +7,7 @@ import { getAllAptOpt } from '@/lib/aptOpt/db/get'
 import { QrTask } from '@/lib/qr/ui/QrTask'
 import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
-import { getAllMissOpt, getMissActive } from '@/components/missing/db'
+import { getMissOpt, getMissActive } from '@/components/missing/db'
 import { AddNewMiss } from '@/components/missing/AddNewMiss'
 import { getAllMedidotOpt, getActiveMedidotByQr } from '@/components/medidot/db'
 import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
@@ -23,7 +23,7 @@ export default async function Page({ params }) {
 
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
-  const missOpt = await getAllMissOpt(prjId)
+  const missOpt = await getMissOpt(prjId)
   const medidotOpt = await getAllMedidotOpt(prjId)
 
 

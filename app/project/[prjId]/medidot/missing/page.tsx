@@ -1,5 +1,5 @@
 import Missing from '@/components/missing'
-import { getAllMissOpt } from '@/components/missing/db'
+import { getMissOpt } from '@/components/missing/db'
 import MissingNav from '@/components/missing/MissingNav'
 
 export default async function Page({ params, searchParams }) {
@@ -7,7 +7,7 @@ export default async function Page({ params, searchParams }) {
   let { filter } = await searchParams
   filter = filter ? JSON.parse(filter) : {}
 
-  const missOpt = await getAllMissOpt(prjId)
+  const missOpt = await getMissOpt(prjId)
 
   return (
     <div className='grid'>
