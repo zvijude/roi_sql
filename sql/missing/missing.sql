@@ -7,6 +7,7 @@ CREATE TABLE missing (
   "media" TEXT,
   "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   "createdById" INT REFERENCES "User"("id") ON DELETE SET NULL,
+  "resAt" TIMESTAMP,
   "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   "updatedById" INT REFERENCES "User"("id") ON DELETE SET NULL
 );

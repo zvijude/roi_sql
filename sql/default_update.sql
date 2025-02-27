@@ -27,10 +27,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON medidot
+BEFORE UPDATE ON missing
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 
-ALTER TABLE medidot
+ALTER TABLE missing
 ALTER COLUMN "updatedAt" SET DEFAULT now();

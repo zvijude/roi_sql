@@ -6,7 +6,8 @@ SELECT m.id AS "id",
     m.item AS "item",
     m.qntt AS "qntt",
     m."createdAt" AS "createdAt",
-    m."updatedAt" AS "resAt",
+    m."updatedAt" AS "updatedAt",
+    m."resAt" AS "resAt",
     m.media AS "media",
 
     q."qrNum" AS "qrNum",
@@ -19,7 +20,7 @@ SELECT m.id AS "id",
 
     p.name AS "part_name",
     u_create.name AS "create_name",
-    u_res.name AS "resBy"
+    u_res.name AS "res_by"
 FROM missing m
     LEFT JOIN "Qr" q ON m."qrId" = q.id
     LEFT JOIN "Part" p ON q."partId" = p.id

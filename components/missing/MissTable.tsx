@@ -20,7 +20,8 @@ export default function MissTable({ data }) {
     { key: 'create_name', label: 'נוצר ע"י' },
     { key: 'createdAt', label: 'נוצר בתאריך', format: 'formatDateTime' },
     { key: 'resAt', label: 'נענה בתאריך', format: 'formatDateTime' },
-    { key: 'resBy', label: 'נענה ע"י' },
+    { key: 'res_by', label: 'נענה ע"י' },
+    { key: 'media', label: 'תמונות', format: 'formatMedia' },
   ]
 
   const [state, setState] = useState(data)
@@ -28,6 +29,18 @@ export default function MissTable({ data }) {
 
   function formatActive(isActive) {
     return <p className='font-bold'>{isActive ? '❌' : '✅'}</p>
+  }
+
+  function formatMedia(media, item) {
+    if (!media?.[0]) return null
+    return (
+      <>
+        <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' className='size-7 border-none shadow-none' />
+        <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
+          <img src={media} alt='' />
+        </div>
+      </>
+    )
   }
   function formatStatusUpdate(_, item) {
     if (!item.isActive) return null
@@ -62,7 +75,7 @@ export default function MissTable({ data }) {
     columns,
     setColumns,
     data,
-    funcs: { formatActive, formatStatusUpdate },
+    funcs: { formatActive, formatStatusUpdate, formatMedia },
     noCheckboxs: true,
     state,
     setState,
