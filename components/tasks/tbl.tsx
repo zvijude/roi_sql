@@ -6,6 +6,7 @@ import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
 import { Btn } from 'zvijude/btns'
 import EventChip from '../global/EventChip'
+import BtnMedia from '@/ui/BtnMedia'
 
 export default function TaskTable({ data }) {
   const headers = [
@@ -32,14 +33,7 @@ export default function TaskTable({ data }) {
   }
   function formatMedia(media, item) {
     if (!media?.[0]) return null
-    return (
-      <>
-        <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' />
-        <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
-          <img src={media[0]} alt='' />
-        </div>
-      </>
-    )
+    return <BtnMedia media={media} item={item} />
   }
 
   const config = {

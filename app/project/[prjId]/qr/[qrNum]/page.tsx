@@ -9,7 +9,7 @@ import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
 import { getMissOpt, getMissActive } from '@/components/missing/db'
 import { AddNewMiss } from '@/components/missing/AddNewMiss'
-import { getAllMedidotOpt, getActiveMedidotByQr } from '@/components/medidot/db'
+import { getAllMedidotOpt, getMedidotByQr } from '@/components/medidot/db'
 import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
 
 export default async function Page({ params }) {
@@ -39,7 +39,7 @@ export default async function Page({ params }) {
   }
 
   const missActive = await getMissActive(qrData.QrId)
-  const medidot = await getActiveMedidotByQr(qrData.QrId)
+  const medidot = await getMedidotByQr(qrData.QrId)
 
   // Case 2: No Task in QR, page חוסרים ומידות
   if (qrData.totalTasksCount === 0)

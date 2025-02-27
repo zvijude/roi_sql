@@ -61,24 +61,27 @@ export function AddNewMiss({ missOpt, qrId, active }) {
           {active.map((miss, i) => (
             <div key={i} className='flex justify-between items-center py-1 px-2 border-b last:border-0'>
               <div className='flex'>
-                <Btn
-                  icon='trash'
-                  clr='icon'
-                  className='size-5 border-none shadow-none'
-                  onClick={() => onMissDelete(miss.id)}
-                  disabled={loading}
-                />
-                <Btn
-                  lbl='הושלם'
-                  clr='text'
-                  className='size-5 text-xs'
-                  onClick={() => onMissCompleted(miss.id)}
-                  disabled={loading}
-                />
+                { !miss.isActive && <div className='flex'>
+                  <Btn
+                    icon='trash'
+                    clr='icon'
+                    className='size-5 border-none shadow-none'
+                    onClick={() => onMissDelete(miss.id)}
+                    disabled={loading}
+                  />
+                  <Btn
+                    lbl='הושלם'
+                    clr='text'
+                    className='size-5 text-xs'
+                    onClick={() => onMissCompleted(miss.id)}
+                    disabled={loading}
+                  />
+                </div>}
+
                 <span>{miss.item}</span>
               </div>
               <div className='flex space-x-2'>
-                {miss?.media && BtnMedia(miss.media, miss)}
+                {miss?.media && <BtnMedia media={miss.media} item={miss} />}
                 <span>כמות: {miss.qntt}</span>
               </div>
             </div>

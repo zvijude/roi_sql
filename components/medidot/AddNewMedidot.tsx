@@ -8,6 +8,7 @@ import EditMedidotOpts from './EditMedidotOpt'
 import { addMedida, completeMedida, deleteMedida } from './api'
 import UploadMedia from '@/ui/UploadMedia'
 import Icon from 'zvijude/icon'
+import BtnMedia from '@/ui/BtnMedia'
 
 export function AddNewMedidot({ medidotOpt, medidot, qrId }) {
   const [isEdit, setIsEdit] = useState(false)
@@ -54,17 +55,22 @@ export function AddNewMedidot({ medidotOpt, medidot, qrId }) {
           {medidot.map((medida, i) => (
             <div key={i} className='flex justify-between items-center py-1 px-2 border-b last:border-0'>
               <div className='flex'>
-                <Btn
-                  icon='trash'
-                  clr='icon'
-                  className='size-5 border-none shadow-none'
-                  onClick={() => onDeleteMedida(medida.id)}
-                />
-                <Btn lbl='הושלם' clr='text' className='size-5 text-xs' onClick={() => onCompletedMedida(medida.id)} />
+                {!medida.isActive && (
+                  <div className='flex'>
+                    <Btn
+                      icon='trash'
+                      clr='icon'
+                      className='size-5 border-none shadow-none'
+                      onClick={() => onDeleteMedida(medida.id)}
+                    />
+                    <Btn lbl='הושלם' clr='text' className='size-5 text-xs' onClick={() => onCompletedMedida(medida.id)} />
+                  </div>
+                )}
+
                 <span>{medida.item}</span>
               </div>
               <div className='flex space-x-2'>
-                {medida?.media && formatMedia(medida.media, medida)}
+                {medida?.media && <BtnMedia media={medida.media} item={medida} />}
                 {medida?.width && <span>רוחב: {medida.width} מ"מ</span>}
                 {medida?.height && <span>אורך: {medida.height} מ"מ</span>}
                 {medida?.depth && <span>עומק: {medida.depth} מ"מ</span>}
@@ -112,18 +118,6 @@ export function AddNewMedidot({ medidotOpt, medidot, qrId }) {
 
         {isEdit && <EditMedidotOpts measureOpt={medidotOpt} editSetStats={setIsEdit} />}
       </form>
-    </>
-  )
-}
-
-function formatMedia(media, item) {
-  if (!media?.[0]) return null
-  return (
-    <>
-      <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' className='size-7 border-none shadow-none' />
-      <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
-        <img src={media} alt='' />
-      </div>
     </>
   )
 }

@@ -7,6 +7,7 @@ import TableTopbar from 'zvijude/table/TableTopbar'
 import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 import { deleteMiss, missCompleted } from './api'
+import BtnMedia from '@/ui/BtnMedia'
 
 export default function MissTable({ data }) {
   const headers = [
@@ -33,24 +34,16 @@ export default function MissTable({ data }) {
 
   function formatMedia(media, item) {
     if (!media?.[0]) return null
-    return (
-      <>
-        <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' className='size-7 border-none shadow-none' />
-        <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
-          <img src={media} alt='' />
-        </div>
-      </>
-    )
+    return <BtnMedia media={media} item={item} />
   }
   function formatStatusUpdate(_, item) {
-    if (!item.isActive) return null
     return (
       <>
         <Btn icon='pen' className='size-6' popoverTarget={`popStatus-${item.id}`} clr='icon' />
         <div popover='auto' id={`popStatus-${item.id}`} className='pop'>
           <div className='flex justify-between'>
             <Btn icon='trash' clr='icon' onClick={() => onDelete(item.id)} />
-            <Btn lbl='סמן כטופל' clr='text' onClick={() => onStatusChange(item.id)} />
+            {item.isActive && <Btn lbl='סמן כטופל' clr='text' onClick={() => onStatusChange(item.id)} />}
           </div>
         </div>
       </>
