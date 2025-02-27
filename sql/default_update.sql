@@ -17,8 +17,6 @@ ALTER COLUMN "updatedAt" SET DEFAULT now();
 ALTER TABLE "Company"
 ALTER COLUMN "updatedAt" SET DEFAULT now();
 
-ALTER TABLE medidot
-ALTER COLUMN "updatedAt" SET DEFAULT now();
 
 CREATE OR REPLACE FUNCTION update_timestamp()
 RETURNS TRIGGER AS $$
@@ -32,3 +30,7 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON medidot
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
+
+
+ALTER TABLE medidot
+ALTER COLUMN "updatedAt" SET DEFAULT now();

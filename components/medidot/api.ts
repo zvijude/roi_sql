@@ -17,7 +17,9 @@ export async function deleteMedida({ id }) {
 }
 
 export async function completeMedida({ id }) {
-  await db('medidot').where({ id }).update({ isActive: false })
+  const user = await getUser()
+  await db('medidot').where({ id }).update({ isActive: false, updatedById: user.id, resAt: new Date() })
+
   revalidatePath('/qr')
 }
 

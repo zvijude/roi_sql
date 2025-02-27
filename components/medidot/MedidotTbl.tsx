@@ -21,6 +21,8 @@ export default function MedidotTbl({ data }) {
     { key: 'qrNum', label: 'QR' },
     { key: 'create_name', label: 'נוצר ע"י' },
     { key: 'createdAt', label: 'נוצר בתאריך', format: 'formatDateTime' },
+    { key: 'resAt', label: 'נענה בתאריך', format: 'formatDateTime' },
+    { key: 'res_by', label: 'נענה ע"י' },
     { key: 'media', label: 'תמונות', format: 'formatMedia' },
   ]
 
@@ -44,17 +46,6 @@ export default function MedidotTbl({ data }) {
     )
   }
 
-  function formatActive(isActive) {
-    return <p className='font-bold'>{isActive ? '❌' : '✅'}</p>
-  }
-
-  async function onDelete(id) {
-    if (!confirm('האם אתה בטוח שברצונך למחוק את המידות?')) return
-    toast('loading')
-    await deleteMedida({ id })
-    toast('success', 'המידות נמחקו בהצלחה')
-  }
-
   function formatStatusUpdate(_, item) {
     if (!item.isActive) return null
     return (
@@ -68,6 +59,17 @@ export default function MedidotTbl({ data }) {
         </div>
       </>
     )
+  }
+
+  function formatActive(isActive) {
+    return <p className='font-bold'>{isActive ? '❌' : '✅'}</p>
+  }
+
+  async function onDelete(id) {
+    if (!confirm('האם אתה בטוח שברצונך למחוק את המידות?')) return
+    toast('loading')
+    await deleteMedida({ id })
+    toast('success', 'המידות נמחקו בהצלחה')
   }
 
   async function onStatusChange(id) {
