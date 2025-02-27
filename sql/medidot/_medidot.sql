@@ -19,7 +19,7 @@ SELECT m.id AS "id",
 
     p.name AS "part_name",
     u_create.name AS "create_name"
-FROM measure m
+FROM medidot m
     LEFT JOIN "Qr" q ON m."qrId" = q.id
     LEFT JOIN "Part" p ON q."partId" = p.id
     LEFT JOIN "User" u_create ON m."createdById" = u_create.id

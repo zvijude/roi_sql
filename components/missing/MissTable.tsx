@@ -8,7 +8,7 @@ import TableTopbar from 'zvijude/table/TableTopbar'
 export default function MissTable({ data }) {
   const headers = [
     { key: 'isActive', label: 'טופל ?', format: 'formatActive' },
-    { key: 'item', label: 'החלק החסר' },
+    { key: 'item', label: 'פריט' },
     { key: 'qntt', label: 'כמות' },
     { key: 'qrNum', label: 'QR' },
     { key: 'loc', label: 'מיקום' },
