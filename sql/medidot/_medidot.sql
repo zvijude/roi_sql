@@ -8,6 +8,9 @@ SELECT m.id AS "id",
     m.depth AS "depth",
     m.media AS "media",
     m."createdAt" AS "createdAt",
+    m."updatedAt" AS "resAt",
+    m."isActive" AS "isActive",
+    
 
     q."prjId" AS "prjId",
     q."qrNum" AS "qrNum",
@@ -23,6 +26,6 @@ FROM medidot m
     LEFT JOIN "Qr" q ON m."qrId" = q.id
     LEFT JOIN "Part" p ON q."partId" = p.id
     LEFT JOIN "User" u_create ON m."createdById" = u_create.id
-ORDER BY m."createdById" DESC;
+ORDER BY m."updatedAt" DESC;
 
 -- DROP VIEW IF EXISTS _medidot;

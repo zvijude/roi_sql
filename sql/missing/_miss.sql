@@ -6,8 +6,8 @@ SELECT m.id AS "id",
     m.item AS "item",
     m.qntt AS "qntt",
     m."createdAt" AS "createdAt",
-    m."resAt" AS "resAt",
-    m."updatedAt" AS "updatedAt",
+    m."updatedAt" AS "resAt",
+    m.media AS "media",
 
     q."qrNum" AS "qrNum",
     q.loc AS "loc",
@@ -24,7 +24,7 @@ FROM missing m
     LEFT JOIN "Qr" q ON m."qrId" = q.id
     LEFT JOIN "Part" p ON q."partId" = p.id
     LEFT JOIN "User" u_create ON m."createdById" = u_create.id
-    LEFT JOIN "User" u_res ON m."resById" = u_res.id
+    LEFT JOIN "User" u_res ON m."updatedById" = u_res.id
 ORDER BY m."updatedAt" DESC;
 
 -- DELETE FROM missing;

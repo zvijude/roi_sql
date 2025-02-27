@@ -1,7 +1,7 @@
 import { db } from "@/sql"
 
-export async function getMedidotByQr(qrId) {
-  const res = await db('medidot').where({ qrId })
+export async function getActiveMedidotByQr(qrId) {
+  const res = await db('medidot').where({ qrId }).andWhere('isActive', true)
   return res
 }
 

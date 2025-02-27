@@ -17,6 +17,11 @@ export async function missCompleted({ id }) {
   revalidatePath('/qr')
 }
 
+export async function deleteMiss({ id }) {
+  await db('missing').where({ id }).del()
+  revalidatePath('/qr')
+}
+
 export async function deleteMissOpt({ optVal, path, prjId }) {
   prjId = Number(prjId)
 
@@ -31,8 +36,6 @@ export async function deleteMissOpt({ optVal, path, prjId }) {
 
 export async function addMissOpt(prjId, option) {
   prjId = Number(prjId)
-  console.log('prjId', prjId)
-  console.log('wdwdwoption', option)
 
   const project = await db('Project').where({ id: prjId }).select('missOpt').first()
   const updatedAptOpt = [...(project.missOpt || []), option]

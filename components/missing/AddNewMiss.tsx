@@ -5,7 +5,7 @@ import { Btn } from 'zvijude/btns'
 import EditMissOpts from './EditMissOpts'
 import { useState } from 'react'
 import { toast } from 'zvijude/pop'
-import { addMiss, missCompleted } from './api'
+import { addMiss, deleteMiss, missCompleted } from './api'
 
 export function AddNewMiss({ missOpt, qrId, active }) {
   const [isEdit, setIsEdit] = useState(false)
@@ -23,6 +23,11 @@ export function AddNewMiss({ missOpt, qrId, active }) {
     await missCompleted({ id })
     toast('success', 'החוסר הושלם בהצלחה')
   }
+  async function onMissDelete(id) {
+    toast('loading')
+    await deleteMiss({ id })
+    toast('success', 'החוסר נמחק בהצלחה')
+  }
 
   return (
     <>
@@ -35,6 +40,7 @@ export function AddNewMiss({ missOpt, qrId, active }) {
           {active.map((miss, i) => (
             <div key={i} className='flex justify-between items-center py-1 px-2 border-b last:border-0'>
               <div className='flex'>
+                <Btn icon='trash' clr='icon' className='size-5 border-none shadow-none' onClick={() => onMissDelete(miss.id)} />
                 <Btn lbl='הושלם' clr='text' className='size-5 text-xs' onClick={() => onMissCompleted(miss.id)} />
                 <span>{miss.item}</span>
               </div>
