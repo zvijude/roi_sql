@@ -5,6 +5,7 @@ CREATE TABLE missing (
   "qntt" INT NOT NULL,
   "isActive" BOOLEAN DEFAULT TRUE,
   "media" TEXT,
+  "note" TEXT,
   "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   "createdById" INT REFERENCES "User"("id") ON DELETE SET NULL,
   "resAt" TIMESTAMP,

@@ -9,6 +9,7 @@ SELECT m.id AS "id",
     m."resAt" AS "resAt",
     m."updatedAt" AS "updatedAt",
     m."isActive" AS "isActive",
+    m."note" AS "note",
     
     q."prjId" AS "prjId",
     q."qrNum" AS "qrNum",

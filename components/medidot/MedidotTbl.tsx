@@ -24,6 +24,7 @@ export default function MedidotTbl({ data }) {
     { key: 'createdAt', label: 'נוצר בתאריך', format: 'formatDateTime' },
     { key: 'resAt', label: 'נענה בתאריך', format: 'formatDateTime' },
     { key: 'res_by', label: 'נענה ע"י' },
+    { key: 'note', label: 'הערה' },
     { key: 'media', label: 'תמונות', format: 'formatMedia' },
   ]
 

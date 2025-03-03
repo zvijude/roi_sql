@@ -18,11 +18,13 @@ export function AddNewMedidot({ medidotOpt, medidot, qrId }) {
     e.preventDefault()
     toast('loading')
     const item = e.target.medidotVal.value
-    const { width, height, depth } = e.target
+    const { width, height, depth, note } = e.target
+
     const data = {
       width: width.value ? Number(width.value) : null,
       height: height.value ? Number(height.value) : null,
       depth: depth.value ? Number(depth.value) : null,
+      note: note.value,
       media: url,
     }
     await addMedida({ qrId, item, data })
@@ -83,7 +85,10 @@ export function AddNewMedidot({ medidotOpt, medidot, qrId }) {
       <form className='pop px-4 py-6 min-w-80 ' popover='manual' id='medidotPop' onSubmit={onSubmit}>
         <button
           type='button'
-          onClick={() => document.getElementById('medidotPop')?.hidePopover()}
+          onClick={() => {
+            document.getElementById('medidotPop')?.hidePopover()
+            setIsEdit(false)
+          }}
           className='absolute top-1 left-1'
         >
           <Icon name='circle-xmark' type='sol' className='size-5 m-1' />
@@ -110,6 +115,7 @@ export function AddNewMedidot({ medidotOpt, medidot, qrId }) {
             <Input lbl='רוחב' name='width' type='number' min={0} className='w-full' required={false} />
             <Input lbl='אורך' name='height' type='number' min={0} className='w-full' required={false} />
             <Input lbl='עומק' name='depth' type='number' min={0} className='w-full' required={false} />
+            <Input lbl='הערה' name='note' type='text' className='w-full' required={false} />
             <UploadMedia onUpload={(url) => setUrl(url)} />
 
             <Btn lbl='הוסף' type='submit' className='mt-1' />

@@ -9,6 +9,7 @@ SELECT m.id AS "id",
     m."updatedAt" AS "updatedAt",
     m."resAt" AS "resAt",
     m.media AS "media",
+    m.note AS "note",
 
     q."qrNum" AS "qrNum",
     q.loc AS "loc",

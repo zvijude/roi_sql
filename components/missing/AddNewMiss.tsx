@@ -20,10 +20,14 @@ export function AddNewMiss({ missOpt, qrId, active }) {
     setLoading(true)
     toast('loading')
 
-    const item = e.target.missingItems.value
-    const qntt = Number(e.target.quantity.value)
+    const data = {
+      item: e.target.missingItems.value,
+      qntt: e.target.quantity.value,
+      note: e.target.note.value,
+      media: url,
+    }
 
-    await addMiss({ qrId, item, qntt, media: url })
+    await addMiss({ qrId, data })
     toast('success', 'החוסרים נוספו בהצלחה')
 
     document.getElementById('missOptPop')?.hidePopover()
@@ -61,22 +65,24 @@ export function AddNewMiss({ missOpt, qrId, active }) {
           {active.map((miss, i) => (
             <div key={i} className='flex justify-between items-center py-1 px-2 border-b last:border-0'>
               <div className='flex'>
-                { !miss.isActive && <div className='flex'>
-                  <Btn
-                    icon='trash'
-                    clr='icon'
-                    className='size-5 border-none shadow-none'
-                    onClick={() => onMissDelete(miss.id)}
-                    disabled={loading}
-                  />
-                  <Btn
-                    lbl='הושלם'
-                    clr='text'
-                    className='size-5 text-xs'
-                    onClick={() => onMissCompleted(miss.id)}
-                    disabled={loading}
-                  />
-                </div>}
+                {!miss.isActive && (
+                  <div className='flex'>
+                    <Btn
+                      icon='trash'
+                      clr='icon'
+                      className='size-5 border-none shadow-none'
+                      onClick={() => onMissDelete(miss.id)}
+                      disabled={loading}
+                    />
+                    <Btn
+                      lbl='הושלם'
+                      clr='text'
+                      className='size-5 text-xs'
+                      onClick={() => onMissCompleted(miss.id)}
+                      disabled={loading}
+                    />
+                  </div>
+                )}
 
                 <span>{miss.item}</span>
               </div>
@@ -92,7 +98,10 @@ export function AddNewMiss({ missOpt, qrId, active }) {
       <form className='pop px-4 py-6 min-w-80 ' popover='manual' id='missOptPop' onSubmit={onSubmit}>
         <button
           type='button'
-          onClick={() => document.getElementById('missOptPop')?.hidePopover()}
+          onClick={() => {
+            document.getElementById('missOptPop')?.hidePopover()
+            setIsEdit(false)
+          }}
           className='absolute top-1 left-1'
         >
           <Icon name='circle-xmark' type='sol' className='size-5 m-1' />
@@ -100,7 +109,7 @@ export function AddNewMiss({ missOpt, qrId, active }) {
         {!isEdit && (
           <div className='grid gap-2 w-full'>
             <div className='grid'>
-              <Select lbl='הוסף חוסרים' name='missingItems' options={missOpt} className='w-full' disabled={loading} />
+              <Select lbl='הוסף חוסרים' name='missingItems' options={missOpt} placeholder="בחר פריט" className='w-full' disabled={loading} />
               <Btn
                 lbl='ערוך חוסרים'
                 type='button'
@@ -112,6 +121,7 @@ export function AddNewMiss({ missOpt, qrId, active }) {
             </div>
 
             <Input lbl='כמות' name='quantity' type='number' min='1' className='w-full' required disabled={loading} />
+            <Input lbl='הערה' name='note' type='text' className='w-full' disabled={loading} required={false} />
             <UploadMedia onUpload={(url) => setUrl(url)} setLoading={setLoading} />
 
             <Btn lbl='הוסף' type='submit' className='mt-1' disabled={loading} />
