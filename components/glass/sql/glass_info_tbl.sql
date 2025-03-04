@@ -1,0 +1,10 @@
+CREATE TABLE glass_info (
+  id SERIAL PRIMARY KEY,
+  "partId" INT REFERENCES "Part"(id) ON DELETE SET NULL,
+  width INT NOT NULL,
+  height INT NOT NULL,
+  thick INT,
+  props TEXT,
+  "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

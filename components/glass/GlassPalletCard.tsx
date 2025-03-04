@@ -1,12 +1,11 @@
 'use client'
 
-export default function GlassPalletCard({ glassPallets }) {
-  if (!glassPallets.length) return null
-
+export default function GlassPalletCard({  pallets }) {
+  if (!pallets.length) return null
   return (
     <div className='space-y-2 p-4'>
-      {glassPallets.map((pallet) => (
-        <div key={pallet.glass_pallet_id} className='border rounded-lg shadow-sm p-3 bg-white'>
+      {pallets.map((pallet) => (
+        <div key={pallet.id} className='border rounded-lg shadow-sm p-3 bg-white'>
           <p className='text-lg font-medium'>📍 {pallet.loc}</p>
 
           {pallet.glass_list.length > 0 ? (

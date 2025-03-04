@@ -1,11 +1,12 @@
 CREATE TABLE glass_pallet (
     id SERIAL PRIMARY KEY,
-    prj_id INT NOT NULL,
+    "prjId" INT NOT NULL,
+    name TEXT NOT NULL,
     floor INT,
-    apt_num INT,
+    "aptNum" INT,
     front TEXT,
     media TEXT,
-    free_loc TEXT,
+    "freeLoc" TEXT,
     loc TEXT GENERATED ALWAYS AS (
         TRIM(
             COALESCE(NULLIF('קומה ' || floor::TEXT, 'קומה '), '') ||
@@ -18,10 +19,25 @@ CREATE TABLE glass_pallet (
         )
     ) STORED,
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by_id INT
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "createdById" INT
 );
 
 -- DROP TABLE IF EXISTS glass_pallet;
 
+-- ALTER TABLE glass_pallet RENAME COLUMN created_by_id TO "createdById";
+
+-- ALTER TABLE glass_pallet DROP COLUMN loc;
+
+-- ALTER TABLE glass_pallet ADD COLUMN loc TEXT GENERATED ALWAYS AS (
+--     TRIM(
+--         COALESCE(NULLIF('קומה ' || floor::TEXT, 'קומה '), '') ||
+--         CASE WHEN floor IS NOT NULL AND "aptNum" IS NOT NULL THEN ', ' ELSE '' END ||
+--         COALESCE(NULLIF('דירה ' || "aptNum"::TEXT, 'דירה '), '') ||
+--         CASE WHEN (floor IS NOT NULL OR "aptNum" IS NOT NULL) AND front IS NOT NULL THEN ', ' ELSE '' END ||
+--         COALESCE(NULLIF('חזית ' || front, 'חזית '), '') ||
+--         CASE WHEN (floor IS NOT NULL OR "aptNum" IS NOT NULL OR front IS NOT NULL) AND "freeLoc" IS NOT NULL THEN ', ' ELSE '' END ||
+--         COALESCE(NULLIF("freeLoc", ''), '')
+--     )
+-- ) STORED;

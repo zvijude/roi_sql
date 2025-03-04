@@ -5,20 +5,15 @@ import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 import { addGlassPallet } from './api'
 import Icon from 'zvijude/icon'
+import { getFormData } from 'zvijude/form/funcs'
 
-export function AddGlassPallet({ prj_id }) {
+export function AddGlassPallet({ prjId }) {
   async function onSubmitPallet(e) {
     e.preventDefault()
     toast('loading')
 
-    const data = {
-      floor: e.target.floor.value || null,
-      apt_num: e.target.aptNum.value || null,
-      front: e.target.front.value || null,
-      free_loc: e.target.freeLoc.value || null,
-    }
-
-    await addGlassPallet({ prj_id, data })
+    const data = getFormData(e)
+    await addGlassPallet({ prjId, data })
     toast('success', 'משטח זכוכית נוסף בהצלחה')
     document.getElementById('glassPalletPop')?.hidePopover()
     e.target.reset()
@@ -37,11 +32,12 @@ export function AddGlassPallet({ prj_id }) {
         </button>
         <h3 className='text-lg font-semibold'>הוסף משטח זכוכית</h3>
         <form onSubmit={onSubmitPallet} className='grid gap-2 mt-4'>
+          <Input lbl='שם המשטח' name='name' type='text' />
           <Input lbl='קומה' name='floor' type='number' required={false} />
           <Input lbl='דירה' name='aptNum' type='number' required={false} />
           <Select lbl='חזית' name='front' required={false} options={['צפון', 'מזרח', 'דרום', 'מערב']} placeholder='בחר חזית' />
           <Input lbl='טקסט חופשי' name='freeLoc' type='text' required={false} />
-          <Btn lbl='הוסף משטח' type='submit' className='mt-2' />
+          <Btn lbl='הוסף משטח' className='mt-2' />
         </form>
       </div>
     </>

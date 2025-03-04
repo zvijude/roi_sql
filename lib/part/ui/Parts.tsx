@@ -63,7 +63,7 @@ export default function Parts({ prts, prjId }) {
           <div className='flex items-end justify-between border-b pb-3'>
             <h2 className='flex'>
               <Icon name='table-list' flip type='reg' className='size-5' />
-              <span className='text-xl font-semibold'>צור כתב כמויות</span>
+              <span className='text-xl font-semibold'>כתב כמויות לפרטים</span>
             </h2>
 
             <Btn lbl='שמור פרט' icon='floppy-disk' clr='solid' />
