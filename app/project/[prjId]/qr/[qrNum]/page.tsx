@@ -1,13 +1,13 @@
-import LocForm from '@/lib/qr/ui/LocForm'
-import { getCurTask, scanQr } from '@/lib/qr/db/get'
+import LocForm from '@/components/qr/ui/LocForm'
+import { getCurTask, scanQr } from '@/components/qr/db'
 import { getUser, userInPrj } from '@/auth/authFuncs'
 import { isManager } from '@/db/types'
-import { getPartsByPrj } from '@/lib/part/db/get'
-import { getAllAptOpt } from '@/lib/aptOpt/db/get'
-import { QrTask } from '@/lib/qr/ui/QrTask'
+import { getPartsByPrj } from '@/components/setup/part/db'
+import { getAllAptOpt } from '@/components/aptOpt/db'
+import { QrTask } from '@/components/qr/ui/QrTask'
 import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
-import { getAllMissOpt, getMissActive } from '@/components/missing/db'
+import { getMissOpt, getMissActive } from '@/components/missing/db'
 import { AddNewMiss } from '@/components/missing/AddNewMiss'
 import { getAllMedidotOpt, getMedidotByQr } from '@/components/medidot/db'
 import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
@@ -23,7 +23,7 @@ export default async function Page({ params }) {
 
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
-  const missOpt = await getAllMissOpt(prjId)
+  const missOpt = await getMissOpt(prjId)
   const medidotOpt = await getAllMedidotOpt(prjId)
 
 

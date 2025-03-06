@@ -1,4 +1,4 @@
-import { db } from "@/sql"
+import { db } from '@/sql'
 
 export async function getMedidotByQr(qrId) {
   const res = await db('medidot').where({ qrId })

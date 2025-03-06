@@ -1,0 +1,90 @@
+'use server'
+
+import { db } from '@/sql'
+import getDiff from 'diff-arrays-of-objects'
+import { genId } from '@/utils/func'
+
+// Create
+export async function crtMainTask({ tasks, partIds, prjId }) {
+  const tasksId = genId()
+
+  tasks = formatTasks(tasks, prjId, tasksId)
+  tasks.map((t) => (t.price = Number(t.price)))
+
+  await db.transaction(async (trx) => {
+    await trx('MainTask').insert(tasks)
+    await trx('Part').whereIn('id', partIds).update({ tasksId })
+  })
+
+  revalidateProject()
+}
+
+// Update
+export async function updateMainTask({ tasks, oldTasks, partIds, oldPartsIds, prjId }) {
+  const tasksId = oldTasks[0].tasksId
+  tasks = formatTasks(tasks, prjId, tasksId)
+
+  const { removed, updated, added } = getDiff(oldTasks, tasks)
+  const removeParts = oldPartsIds.filter((element) => !partIds.includes(element))
+  const addParts = partIds.filter((element) => !oldPartsIds.includes(element))
+  updated.map((t) => (t.price = Number(t.price)))
+
+  const res = await db
+    .transaction(async (trx) => {
+      // Update existing tasks
+      for (const tsk of updated) {
+        await trx('MainTask')
+          .where({ id: tsk.id })
+          .update({ ...tsk })
+      }
+
+      // Add new tasks
+      for (const tsk of added) {
+        await trx('MainTask').insert({ ...tsk })
+      }
+
+      // Delete removed tasks
+      await trx('MainTask')
+        .whereIn(
+          'id',
+          removed.map(({ id }) => id)
+        )
+        .delete()
+
+      // Update added parts
+      await trx('Part').whereIn('id', addParts).update({ tasksId })
+
+      // Update removed parts
+      await trx('Part').whereIn('id', removeParts).update({ tasksId: null })
+    })
+    .catch((e) => {
+      return { failed: true, msg: `שגיאה בעדכון המשימות error: ${e}` }
+    })
+
+  revalidateProject()
+
+  return res
+}
+
+// Delete
+export async function deleteMainTask({ tasks, partIds }) {
+  const res = await db
+    .transaction(async (trx) => {
+      // Delete tasks
+      await trx('MainTask')
+        .whereIn(
+          'id',
+          tasks.map((el) => el.id)
+        )
+        .delete()
+
+      // Update parts to remove tasksId
+      await trx('Part').whereIn('id', partIds).update({ tasksId: null })
+    })
+    .catch((e) => {
+      return { err: true, msg: `שגיאה במחיקת המשימות error: ${e}` }
+    })
+
+  revalidateProject()
+  return res
+}

@@ -1,7 +1,7 @@
 'use client'
 
 import { toast } from 'zvijude/pop'
-import { addCompany } from '@/lib/user/db/set'
+import { addCompany } from '@/components/user/api'
 import { Input } from 'zvijude/form'
 import { getFormData } from 'zvijude/form/funcs'
 import { useRouter } from 'next/navigation'

@@ -17,8 +17,6 @@ ALTER COLUMN "updatedAt" SET DEFAULT now();
 ALTER TABLE "Company"
 ALTER COLUMN "updatedAt" SET DEFAULT now();
 
-ALTER TABLE medidot
-ALTER COLUMN "updatedAt" SET DEFAULT now();
 
 CREATE OR REPLACE FUNCTION update_timestamp()
 RETURNS TRIGGER AS $$
@@ -29,6 +27,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON medidot
+BEFORE UPDATE ON missing
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
+
+
+ALTER TABLE missing
+ALTER COLUMN "updatedAt" SET DEFAULT now();

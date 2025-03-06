@@ -1,5 +1,5 @@
-import { getMainTask } from '@/lib/mainTask/db/get'
-import MainTask from '@/lib/mainTask/ui/MainTask'
+import { getMainTask } from '@/components/setup/mainTask/db'
+import MainTask from '@/components/setup/mainTask/ui/MainTask'
 
 export default async function MainTasks({ params }) {
   let { prjId } = await params

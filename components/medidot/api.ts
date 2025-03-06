@@ -16,6 +16,13 @@ export async function deleteMedida({ id }) {
   revalidatePath('/qr')
 }
 
+export async function completeMedida({ id }) {
+  const user = await getUser()
+  await db('medidot').where({ id }).update({ isActive: false, updatedById: user.id, resAt: new Date() })
+
+  revalidatePath('/qr')
+}
+
 export async function addMedidotOpt(prjId, option) {
   prjId = Number(prjId)
 

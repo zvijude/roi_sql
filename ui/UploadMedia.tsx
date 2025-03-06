@@ -6,13 +6,19 @@ import { Btn } from 'zvijude/btns'
 import { uploadDataUrl } from 'zvijude/cloudinary/upload'
 import { toast } from 'zvijude/pop'
 
-export default function UploadMedia({ onUpload }) {
+type PropsT = {
+  onUpload: (urls: string) => void
+  setLoading?: (load: boolean) => void
+}
+
+export default function UploadMedia({ onUpload, setLoading }: PropsT) {
   const nativeCameraRef = useRef<HTMLInputElement>(null)
   const nativeVideoRef = useRef<HTMLInputElement>(null)
 
   async function onFileChange(e) {
     const file = e.target.files?.[0]
     if (!file) return
+    setLoading?.(true)
 
     if (file.size > MAX_MB * 1024 * 1024) {
       const fileSize = `${(file.size / 1024 / 1024).toFixed(2)} MB`
@@ -28,9 +34,10 @@ export default function UploadMedia({ onUpload }) {
 
     reader.onload = async function () {
       const imageDataUrl = reader.result as string
-      const urls = await uploadDataUrl(imageDataUrl)
+      const urls = await uploadDataUrl(imageDataUrl) as string
       onUpload(urls)
       toast('success', 'המדיה הועלתה בהצלחה')
+      setLoading?.(false)
     }
   }
 

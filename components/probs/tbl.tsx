@@ -9,11 +9,12 @@ import { Btn } from 'zvijude/btns'
 
 // for format status
 import { isManager } from '@/db/types'
-import { updateProbStatus } from '@/lib/prob/db/set'
+import { updateProbStatus } from '@/components/events/api'
 import { useUser } from '@/utils/userCtx'
 import { SelectObj } from 'zvijude/form'
 import { toast } from 'zvijude/pop'
 import EventChip from '../global/EventChip'
+import BtnMedia from '@/ui/BtnMedia'
 
 export default function ProbTable({ data }) {
   const headers = [
@@ -45,14 +46,7 @@ export default function ProbTable({ data }) {
   }
   function formatMedia(media, item) {
     if (!media?.[0]) return null
-    return (
-      <>
-        <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' />
-        <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
-          <img src={media[0]} alt='' />
-        </div>
-      </>
-    )
+    return <BtnMedia media={media} item={item} />
   }
   function formatStatusUpdate(_, item) {
     if (item.status !== 'WAITING') return null

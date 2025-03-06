@@ -1,0 +1,10 @@
+CREATE TABLE glass (
+    id SERIAL PRIMARY KEY,
+    "palletId" INT REFERENCES glass_pallet(id) ON DELETE CASCADE,
+    "glassInfoId" INT REFERENCES glass_info(id) ON DELETE CASCADE,
+    qntt INT NOT NULL,
+    note TEXT,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- DROP TABLE IF EXISTS glass;

@@ -3,7 +3,7 @@
 import { Html5Qrcode } from 'html5-qrcode'
 import { Btn } from 'zvijude/btns'
 import { useRouter } from 'next/navigation'
-import { addScan } from '@/lib/scan/db/set'
+// import { addScan } from '@/lib/scan/db/set'
 
 export default function ScanQrCamera() {
   const router = useRouter()
@@ -17,7 +17,7 @@ export default function ScanQrCamera() {
         const regex = /(?<=\/project\/)\d+|(?<=\/qr\/)\d+/g
         const [prjId, qrNum] = url.match(regex) as any
 
-        addScan({ prjId, qrNum })
+        // addScan({ prjId, qrNum })
         router.push(url)
         scn.stop()
       },
