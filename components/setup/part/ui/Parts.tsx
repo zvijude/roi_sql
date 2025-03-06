@@ -9,7 +9,7 @@ import { Btn } from 'zvijude/btns'
 import { getFormData } from 'zvijude/form/funcs'
 import { Part } from '@prisma/client'
 import { sumBy } from '@/utils/func'
-import { insertPart, updatePart } from '@/lib/part/db/set'
+import { insertPart, updatePart } from '@/components/setup/part/api'
 
 export default function Parts({ prts, prjId }) {
   const [tmpObj, setTmpObj] = useState({} as TmpPart)

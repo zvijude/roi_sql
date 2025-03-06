@@ -7,7 +7,7 @@ import { Select } from 'zvijude/form'
 import { getFormData } from 'zvijude/form/funcs'
 import Title from 'zvijude/general/Title'
 import { toast } from 'zvijude/pop'
-import { editQrLoc } from '../db/set'
+import { editQrLoc } from '../api'
 
 export default function EditLocQrPop({ qrData, aptOpt }) {
   if (!qrData) return null

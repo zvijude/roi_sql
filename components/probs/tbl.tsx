@@ -9,7 +9,7 @@ import { Btn } from 'zvijude/btns'
 
 // for format status
 import { isManager } from '@/db/types'
-import { updateProbStatus } from '@/lib/prob/db/set'
+import { updateProbStatus } from '@/components/events/api'
 import { useUser } from '@/utils/userCtx'
 import { SelectObj } from 'zvijude/form'
 import { toast } from 'zvijude/pop'

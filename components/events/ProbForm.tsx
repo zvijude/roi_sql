@@ -1,4 +1,4 @@
-import { addProb } from '@/lib/prob/db/set'
+import { addProb } from '@/components/events/api'
 import { useState } from 'react'
 import { Btn } from 'zvijude/btns'
 import UploadMedia from '@/ui/UploadMedia'

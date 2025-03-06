@@ -9,7 +9,7 @@ import { toast } from 'zvijude/pop'
 import { Btn } from 'zvijude/btns'
 import Title from 'zvijude/general/Title'
 import { useState } from 'react'
-import { getTasksByPart } from '@/lib/part/db/get'
+import { getTasksByPart } from '@/components/setup/part/db'
 
 export default function LocationForm({ qrNum, aptOpt, parts }) {
   const [tasks, setTasks] = useState([]) as any

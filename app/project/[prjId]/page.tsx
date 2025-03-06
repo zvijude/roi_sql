@@ -1,6 +1,6 @@
 import { getFields } from '@/components/filter/getFields'
 // import PeriodicCharts from '@/lib/graph/ui/PeriodicCharts'
-import { getPartsByPrj } from '@/lib/part/db/get'
+import { getPartsByPrj } from '@/components/setup/part/db'
 // import { getPeriodic, getPeriodicChartData } from '@/lib/periodicTable/db/get'
 import PeriodicTable from '@/lib/periodicTable/ui/PeriodicTable'
 

@@ -1,4 +1,4 @@
-import PrintTable from '@/lib/qr/ui/print/PrintTable'
+import PrintTable from '@/components/qr/ui/print/PrintTable'
 import Icon from 'zvijude/icon'
 import { getPrjPrintQntt, getProjectName } from '@/db/project/get'
 import { db } from '@/sql'

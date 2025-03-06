@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@/sql'
 import { getUser } from '@/auth/authFuncs'
 import { ProbStatus, QrStatus } from '@prisma/client'
-import { updateQrStatus } from '@/lib/qr/db/set'
+import { updateQrStatus } from '@/components/qr/api'
 
 // create prob
 export async function addProb(data) {

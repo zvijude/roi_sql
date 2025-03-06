@@ -2,7 +2,7 @@
 
 import { db } from '@/sql'
 import { getUser } from '@/auth/authFuncs'
-import { connectQrToNextTask, updateQrStatus } from '@/lib/qr/db/set'
+import { connectQrToNextTask, updateQrStatus } from '@/components/qr/api'
 import { QrStatus, TaskStatus } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { create } from 'domain'

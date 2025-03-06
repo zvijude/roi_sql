@@ -6,7 +6,7 @@ import { getFormData } from 'zvijude/form/funcs'
 import { toast } from 'zvijude/pop'
 import Icon from 'zvijude/icon'
 import { useParams } from 'next/navigation'
-import { addProb } from '@/lib/prob/db/set'
+import { addProb } from '@/components/events/api'
 import ImgsCom from '@/ui/imgsCom'
 
 export default function BgtReqForm({ taskId, qrId }) {

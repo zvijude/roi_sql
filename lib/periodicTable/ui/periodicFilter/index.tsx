@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import Icon from 'zvijude/icon'
 import { formToQueryPeriodic } from '@/utils/formToQuery'
 import { useState } from 'react'
-import { getTasksByPart } from '@/lib/part/db/get'
+import { getTasksByPart } from '@/components/setup/part/db'
 
 export default function PeriodicFilter({ query, fields, parts }) {
   const router = useRouter()

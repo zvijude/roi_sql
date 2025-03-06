@@ -1,6 +1,6 @@
 import { getGlassInfoTbl } from '@/components/glass/db'
 import GlassInfo from '@/components/glass/GlassInfo'
-import Parts from '@/lib/part/ui/Parts'
+import Parts from '@/components/setup/part/ui/Parts'
 import { db } from '@/sql'
 
 export default async function partsPage({ params }) {
