@@ -1,5 +1,3 @@
-'use server'
-
 import { db } from '@/sql'
 
 export async function getAllAptOpt(prjId) {

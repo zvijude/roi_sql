@@ -1,8 +1,8 @@
 import { getUser } from '@/auth/authFuncs'
 import { isManager } from '@/db/types'
-import { getKablansNames } from '@/lib/kablan/db/get'
-import AllKablansTable from '@/lib/kablan/ui/AllKablanTable'
-import SelectKablan from '@/lib/kablan/ui/SelectKablan'
+import { getKablansNames } from '@/components/kablan/db'
+import AllKablansTable from '@/components/kablan/ui/AllKablanTable'
+import SelectKablan from '@/components/kablan/ui/SelectKablan'
 import { db } from '@/sql'
 import { redirect } from 'next/navigation'
 

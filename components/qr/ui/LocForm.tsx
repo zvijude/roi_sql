@@ -3,7 +3,7 @@
 import { arrayOf } from '@/utils/func'
 import { insertQr, QrData } from '@/components/qr/api'
 import { Select, SelectObj } from 'zvijude/form'
-import { SelectAptOpt } from '@/lib/aptOpt/ui/SelectAptOpt'
+import { SelectAptOpt } from '@/components/aptOpt/ui/SelectAptOpt'
 import { getFormData } from 'zvijude/form/funcs'
 import { toast } from 'zvijude/pop'
 import { Btn } from 'zvijude/btns'

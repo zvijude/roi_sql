@@ -1,5 +1,5 @@
-import { checkKablan, getKablansNames } from '@/lib/kablan/db/get'
-import SelectKablan from '@/lib/kablan/ui/SelectKablan'
+import { checkKablan, getKablansNames } from '@/components/kablan/db'
+import SelectKablan from '@/components/kablan/ui/SelectKablan'
 import { isManager } from '@/db/types'
 import { db } from '@/sql'
 import StatsUi from '@/ui/StatsUi'

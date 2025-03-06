@@ -1,6 +1,6 @@
 'use client'
 
-import { SelectAptOpt } from '@/lib/aptOpt/ui/SelectAptOpt'
+import { SelectAptOpt } from '@/components/aptOpt/ui/SelectAptOpt'
 import { arrayOf } from '@/utils/func'
 import { Btn } from 'zvijude/btns'
 import { Select } from 'zvijude/form'

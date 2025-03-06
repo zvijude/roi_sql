@@ -1,6 +1,6 @@
 'use client'
 
-import { addAptOpt, deleteAptOpt } from '@/lib/aptOpt/db/set'
+import { addAptOpt, deleteAptOpt } from '@/components/aptOpt/api'
 import { useParams, usePathname } from 'next/navigation'
 import { Input } from 'zvijude/form'
 import { Btn } from 'zvijude/btns'
