@@ -5,7 +5,6 @@ import { getUser } from '@/auth/authFuncs'
 import { connectQrToNextTask, updateQrStatus } from '@/components/qr/api'
 import { QrStatus, TaskStatus } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
-import { create } from 'domain'
 
 export async function setTaskCompletion(curTask: any, note: string) {
   const user = await getUser()

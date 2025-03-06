@@ -3,7 +3,7 @@ import { Textarea } from 'zvijude/form'
 import { toast } from 'zvijude/pop'
 import Icon from 'zvijude/icon'
 import { QrStatus } from '@prisma/client'
-import { setTaskCompletion } from '@/lib/task/db/set'
+import { setTaskCompletion } from '@/components/tasks/api'
 
 export default function TaskCompletionForm({ curTask, qrStatus }) {
   const hasErrors = qrStatus !== QrStatus.IN_PROGRESS

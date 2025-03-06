@@ -6,7 +6,7 @@ import { Btn } from 'zvijude/btns'
 import { getFormData } from 'zvijude/form/funcs'
 import { toast } from 'zvijude/pop'
 import { rolesOptions } from '@/db/types'
-import { addUser, connectExistingUser } from '@/lib/user/db/set'
+import { addUser, connectExistingUser } from '@/components/user/api'
 import { useState } from 'react'
 import { Role } from '@prisma/client'
 

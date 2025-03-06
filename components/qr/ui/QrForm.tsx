@@ -5,7 +5,7 @@ import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 import UploadMedia from '@/ui/UploadMedia'
 import { QrStatus, TaskStatus } from '@prisma/client'
-import { addMedia, approveTask, updateSkippedTask } from '@/lib/task/db/set'
+import { addMedia, approveTask, updateSkippedTask } from '@/components/tasks/api'
 
 export default function QrForm({ curTask, userRole, qrStatus }) {
   const isAuthorized = roleLevels[userRole] >= roleLevels[curTask.for]

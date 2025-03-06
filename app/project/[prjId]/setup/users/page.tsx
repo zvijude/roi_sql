@@ -1,7 +1,7 @@
-import { getUsers } from '@/lib/user/db/get'
-import { getKablansNames } from '@/lib/kablan/db/get'
-import UserForm from '@/lib/user/ui/UserForm'
-import UsersTable from '@/lib/user/ui/UsersTable'
+import { getUsers } from '@/components/user/db'
+import { getKablansNames } from '@/components/kablan/db'
+import UserForm from '@/components/user/ui/UserForm'
+import UsersTable from '@/components/user/ui/UsersTable'
 
 export default async function UsersPage({ params }) {
   let { prjId } = await params
