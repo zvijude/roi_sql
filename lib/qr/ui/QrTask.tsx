@@ -2,12 +2,12 @@
 
 import QrForm from './QrForm'
 import CurTaskEvents from './QrActiveData'
-import ImgsCom from '@/lib/imgsCom'
 import QrHeader from './QrHeader'
 import { TaskStatus } from '@prisma/client'
-import ProblemForm from '@/lib/prob/ui/ProbForm'
-import BgtReqForm from '@/lib/bgtReq/ui/BgtReqForm'
-import TaskCompletionForm from '@/lib/task/completedTask/ui/TaskCompletionForm'
+import BgtReqForm from '@/components/events/BgtReqForm'
+import ProblemForm from '@/components/events/ProbForm'
+import TaskCompletionForm from '@/components/tasks/TaskCompletionForm'
+import ImgsCom from '@/ui/imgsCom'
 
 export function QrTask({ user, qrData, aptOpt, curTask }) {
   return (

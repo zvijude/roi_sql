@@ -1,6 +1,4 @@
-import { revalidatePath } from 'next/cache'
-
-export function formatTasks(tasks, prjId, tasksId) {
+function formatTasks(tasks, prjId, tasksId) {
   return tasks.map((t, i) => {
     t.needMedia = t.needMedia ? true : false
     t.needApproval = t.needApproval ? true : false
@@ -8,6 +6,6 @@ export function formatTasks(tasks, prjId, tasksId) {
   })
 }
 
-export async function revalidateProject() {
+async function revalidateProject() {
   revalidatePath(`/project`)
 }

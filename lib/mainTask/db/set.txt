@@ -1,7 +1,6 @@
 'use server'
 
 import { db } from '@/sql'
-import { formatTasks, revalidateProject } from '@/lib/mainTask/funcs'
 import getDiff from 'diff-arrays-of-objects'
 import { genId } from '@/utils/func'
 

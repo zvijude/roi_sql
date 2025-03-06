@@ -1,13 +1,12 @@
-import { getEventStats, getTasks } from '@/lib/events/db/get'
-import EventTables from '@/lib/events/ui/EventTables'
+// import { getEventStats, getTasks } from '@/lib/events/db/get'
+// import EventTables from '@/lib/events/ui/EventTables'
 import { getProbs } from '@/lib/prob/db/get'
-import StatsEvents from '@/components/stats/StatsBox'
 import StatsUi from '@/ui/StatsUi'
 
 export default async function Events({ params }) {
   let { prjId } = await params
   prjId = Number(prjId)
-  const tasks = await getTasks(prjId)
+  // const tasks = await getTasks(prjId)
   const probs = await getProbs(prjId)
   const eventsStats = await getEventStats(prjId)
 
@@ -20,7 +19,7 @@ export default async function Events({ params }) {
           return <StatsUi key={key} lbl={key} stat={value as number} />
         })}
       </div>
-      <EventTables probs={probs} tasks={tasks} />
+      {/* <EventTables probs={probs} tasks={tasks} /> */}
     </>
   )
 }

@@ -1,0 +1,36 @@
+import { Btn } from 'zvijude/btns'
+import SimpleTable from 'zvijude/table/SimpleTable'
+import { deletePart } from '../api'
+
+export default function PartsTable({ rowsData, setTmpObj }) {
+  async function dltPart(row) {
+    //TODO: what todo if part as tasks
+    confirm('בטוח למחוק את הפרט ' + row.name + '?')
+
+    const res = await deletePart(row.id)
+  }
+
+  return (
+    <SimpleTable headers={["מס'", 'שם הפרט', 'כמות', 'תאור הפרט', 'עריכה / מחיקה']}>
+      <tbody>
+        {rowsData.map((row, i) => {
+          return (
+            <tr key={i}>
+              <td>{i + 1}#</td>
+              <td>{row.name}</td>
+              <td>{row.qntt}</td>
+              <td>{row.desc}</td>
+
+              <td>
+                <div className='flex'>
+                  <Btn clr='icon' popoverTarget='editPop' onClick={() => setTmpObj({ ...row })} icon='pen' />
+                  <Btn clr='icon' onClick={() => dltPart(row)} icon='trash' />
+                </div>
+              </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </SimpleTable>
+  )
+}

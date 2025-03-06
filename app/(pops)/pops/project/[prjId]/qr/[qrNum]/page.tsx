@@ -1,6 +1,6 @@
 import { qrStatusDic } from '@/db/types'
 // import { getQrPeriodicPop } from '@/lib/periodicTable/db/get'
-import EventPop from '@/lib/events/ui/EventPop'
+// import EventPop from '@/lib/events/ui/EventPop'
 import { formatDateTime } from 'zvijude/dates/funcs'
 
 export default async function QrHistory({ params: { prjId, qrNum } }: any) {

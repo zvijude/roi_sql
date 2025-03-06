@@ -3,8 +3,8 @@ import { genId } from 'zvijude/funcs'
 import { toast } from 'zvijude/pop'
 import { Btn } from 'zvijude/btns'
 import { store, useSnap } from '@/utils/store'
-import { crtMainTask, updateMainTask } from '@/lib/mainTask/db/set'
-import MainTaskForm from '@/lib/mainTask/ui/MainTaskForm'
+import { crtMainTask, updateMainTask } from '../api'
+import MainTaskForm from './MainTaskForm'
 
 export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
   const { editMode, oldTasks } = useSnap()
