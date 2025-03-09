@@ -1,36 +1,30 @@
-import { checkKablan, getKablansNames } from '@/components/kablan/db'
-import SelectKablan from '@/components/kablan/ui/SelectKablan'
+import { checkKablan, getKablan, getKablanStats } from '@/components/kablan/db'
+import KablanTbl from '@/components/kablan/ui/KablanTbl'
 import { isManager } from '@/db/types'
-import { db } from '@/sql'
 import StatsUi from '@/ui/StatsUi'
-// import TaskTable from '@/lib/task/ui/TaskTable'
-// import ProbTable from '@/lib/prob/ui/ProbTable'
-// import EventTables from '@/lib/events/ui/EventTables'
+import Link from 'next/link'
 
 export default async function Kablan({ params }) {
   let { prjId, kablanId } = await params
-  prjId = Number(prjId)
-  kablanId = Number(kablanId)
 
   const user = await checkKablan(prjId, kablanId)
-
-  const curKablanStats = await db('_all_kablans').where({ prjId, kablanId }).first()
-  const tasks = await db('_tasks').where({ prjId, kablanId, status: 'COMPLETED' })
-  const probs = await db('_probs').where({ prjId, kablanId, status: "GRANTED" })
-  const kablanNames = await getKablansNames(prjId)
+  const kablan = await getKablan(prjId, kablanId)
+  const curKablanStats = await getKablanStats(prjId, kablanId)
 
   return (
     <>
+      {/* כפתור חזרה לכל הקבלנים */}
+      {isManager(user.role) && <Link href={`/project/${prjId}/kablan`}>חזרה לכל הקבלנים</Link>}
+
+      {/* StatsUi for single Kablan */}
       <div className='flex mb-8'>
         {Object.entries(curKablanStats).map(([key, value]) => {
-          if (key === 'prjId' || key === 'kablanId') return null
-          return <StatsUi key={key} lbl={kablanDic[key]} stat={value as string | number} />
+          if (key === 'kablan_id') return null // Exclude ID & name
+          return <StatsUi key={key} lbl={kablanDic[key] || key} stat={value as string | number} />
         })}
       </div>
 
-      {isManager(user.role) && <SelectKablan kablans={kablanNames} key={Math.random()} prjId={prjId} />}
-
-      {/* <EventTables tasks={tasks} probs={probs} /> */}
+      <KablanTbl kablan={kablan} />
     </>
   )
 }

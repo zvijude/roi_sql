@@ -49,7 +49,7 @@ export default function BgtReqForm({ taskId, qrId }) {
         <Textarea lbl='פירוט החריגה' name='desc' />
         <Input lbl='מחיר החריגה' type='number' min={0} name='price' placeholder='10,000 שח' />
         <UploadMedia onUpload={onUploadMedia} />
-        <Btn lbl='שלח' disabled={!media.length} type='button' />
+        <Btn lbl='שלח' disabled={!media.length} />
         <p className={`${media.length && 'hidden'} text-sm text-red-700 font-semibold`}>* חובה להעלות מדיה לתיאור החריגה</p>
         <div className={`${!media.length && 'hidden'}`}>
           <ImgsCom urls={media} />

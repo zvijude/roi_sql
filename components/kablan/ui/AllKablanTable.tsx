@@ -24,7 +24,7 @@ export default function AllKablansTable({ kablans, prjId }) {
   const router = useRouter()
 
   function onRowClick(kablan) {
-    router.push(`/project/${prjId}/kablan/${kablan.kablanId}`)
+    router.push(`/project/${prjId}/kablan/${kablan.kablan_id}`)
   }
 
   const config = {
@@ -37,21 +37,8 @@ export default function AllKablansTable({ kablans, prjId }) {
     noCheckboxs: true,
   } as ConfigT
 
-  const configBars = {
-    data: kablans,
-    subject: 'name',
-    values: [{ label: 'סה"כ לתשלום', val: 'totalPrice', format: formatCurrency, clr: blue[900] }],
-  } as BarsProps
-
   return (
     <div>
-      {/* <AllKablanStats stats={stats} /> */}
-      {kablans.length > 1 && (
-        <div className='w-[70%] h-[320px] justify-self-center mb-4'>
-          {/* <BarsChart config={configBars} /> */}
-        </div>
-      )}
-
       <TableTopbar>
         <Search config={config} />
       </TableTopbar>
