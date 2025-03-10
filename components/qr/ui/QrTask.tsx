@@ -36,7 +36,7 @@ function TaskDetails({ curTask }) {
       <p className='text-[16px] font-bold border-b border-gray-200 text-center'>{curTask.title}</p>
       <p className='my-1 py-1 text-sm text-gray-700'>{curTask.desc}</p>
 
-      {!isWaitingForApproval && Boolean(curTask.needApproval || curTask.media) && (
+      {!isWaitingForApproval && Boolean(curTask.needApproval || curTask.needMedia) && (
         <div className='my-1 py-2 text-xs text-gray-700 font-semibold border-t border-gray-200'>
           {curTask.needApproval && <p>* משימה זו תעבור לאישור מנהל בסיום העבודה</p>}
           {curTask.needMedia && <p>* חובה להעלות תמונה או סרטון בסיום המשימה</p>}
