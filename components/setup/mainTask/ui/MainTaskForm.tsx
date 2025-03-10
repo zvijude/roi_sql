@@ -1,13 +1,12 @@
-import { roleDic } from '@/db/types'
 import { Textarea, Input, Switch, SelectObj } from 'zvijude/form'
 
 export default function MainTaskForm({ task }) {
   const taskForOpt = [
-    { value: roleDic.INSTALLER, label: 'קבלן' },
-    { value: roleDic.SITE_MNGR, label: 'מנהל ביצוע' },
-    { value: roleDic.PRJ_MNGR, label: 'מנהל פרויקט' },
-    { value: roleDic.C_INSTALLER, label: 'מתקין ע.חברה' },
-    { value: roleDic.ADMIN, label: 'אדמין' },
+    { value: "INSTALLER", label: 'קבלן' },
+    { value: "SITE_MNGR", label: 'מנהל ביצוע' },
+    { value: "PRJ_MNGR", label: 'מנהל פרויקט' },
+    { value: "C_INSTALLER", label: 'מתקין ע.חברה' },
+    { value: "ADMIN", label: 'אדמין' },
   ]
 
   return (
