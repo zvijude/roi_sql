@@ -2,16 +2,21 @@ import { db } from '@/sql'
 import { Role } from '@prisma/client'
 import { getUser, userInPrj } from '@/auth/authFuncs'
 import { redirect } from 'next/navigation'
-import { isInstaller, isManager } from '@/db/types'
+import { isManager } from '@/db/types'
 
 export async function checkKablan(prjId, kablanId) {
+  kablanId = Number(kablanId)
   // 1. if user exists
   const user = await getUser()
   if (!user) return redirect('/auth')
 
   await userInPrj({ prjId, userId: user.id })
 
+  // permissions if user is manager
   if (isManager(user.role)) return user
+
+  // permissions if user is the kablan
+  if (user.id === kablanId) return user
 
   // 2. if user is not this kablan
   if (user.id !== kablanId) redirect(`/project/${prjId}`)
