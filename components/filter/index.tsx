@@ -25,7 +25,7 @@ export default function Filter({ className = '', opts }) {
       <Select lbl='קומה' options={opts.floors} placeholder='הכל' name='floor' required={false} />
       <Select lbl='דירה' options={opts.aptNums} placeholder='הכל' name='aptNum' required={false} />
       <Select lbl='מיקום בדירה' options={opts.locInApt} placeholder='הכל' name='locInApt' required={false} />
-      <Select lbl='חזית' options={opts.fronts} placeholder='הכל' name='front' required={false} />
+      <Select lbl='חזית' options={['צפונית', 'מזרחית', 'דרומית', 'מערבית']} placeholder='הכל' name='front' required={false} />
       <SelectObj lbl='קבלן' options={opts.kablans} val='id' show='name' placeholder='הכל' name='kablanId' required={false} />
       <SelectObj lbl='משתמש' options={opts.users} val='id' show='name' placeholder='הכל' name='created_by_id' required={false} />
 
