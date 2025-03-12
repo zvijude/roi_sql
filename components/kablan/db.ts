@@ -28,8 +28,11 @@ export async function checkKablan(prjId, kablanId) {
 }
 
 export async function getKablansNames(prjId: number) {
-  prjId = Number(prjId)
-  return await db('User').where({ role: Role.KABLAN }).select('id', 'name', 'phone', 'email')
+  const kablans = await db('User')
+    .join('_prj_user', 'User.id', '_prj_user.userId')
+    .where({ role: Role.KABLAN, '_prj_user.prjId': prjId })
+    .select('User.id', 'User.name', 'User.phone', 'User.email')
+  return kablans
 }
 
 export async function getAllKablan(prjId) {

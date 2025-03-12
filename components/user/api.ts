@@ -9,6 +9,9 @@ import { getUser, isUserExist } from '@/auth/authFuncs'
 export async function addUser(prjId: number, data: TAddUser) {
   const user = await getUser() // get the current user for company
 
+  const isExist = await isUserExist(data.email)
+  if (isExist) return { fail: true, msg: 'המשתמש כבר קיים במערכת, חבר משתמש קיים!' }
+
   const res = (await db('User')
     .insert({
       companyId: user.companyId,
@@ -100,27 +103,17 @@ export async function editUser(userToUpdate: TUpdateUser, userOld: any, prjId: n
 
 // update - connect existing user
 export async function connectExistingUser(prjId: number, email: string) {
-  // prjId = Number(prjId)
-  // const user = (await isUserExist(email)) as any
-  // if (!user) return { failed: true, msg: `המשתמש ${email} לא קיים במערכת. צור חדש` } // case 1
+  prjId = Number(prjId)
+  const user = (await isUserExist(email)) as any
+  if (!user) return { fail: true, msg: `המשתמש ${email} לא קיים במערכת. צור חדש` } // case 1
 
-  // const isInCurPrj = user.projects.find((prj: any) => prj.id === prjId)
-  // if (isInCurPrj) return { failed: true, msg: `המשתמש ${user.name} כבר קיים בפרויקט` } // case 2
+  const isInCurPrj = await db("_prj_user").where({ prjId, userId: user.id }).first()
+  if (isInCurPrj?.userId) return { fail: true, msg: `המשתמש ${user.name} כבר קיים בפרויקט` } // case 2
 
-  // await db.user
-  //   .update({
-  //     where: { email: user.email },
-  //     data: {
-  //       projects: { connect: [{ id: prjId }] },
-  //     },
-  //   })
-  //   .catch((e: any) => {
-  //     return { failed: true, msg: `שגיאה בחיבור המשתמש ${e}` }
-  //   })
+  await db('_prj_user').insert({ prjId, userId: user.id })
 
-  // revalidatePath('/project/setup/users')
-  // return { failed: false, msg: `המשתמש ${user.name} חובר בהצלחה לפרוקיט` } // case 3
-  return true
+  revalidatePath('/project/setup/users')
+  return { msg: `המשתמש ${user.name} חובר בהצלחה לפרוקיט` } // case 3
 }
 
 type TAddUser = {
