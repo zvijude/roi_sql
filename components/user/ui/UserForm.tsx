@@ -17,7 +17,7 @@ export default function UserForm({ prjId, kablans }) {
     const formData = getFormData(e) as any
     const res = (await addUser(prjId, formData)) as any
 
-    if (res.failed) return toast('error', res.msg)
+    if (res.fail) return toast('error', res.msg)
     toast('success', `המשתמש ${formData.firstName} ${formData.lastName} נוצר בהצלחה`)
     e.target.reset()
     setIsInstaller(false)
@@ -87,7 +87,7 @@ async function connectUser(e, prjId) {
   toast('loading')
   const formData = getFormData(e) as any
   const res = (await connectExistingUser(prjId, formData.email)) as any
-  if (res.failed) return toast('error', res.msg)
+  if (res.fail) return toast('error', res.msg)
   toast('success', res.msg)
 
   e.target.reset()

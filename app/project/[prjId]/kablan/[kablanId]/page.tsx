@@ -1,45 +1,23 @@
-import { checkKablan, getKablansNames } from '@/components/kablan/db'
-import SelectKablan from '@/components/kablan/ui/SelectKablan'
+import { checkKablan, getKablan, getKablanStats } from '@/components/kablan/db'
+import KablanStatsUi from '@/components/kablan/ui/kablanStatsUi'
+import KablanTbl from '@/components/kablan/ui/KablanTbl'
 import { isManager } from '@/db/types'
-import { db } from '@/sql'
-import StatsUi from '@/ui/StatsUi'
-// import TaskTable from '@/lib/task/ui/TaskTable'
-// import ProbTable from '@/lib/prob/ui/ProbTable'
-// import EventTables from '@/lib/events/ui/EventTables'
+import Link from 'next/link'
 
 export default async function Kablan({ params }) {
   let { prjId, kablanId } = await params
-  prjId = Number(prjId)
-  kablanId = Number(kablanId)
 
   const user = await checkKablan(prjId, kablanId)
-
-  const curKablanStats = await db('_all_kablans').where({ prjId, kablanId }).first()
-  const tasks = await db('_tasks').where({ prjId, kablanId, status: 'COMPLETED' })
-  const probs = await db('_probs').where({ prjId, kablanId, status: "GRANTED" })
-  const kablanNames = await getKablansNames(prjId)
+  const kablan = await getKablan(prjId, kablanId)
+  const curKablanStats = await getKablanStats(prjId, kablanId)
 
   return (
     <>
-      <div className='flex mb-8'>
-        {Object.entries(curKablanStats).map(([key, value]) => {
-          if (key === 'prjId' || key === 'kablanId') return null
-          return <StatsUi key={key} lbl={kablanDic[key]} stat={value as string | number} />
-        })}
-      </div>
+      {isManager(user.role) && <Link href={`/project/${prjId}/kablan`}>חזרה לכל הקבלנים</Link>}
 
-      {isManager(user.role) && <SelectKablan kablans={kablanNames} key={Math.random()} prjId={prjId} />}
+      <KablanStatsUi curKablanStats={curKablanStats} />
 
-      {/* <EventTables tasks={tasks} probs={probs} /> */}
+      <KablanTbl kablan={kablan} />
     </>
   )
-}
-
-const kablanDic = {
-  kablan_name: 'שם הקבלן',
-  total_price: 'סה"כ לתשלום',
-  price_tasks: 'מחיר משימות שהושלמו',
-  price_bgt_reqs: 'מחיר בקשות תקציב שאושרו',
-  total_completed_tasks: 'סה"כ משימות שהושלמו',
-  total_granted_bgt_reqs: 'סה"כ בקשות תקציב שאושרו',
 }

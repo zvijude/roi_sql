@@ -26,7 +26,6 @@ export default function EditForm({ user, kablans }) {
   function onRoleChange(e) {
     setIsInstaller(e.target.value === Role.INSTALLER)
   }
-
   return (
     <form className='max-w-6xl pop' onSubmit={onUpdate} popover='auto' id='editUserForm'>
       <div className='flex items-end justify-between border-b pb-3'>
@@ -40,13 +39,9 @@ export default function EditForm({ user, kablans }) {
         <Input lbl='שם פרטי' name='firstName' defaultValue={user.firstName} />
         <Input lbl='שם משפחה' name='lastName' defaultValue={user.lastName} />
 
-        <SelectObj
-          lbl='בחר תפקיד'
-          name='role'
-          options={rolesOptions}
-          onChange={onRoleChange}
-          defaultValue={user.role}
-        />
+        {user.role !== 'KABLAN' && (
+          <SelectObj lbl='בחר תפקיד' name='role' options={rolesOptions} onChange={onRoleChange} defaultValue={user.role} />
+        )}
         {isInstaller && (
           <SelectObj
             lbl='בחר קבלן המשויך למתקין'

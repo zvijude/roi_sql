@@ -1,10 +1,14 @@
-import type { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   const user = request.cookies.get('user')?.value
+  const url = new URL(request.url)
+
+  // Allow access to the register page
+  if (url.pathname === '/register') return
 
   if (!user) {
-    return Response.redirect(new URL('/auth', request.url))
+    return NextResponse.redirect(new URL('/auth', request.url))
   }
 }
 
