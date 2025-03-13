@@ -1,5 +1,5 @@
 import Probs from '@/components/probs'
-import ProbsNav from '@/components/probs/ProbsNav'
+import ProbsNav from '@/components/events/ProbsNav'
 
 export default async function Problems({ params, searchParams }) {
   let { prjId } = await params

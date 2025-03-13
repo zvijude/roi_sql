@@ -1,3 +1,4 @@
+import { getEventLink } from '@/utils/getEventLink';
 import Link from 'next/link'
 
 export default async function TaskNav({ filter }) {
@@ -5,8 +6,14 @@ export default async function TaskNav({ filter }) {
     <section className='flex mt-8 justify-between'>
       <div className='flex gap-0'>
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>משימות</div>
-        <Link href={getProbsLink(filter)} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
-          חריגים ובעיות ביצוע
+        <Link href={getEventLink({ filter, event: 'problems' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
+          בעיות ביצוע
+        </Link>
+        <Link
+          href={getEventLink({ filter, event: 'budget_requests' })}
+          className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'
+        >
+          בקשות חריגים
         </Link>
       </div>
 
@@ -34,13 +41,4 @@ function NavLink({ status, lbl, active, filter }: { status?: string; lbl: string
       {lbl}
     </Link>
   )
-}
-
-function getProbsLink(filter) {
-  if (!filter) return '/dash/problems'
-
-  let newFilter = { ...filter }
-  delete newFilter.status
-
-  return `dash/problems?filter=${JSON.stringify(newFilter)}`
 }

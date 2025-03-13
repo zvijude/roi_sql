@@ -1,15 +1,15 @@
 import { db } from '@/sql'
-import ProbTable from './tbl'
 import { dateFilters } from '../filter/formatFilter'
+import BgtReqTable from './tbl'
 
-export default async function Probs({ prjId, filter }) {
+export default async function BgtReq({ prjId, filter }) {
   const date = filter.date
   delete filter.date
-  let query = db('_probs').where({ prjId, ...filter, type: 'PROB' })
+  let query = db('_probs').where({ prjId, ...filter, type: 'BGT_REQ' })
   if (date) query.whereRaw(dateFilters[date])
 
   const tblData = await query
   console.log('tblData: ', tblData)
 
-  return <ProbTable data={tblData} key={Math.random()} />
+  return <BgtReqTable data={tblData} key={Math.random()} />
 }
