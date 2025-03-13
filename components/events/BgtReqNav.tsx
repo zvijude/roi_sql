@@ -1,14 +1,14 @@
-import { getEventLink } from '@/utils/getEventLink';
+import { getNavLink } from '@/utils/getEventLink'
 import Link from 'next/link'
 
 export default async function BgtReqNav({ filter }) {
   return (
     <section className='flex mt-8 justify-between'>
       <div className='flex gap-0'>
-        <Link href={getEventLink({ filter, event: 'tasks' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
+        <Link href={getNavLink({ filter, event: 'tasks' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
           משימות
         </Link>
-        <Link href={getEventLink({ filter, event: 'problems' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
+        <Link href={getNavLink({ filter, event: 'problems' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
           בעיות ביצוע
         </Link>
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>בקשות חריגים</div>

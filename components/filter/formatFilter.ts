@@ -1,8 +1,17 @@
-export function formatFilter({ filter, query }) {
+import { getUser } from '@/auth/authFuncs'
+import { isManager } from '@/db/types'
+
+export async function formatFilter({ filter, query }) {
   const date = filter.date
   delete filter.date
-
   if (date) query.whereRaw(dateFilters[date])
+
+  query.andWhere(filter)
+
+  const user = await getUser()
+  if (!isManager(user.role)) {
+    user.role === 'KABLAN' ? query.andWhere({ kablanId: user.id }) : query.andWhere({ created_by_id: user.id })
+  }
 
   return query
 }

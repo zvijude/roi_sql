@@ -35,38 +35,15 @@ function getLinks(prjName?: string, prjId?: string | null) {
   const topLinks = [
     { icon: 'city', href: '/', title: 'הפרוייקטים שלי' },
     { icon: 'building', href: `/project/${prjId}/events/tasks`, title: `פרויקט ${prjName}` },
-    // { icon: 'triangle-exclamation', href: `/project/${prjId}/events/problems`, title: 'בעיות ביצוע' },
-    // { icon: 'hand-holding-dollar', href: `/project/${prjId}/events/problems`, title: 'בקשות חריגים' },
-    // { icon: 'building', href: `/project/${prjId}`, title: `פרויקט ${prjName ?? ''}` },
-    // { icon: 'chart-line', href: `/project/${prjId}/dash`, title: 'גרפים' },
-    { icon: 'ruler-triangle', type: 'reg', flip: true, href: `/project/${prjId}/medidot`, title: 'מדידות וחוסרים' },
-    // { icon: 'bell', href: `/project/${prjId}/events`, title: 'אירועים' },
-    // { icon: 'hourglass-half', href: `/project/${prjId}/waiting_tasks`, title: 'ממתין לאישור' },
-    calcUrl(prjId, user),
-    // {
-    //   icon: 'hand-holding-dollar',
-    //   href: `/project/${prjId}/budget_requests`,
-    //   title: 'בקשות חריגים',
-    //   flip: true,
-    // },
-    // { icon: 'triangle-exclamation', href: `/project/${prjId}/problems`, title: 'בעיות ביצוע' },
+    { icon: 'ruler-triangle', type: 'reg', flip: true, href: `/project/${prjId}/logistic/medidot`, title: 'מדידות וחוסרים' },
+    { icon: 'map', href: `/project/${prjId}/glass`, title: `מיפוי זכוכיות` },
 
-    // { icon: 'arrow-rotate-left', href: `/project/${prjId}/skipped_tasks`, title: 'משימות שדולגו' },
+    calcUrl(prjId, user),
   ] as LinksType[]
 
   let bottomLinks = [] as any
   if (isManager(user.role)) {
-    bottomLinks = [
-      { icon: 'users', href: `/project/${prjId}/setup/users`, title: 'בעלי תפקידים' },
-      {
-        icon: 'table-list',
-        href: `/project/${prjId}/setup/parts`,
-        title: 'כתב כמויות',
-        flip: true,
-      },
-      { icon: 'screwdriver-wrench', href: `/project/${prjId}/setup/tasks`, title: 'שלבי ביצוע' },
-      { icon: 'print', href: `/project/${prjId}/setup/print`, title: 'הדפסת QR' },
-    ] as LinksType[]
+    bottomLinks = [{ icon: 'gear', href: `/project/${prjId}/setup/users`, title: 'הגדרות' }] as LinksType[]
   }
 
   return { topLinks, bottomLinks }

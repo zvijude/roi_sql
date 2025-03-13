@@ -1,4 +1,4 @@
-import { getEventLink } from '@/utils/getEventLink';
+import { getNavLink } from '@/utils/getEventLink'
 import Link from 'next/link'
 
 export default async function TaskNav({ filter }) {
@@ -6,11 +6,11 @@ export default async function TaskNav({ filter }) {
     <section className='flex mt-8 justify-between'>
       <div className='flex gap-0'>
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>משימות</div>
-        <Link href={getEventLink({ filter, event: 'problems' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
+        <Link href={getNavLink({ filter, event: 'problems' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
           בעיות ביצוע
         </Link>
         <Link
-          href={getEventLink({ filter, event: 'budget_requests' })}
+          href={getNavLink({ filter, event: 'budget_requests' })}
           className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'
         >
           בקשות חריגים

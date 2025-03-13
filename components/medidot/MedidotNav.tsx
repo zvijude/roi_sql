@@ -1,4 +1,5 @@
 'use client'
+import { getNavLink } from '@/utils/getEventLink'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Select } from 'zvijude/form'
@@ -20,7 +21,7 @@ export default function MedidotNav({ filter, midotOpt }) {
     <section className='flex mt-8 justify-between'>
       <div className='flex gap-0'>
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>מדידות</div>
-        <Link href={getMissLink(filter)} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
+        <Link href={getNavLink({ filter, event: 'missing' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
           חוסרים
         </Link>
       </div>
@@ -31,11 +32,11 @@ export default function MedidotNav({ filter, midotOpt }) {
   )
 }
 
-function getMissLink(filter) {
-  if (!filter) return 'medidot/missing'
+// function getMissLink(filter) {
+//   if (!filter) return 'medidot/missing'
 
-  let newFilter = { ...filter }
-  delete newFilter.item
+//   let newFilter = { ...filter }
+//   delete newFilter.item
 
-  return `medidot/missing?filter=${JSON.stringify(newFilter)}`
-}
+//   return `missing?filter=${JSON.stringify(newFilter)}`
+// }

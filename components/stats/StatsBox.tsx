@@ -10,7 +10,7 @@ const COLORS = ['#20D1C2', '#F98B71', '#78B5FF', '#1E4DB4', '#0E1B3D']
 // URLs for different sections
 const EVENT_LINKS = {
   'בקשות חריגים': '/project/1/events/budget_requests',
-  'משימות': '/project/1/events/tasks',
+  משימות: '/project/1/events/tasks',
   'בעיות ביצוע': '/project/1/events/problems',
 }
 
@@ -24,39 +24,36 @@ export default function StatsBox({ data, sum, title }: Props) {
   return (
     <Link
       href={EVENT_LINKS[title] || '#'}
-      className="block transform hover:scale-105 hover:shadow-lg transition-transform duration-300"
-
+      className='bg-white py-4 px-5 rounded-md shadow-1 hover:shadow-4 active:shadow-none transition-shadow cursor-pointer'
     >
-      <div className="bg-white py-4 px-5 rounded-md shadow-1 w-full cursor-pointer transition-transform duration-200">
-        <section className="flex justify-between items-start">
-          <p className="font-bold text-xl">{title}</p>
-          {sum ? (
-            <div>
-              <p className="">{sum.name}</p>
-              <p className="text-2xl">{formatCurrency(sum.value)}</p>
-            </div>
-          ) : (
-            <div className="h-[61px]" />
-          )}
-        </section>
-
-        {/* Chart Section */}
-        <section className="flex mt-4 gap-9 flex-nowrap">
-          <EventPieChart data={data} />
-          <div className="grid gap-1 my-1">
-            {data.map((el, i) => (
-              <div className="flex gap-4 flex-nowrap" key={i}>
-                <div className="size-3 rounded-full" style={{ background: COLORS[i] }} />
-                <div className="flex gap-x-3 gap-y-1 justify-between">
-                  <p className="font-semibold leading-none">{el.name}</p>
-                  <p className="text-lg">{el.value}</p>
-                  {el.sum ? <p className="text-slate-700">{formatCurrency(el.sum)}</p> : null}
-                </div>
-              </div>
-            ))}
+      <section className='flex justify-between items-start'>
+        <p className='font-bold text-xl'>{title}</p>
+        {sum ? (
+          <div>
+            <p className=''>{sum.name}</p>
+            <p className='text-2xl'>{formatCurrency(sum.value)}</p>
           </div>
-        </section>
-      </div>
+        ) : (
+          <div className='h-[61px]' />
+        )}
+      </section>
+
+      {/* Chart Section */}
+      <section className='flex mt-4 gap-9 flex-nowrap'>
+        <EventPieChart data={data} />
+        <div className='grid gap-1 my-1'>
+          {data.map((el, i) => (
+            <div className='flex gap-4 flex-nowrap' key={i}>
+              <div className='size-3 rounded-full' style={{ background: COLORS[i] }} />
+              <div className='flex gap-x-3 gap-y-1 justify-between'>
+                <p className='font-semibold leading-none'>{el.name}</p>
+                <p className='text-lg'>{el.value}</p>
+                {el.sum ? <p className='text-slate-700'>{formatCurrency(el.sum)}</p> : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </Link>
   )
 }
@@ -64,21 +61,14 @@ function EventPieChart({ data }) {
   const radius = 60
 
   return (
-    <ResponsiveContainer width={radius * 2} height={radius * 2} className="cursor-pointer">
+    <ResponsiveContainer width={radius * 2} height={radius * 2} className='cursor-pointer'>
       <PieChart>
-        <Pie
-          dataKey="value"
-          data={data}
-          innerRadius={radius - 18}
-          outerRadius={radius}
-          isAnimationActive={false}
-        >
+        <Pie dataKey='value' data={data} innerRadius={radius - 18} outerRadius={radius} isAnimationActive={false}>
           {data.map((entry, i) => (
-            <Cell key={i} fill={COLORS[i]} className="cursor-pointer hover:opacity-70" />
+            <Cell key={i} fill={COLORS[i]} className='cursor-pointer hover:opacity-70' />
           ))}
         </Pie>
       </PieChart>
     </ResponsiveContainer>
   )
 }
-

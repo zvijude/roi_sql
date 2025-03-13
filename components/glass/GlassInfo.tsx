@@ -8,7 +8,7 @@ import { createGlassInfo, deleteGlassInfo } from './api'
 import { toast } from 'zvijude/pop'
 import Icon from 'zvijude/icon'
 
-export default function GlassInfo({ parts, glassData }) {
+export default function GlassInfo({ parts, glassData, className = '' }) {
   const [editGlass, setEditGlass] = useState({}) as any
 
   async function onSubmit(e) {
@@ -30,7 +30,7 @@ export default function GlassInfo({ parts, glassData }) {
   }
 
   return (
-    <div>
+    <div className={className}>
       <form key={editGlass.id} onSubmit={onSubmit} className='paper mb-8'>
         <div className='flex items-end justify-between border-b pb-3'>
           <h2 className='flex'>

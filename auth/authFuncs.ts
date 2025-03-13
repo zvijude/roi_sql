@@ -21,6 +21,16 @@ export async function checkUserSuspended(user) {
   }
 }
 
+// TEST USER
+// return {
+//   id: 4,
+//   email: 'zvijude@gmail.com',
+//   name: 'פועל פשוןט',
+//   role: 'KABLAN',
+//   kablanId: 2,
+//   companyId: 1,
+// }
+
 export const getUser = cache(async () => {
   const cokis = await cookies()
   const session = cokis.get('user')?.value
@@ -32,6 +42,8 @@ export const getUser = cache(async () => {
     .where({ id: decryptUser.id })
     .first()
   if (!dbUser) return redirect('/auth')
+
+  console.log('getUser dbUser: ', dbUser)
 
   return dbUser
 }) as () => Promise<UserDb>
