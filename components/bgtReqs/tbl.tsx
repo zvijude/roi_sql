@@ -16,10 +16,11 @@ import { toast } from 'zvijude/pop'
 import EventChip from '../global/EventChip'
 import BtnMedia from '@/ui/BtnMedia'
 
-export default function ProbTable({ data }) {
+export default function BgtReqTable({ data }) {
   const headers = [
     { key: 'status', label: 'סטטוס', format: 'formatStatus' },
     { key: '_', label: 'עדכון סטטוס', format: 'formatStatusUpdate' },
+    { key: 'price', label: 'מחיר', format: 'formatCurrency' },
     { key: 'qrNum', label: 'QR' },
     { key: 'loc', label: 'מיקום' },
     { key: 'part_name', label: 'פרט' },

@@ -13,8 +13,8 @@ export default async function StatsDash({ prjId }) {
   return (
     <div className='flex gap-4 items-start *:min-h-[232px]' style={{ ['--size' as string]: '380px' }}>
       <StatsBox data={eventsStats.tasks} sum={taskSum} title='משימות' />
-      <StatsBox data={eventsStats.bgtReqs} sum={bgtReqsSum} title='חריגים' />
       <StatsBox data={eventsStats.probs} title='בעיות ביצוע' />
+      <StatsBox data={eventsStats.bgtReqs} sum={bgtReqsSum} title='בקשות חריגים' />
     </div>
   )
 }

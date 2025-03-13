@@ -1,4 +1,4 @@
-import TaskNav from '@/components/tasks/TaskNav'
+import TaskNav from '@/components/events/TaskNav'
 import Tasks from '@/components/tasks'
 
 export default async function Events({ params, searchParams }) {
