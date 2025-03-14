@@ -7,9 +7,9 @@ import { getAllAptOpt } from '@/components/aptOpt/db'
 import { QrTask } from '@/components/qr/ui/QrTask'
 import { QrStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
-import { getMissOpt, getMissActive } from '@/components/missing/db'
+import { getMissOpt, getMissItemsByQr } from '@/components/missing/db'
 import { AddNewMiss } from '@/components/missing/AddNewMiss'
-import { getAllMedidotOpt, getMedidotByQr } from '@/components/medidot/db'
+import { getMedidotOpt, getMedidotByQr } from '@/components/medidot/db'
 import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
 
 export default async function Page({ params }) {
@@ -23,14 +23,16 @@ export default async function Page({ params }) {
 
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
+  const medidotOpt = await getMedidotOpt(prjId)
   const missOpt = await getMissOpt(prjId)
-  const medidotOpt = await getAllMedidotOpt(prjId)
+  const parts = await getPartsByPrj(prjId)
 
+  //! אלה צריכים להיות בקומפוננטה החדשה שתבנה
+  const missItemsByQr = await getMissItemsByQr(qrData.QrId)
+  const medidot = await getMedidotByQr(qrData.QrId)
 
   // Case 1: QR not initialized
   if (!qrData) {
-    const parts = await getPartsByPrj(prjId)
-
     return isManager(user.role) ? (
       <LocForm qrNum={qrNum} aptOpt={aptOpt} parts={parts} />
     ) : (
@@ -38,15 +40,12 @@ export default async function Page({ params }) {
     )
   }
 
-  const missActive = await getMissActive(qrData.QrId)
-  const medidot = await getMedidotByQr(qrData.QrId)
-
   // Case 2: No Task in QR, page חוסרים ומידות
   if (qrData.totalTasksCount === 0)
     return (
       <div>
-        <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
-        <AddNewMedidot medidotOpt={medidotOpt} qrId={qrData.QrId} medidot={medidot} />
+        <AddNewMiss prjId={prjId} missOpt={missOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
+        <AddNewMedidot prjId={prjId} medidotOpt={medidotOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
       </div>
     )
 
@@ -56,8 +55,8 @@ export default async function Page({ params }) {
       <div>
         <p>כל המשימות של ברקוד מספר {qrNum} הושלמו</p>
         <Btn lbl='היסטורית QR' href={`/pops/project/${prjId}/qr/${qrNum}`} />
-        <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
-        <AddNewMedidot medidotOpt={medidotOpt} qrId={qrData.QrId} medidot={medidot} />
+        <AddNewMiss prjId={prjId} missOpt={missOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
+        <AddNewMedidot prjId={prjId} medidotOpt={medidotOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
       </div>
     )
   }
@@ -67,8 +66,8 @@ export default async function Page({ params }) {
   return (
     <div>
       <QrTask user={user} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
-      <AddNewMiss missOpt={missOpt} qrId={qrData.QrId} active={missActive} />
-      <AddNewMedidot medidotOpt={medidotOpt} qrId={qrData.QrId} medidot={medidot} />
+      <AddNewMiss prjId={prjId} missOpt={missOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
+      <AddNewMedidot prjId={prjId} medidotOpt={medidotOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
     </div>
   )
 }

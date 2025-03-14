@@ -6,7 +6,7 @@ import { Btn } from 'zvijude/btns'
 import { createRef } from 'react'
 import { addMedidotOpt, deleteMedidaOpt } from './api'
 
-export default function EditMedidotOpts({ measureOpt, editSetStats }) {
+export default function EditMedidotOpts({ medidotOpt, editSetStats }) {
   const prjId = useParams().prjId
   const inputRef = createRef<HTMLInputElement>()
 
@@ -40,7 +40,7 @@ export default function EditMedidotOpts({ measureOpt, editSetStats }) {
         </div>
       </section>
       <ol>
-        {measureOpt
+        {medidotOpt
           .slice()
           .reverse()
           .map((opt, index) => (

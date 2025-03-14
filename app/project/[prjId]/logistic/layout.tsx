@@ -1,6 +1,6 @@
 import Filter from '@/components/filter'
 import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
-import { getAllMedidotOpt } from '@/components/medidot/db'
+import { getMedidotOpt } from '@/components/medidot/db'
 import { AddNewMiss } from '@/components/missing/AddNewMiss'
 import { getMissOpt } from '@/components/missing/db'
 import { db } from '@/sql'
@@ -11,7 +11,7 @@ export default async function Events({ params, children }) {
   const opts = res.rows[0]._get_filter_fields
 
   const missOpt = await getMissOpt(prjId)
-  const medidotOpt = await getAllMedidotOpt(prjId)
+  const medidotOpt = await getMedidotOpt(prjId)
 
   return (
     <div>

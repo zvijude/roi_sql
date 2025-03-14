@@ -5,7 +5,7 @@ export async function getMedidotByQr(qrId) {
   return res
 }
 
-export async function getAllMedidotOpt(prjId) {
+export async function getMedidotOpt(prjId) {
   prjId = Number(prjId)
   const res = await db('Project').where({ id: prjId }).select('medidot_opt').first()
   return res.medidot_opt

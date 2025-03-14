@@ -6,7 +6,7 @@ export async function getMissOpt(prjId) {
   return res.missOpt
 }
 
-export async function getMissActive(qrId) {
+export async function getMissItemsByQr(qrId) {
   const res = await db('missing').where({ qrId})
   return res
 }

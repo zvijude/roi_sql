@@ -4,11 +4,13 @@ import { getUser } from '@/auth/authFuncs'
 import { db } from '@/sql'
 import { revalidatePath } from 'next/cache'
 
-export async function addMiss({ qrId, data }) {
-  qrId = Number(qrId)
+export async function addMiss({ qrId = null, data, prjId }) {
   const user = await getUser()
-  await db('missing').insert({ qrId, createdById: user.id, ...data})
-  revalidatePath('/qr')
+  const insertData = { prjId, createdById: user.id, ...data }
+  if (qrId) insertData.qrId = Number(qrId)
+
+  await db('missing').insert(insertData)
+  qrId ? revalidatePath('/qr') : revalidatePath('/project')
 }
 
 export async function missCompleted({ id }) {
