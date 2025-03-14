@@ -96,7 +96,7 @@ function SelectEventStatus({ item }) {
   }
   return (
     <div>
-      {item.status === 'WAITING' && isMng && (
+      {item.status === 'WAITING' && isMng ? (
         <div>
           {item.type === 'PROB' && <Btn lbl='פתור בעיה' onClick={onProb} />}
           {item.type === 'BGT_REQ' && (
@@ -110,6 +110,8 @@ function SelectEventStatus({ item }) {
             />
           )}
         </div>
+      ) : (
+        <p>רק מנהלים יכולים לעדכן סטטוס</p>
       )}
     </div>
   )
