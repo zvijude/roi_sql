@@ -21,7 +21,7 @@ export function AddGlass({ pallets, glassInfo }) {
 
   return (
     <>
-      <Btn lbl='הוסף זכוכית' popoverTarget='glassPop' clr='text' />
+      <Btn lbl='הוספת זכוכית' popoverTarget='glassPop' clr='text' icon='plus' />
 
       <div id='glassPop' popover='manual' className='pop px-4 py-6 min-w-80'>
         <button

@@ -31,15 +31,12 @@ export default function GlassInfo({ parts, glassData, className = '' }) {
 
   return (
     <div className={className}>
-      <form key={editGlass.id} onSubmit={onSubmit} className='paper mb-8'>
-        <div className='flex items-end justify-between border-b pb-3'>
-          <h2 className='flex'>
-            <Icon name='rectangle-vertical-history' flip type='reg' className='size-5' />
-            <span className='text-xl font-semibold'>כתב כמויות לזכוכיות</span>
-          </h2>
+      <form key={editGlass.id} onSubmit={onSubmit} className='pop' popover='auto' id='addGlass7'>
+        <h2 className='flex'>
+          <Icon name='rectangle-vertical-history' flip type='reg' className='size-5' />
+          <span className='text-xl font-semibold'>כתב כמויות לזכוכיות</span>
+        </h2>
 
-          <Btn lbl='שמור זכוכית' icon='floppy-disk' />
-        </div>
         <div className='grid grid-cols-2 gap-4 items-end mt-8'>
           <Input type='number' name='width' lbl='רוחב מ"מ' defaultValue={editGlass.width} />
           <Input type='number' name='height' lbl='גובה מ"מ' defaultValue={editGlass.height} />
@@ -47,8 +44,14 @@ export default function GlassInfo({ parts, glassData, className = '' }) {
           <Input name='props' lbl='מאפיינים' required={false} defaultValue={editGlass?.props} />
           <SelectObj name='partId' options={parts} val='id' show='name' placeholder='בחר פרט' defaultValue={editGlass.partId} />
         </div>
+
+        <Btn lbl='שמור זכוכית' icon='floppy-disk' className='mt-8 w-full' />
       </form>
 
+      <div className='flex justify-between items-end mb-2'>
+        <h1 className='text-xl font-semibold'>כתב כמויות לזכוכיות</h1>
+        <Btn lbl='הוספת זכוכית לכתב כמויות' popoverTarget='addGlass7' onClick={() => setEditGlass({})} />
+      </div>
       <SimpleTable headers={["מס'", 'שם הפרט', 'רוחב', 'גובה', 'עובי', 'מאפיינים', 'עריכה / מחיקה']}>
         <tbody>
           {glassData.map((row, i) => {
@@ -62,8 +65,8 @@ export default function GlassInfo({ parts, glassData, className = '' }) {
                 <td>{row.props}</td>
 
                 <td>
-                  <div className='flex'>
-                    <Btn clr='icon' onClick={() => setEditGlass({ ...row })} icon='pen' />
+                  <div className='flex flex-nowrap'>
+                    <Btn clr='icon' onClick={() => setEditGlass({ ...row })} icon='pen' popoverTarget='addGlass7' />
                     <Btn clr='icon' onClick={() => deleteGlass(row.id)} icon='trash' />
                   </div>
                 </td>
