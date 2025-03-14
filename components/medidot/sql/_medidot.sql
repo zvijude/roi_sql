@@ -1,5 +1,7 @@
-CREATE VIEW _medidot AS
-SELECT m.id AS "id",
+CREATE OR REPLACE VIEW _medidot AS
+SELECT 
+    m.id AS "id",
+    m."prjId" AS "prjId",
     m.item AS "item",
     m.width AS "width",
     m.height AS "height",
@@ -11,23 +13,26 @@ SELECT m.id AS "id",
     m."isActive" AS "isActive",
     m."note" AS "note",
     
-    q."prjId" AS "prjId",
     q."qrNum" AS "qrNum",
-    q.loc AS "loc",
-    q.floor,
-    q."aptNum",
-    q.front,
-    q."locInApt",
+    
+    -- Location now comes from "medidot"
+    m.loc AS "loc",
+    m.floor AS "floor",
+    m."aptNum",
+    m.front,
+    m."locInApt",
 
+    -- "partId" is now optional, so we join using "m.partId"
     p.name AS "part_name",
     u_create.name AS "create_name",
     u_res.name AS "res_by"
 FROM medidot m
     LEFT JOIN "Qr" q ON m."qrId" = q.id
-    LEFT JOIN "Part" p ON q."partId" = p.id
+    LEFT JOIN "Part" p ON m."partId" = p.id
     LEFT JOIN "User" u_create ON m."createdById" = u_create.id
     LEFT JOIN "User" u_res ON m."updatedById" = u_res.id
 ORDER BY m."resAt" DESC;
 
-
 -- DROP VIEW IF EXISTS _medidot;
+
+-- SELECT * FROM _medidot;

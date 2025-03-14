@@ -4,11 +4,13 @@ import { getUser } from '@/auth/authFuncs'
 import { db } from '@/sql'
 import { revalidatePath } from 'next/cache'
 
-export async function addMedida({ qrId, item, data }) {
-  qrId = Number(qrId)
+export async function addMedida({ qrId = null, data, prjId }) {
   const user = await getUser()
-  await db('medidot').insert({ qrId, item, createdById: user.id, ...data })
-  revalidatePath('/qr')
+  const insertData = { prjId, createdById: user.id, ...data }
+  if (qrId) insertData.qrId = Number(qrId)
+
+  await db('medidot').insert(insertData)
+  qrId ? revalidatePath('/qr') : revalidatePath('/project')
 }
 
 export async function deleteMedida({ id }) {
