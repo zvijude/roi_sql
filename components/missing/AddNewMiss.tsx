@@ -54,7 +54,7 @@ export function AddNewMiss({ prjId, missOpt, qrId = null, aptOpt, parts }) {
 
   return (
     <>
-      <Btn lbl='הוסף חוסרים' clr='text' popoverTarget='missOptPop' className='my-2 w-3/4 mx-auto mt-8' disabled={loading} />
+      <Btn lbl='הוספת חוסרים' popoverTarget='missOptPop' className='w-fit' disabled={loading} icon='plus' />
 
       {/* {missItems.length > 0 && (
         <div className='border bg-white rounded-md m-1 w-3/4 mx-auto'>

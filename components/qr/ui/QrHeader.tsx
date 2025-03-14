@@ -3,7 +3,7 @@ import Icon from 'zvijude/icon'
 import EditLocQrPop from './EditLocQrPop'
 
 export default function QrHeader({ userRole, qrData, aptOpt, curTask }) {
-  const taskFor =  curTask.for
+  const taskFor = curTask.for
   const isAuthorized = roleLevels[userRole] >= roleLevels[taskFor]
 
   return (
@@ -16,7 +16,7 @@ export default function QrHeader({ userRole, qrData, aptOpt, curTask }) {
           </p>
         </div>
       )}
-      <div className='grid grid-cols-2 mt-4 gap-1 text-sm w-full'>
+      <div className='grid grid-cols-2 gap-2 text-sm w-full bg-white p-3 rounded shadow-1'>
         <p>
           <span className='font-bold'>ברקוד:</span> {qrData.qrNum}
         </p>
@@ -27,14 +27,13 @@ export default function QrHeader({ userRole, qrData, aptOpt, curTask }) {
           <span className='font-bold'>עבור:</span> {roleDic[curTask.for]}
         </p>
         <p>
-          <span className='font-bold'>סדר המשימה:</span> {curTask.order + 1} מתוך{' '}
-          {qrData.totalTasksCount}
+          <span className='font-bold'>משימה:</span> {curTask.order + 1} מתוך {qrData.totalTasksCount}
         </p>
         <div className='col-span-2 flex items-center gap-2'>
           <span className='font-bold'>מיקום:</span> {qrData.loc}
           {isManager(userRole) && (
             <button popoverTarget='editLocQrPop'>
-              <Icon name='pencil' className='size-4' />
+              <Icon name='pen' className='size-3.5' />
             </button>
           )}
         </div>

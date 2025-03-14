@@ -17,7 +17,7 @@ export default async function RootLayout({ children, params }) {
       <Topbar user={user} prjId={prjId} />
       <div className='grid grid-cols-[50px_1fr] mobile:grid-cols-1'>
         <MainNav prjId={prjId} prjName={prjName} />
-        <div className='grid m-8 mobile:mx-2 mobile:my-0 overflow-x-hidden'>{children}</div>
+        <div className='grid p-8 mobile:p-4 overflow-x-hidden'>{children}</div>
         <div className='desktop:hidden'>
           <GoogleTranslate />
           <ScanQrCamera />
