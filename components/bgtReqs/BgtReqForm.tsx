@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import { Btn } from 'zvijude/btns'
 import UploadMedia from '@/ui/UploadMedia'

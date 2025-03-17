@@ -13,7 +13,7 @@ import { arrayOf } from '@/utils/func'
 import { SelectAptOpt } from '../aptOpt/ui/SelectAptOpt'
 import { getFormData } from 'zvijude/form/funcs'
 
-export function AddNewMedidot({prjId, medidotOpt, qrId = null, aptOpt, parts}) {
+export function AddNewMedidot({ prjId, medidotOpt, qrId = null, aptOpt, parts }) {
   const [isEdit, setIsEdit] = useState(false)
   const [url, setUrl] = useState('')
 
@@ -44,7 +44,7 @@ export function AddNewMedidot({prjId, medidotOpt, qrId = null, aptOpt, parts}) {
 
   return (
     <>
-      <Btn lbl='הוסף מידות' clr='text' popoverTarget='medidotPop' className='my-2 w-3/4 mx-auto mt-8' />
+      <Btn lbl='הוסף מידות' clr='text' popoverTarget='medidotPop' size='small' icon="smoke"/>
       {/* {medidot.length > 0 && (
         <div className='border bg-white rounded-md m-1 w-3/4 mx-auto'>
           <h3 className='font-semibold text-center'>

@@ -1,67 +1,51 @@
+'use client'
 import { Btn } from 'zvijude/btns'
 import { Textarea } from 'zvijude/form'
 import { toast } from 'zvijude/pop'
-import { QrStatus } from '@prisma/client'
 import { setTaskCompletion } from '@/components/tasks/api'
 import Icon from 'zvijude/icon'
+import UploadMedia from '@/ui/UploadMedia'
+import { useState } from 'react'
+import { getFormData } from 'zvijude/form/funcs'
 
 export default function TaskCompletionForm({ curTask, qrStatus }) {
-  const { hasError, messages } = checkError(curTask, qrStatus)
-  if (hasError) return <ErrorPop errorMessages={messages} />
+  const [media, setMedia] = useState('')
 
   async function onSubmit(e) {
     e.preventDefault()
     toast('loading')
 
-    await setTaskCompletion(curTask, e.target.note.value)
+    const data = getFormData(e)
+    data.media = media
+
+    await setTaskCompletion(curTask, data)
     if (curTask.needApproval) {
       toast('success', 'המשימה הושלמה וממתינה לאישור')
     } else toast('success', 'המשימה הושלמה')
 
+    document.getElementById('completedTaskPop')?.hidePopover()
+    setMedia('')
+
     e.target.reset()
   }
+  async function onUpload(urls) {
+    setMedia(urls)
+  }
 
   return (
-    <form popover='auto' id='completedTaskPop' className='pop' onSubmit={onSubmit}>
-      <Textarea lbl='הוסף הערה על המשימה' name='note' placeholder='המשימה הושלמה...' required={false} />
-      <Btn lbl='סיים משימה' className='w-full my-1' />
-    </form>
-  )
-}
-
-export function checkError(curTask, qrStatus) {
-  const errors = [] as string[]
-
-  if (curTask.needMedia && !curTask.media) {
-    errors.push('חובה להעלות תמונה או סרטון לסיום המשימה')
-  }
-
-  if (curTask.probs?.some((prob) => prob.status === 'WAITING')) {
-    errors.push('יש בעיות פתוחות שלא נפתרו')
-  }
-
-  if (qrStatus !== QrStatus.IN_PROGRESS) {
-    errors.push('יש בעיה פתוחה')
-  }
-
-  return {
-    hasError: errors.length > 0,
-    messages: errors,
-  }
-}
-
-function ErrorPop({ errorMessages }) {
-  return (
-    <div popover='auto' id='completedTaskPop' className='pop'>
-      <div className='flex gap-2 mb-4'>
-        <Icon name='triangle-exclamation' />
-        <p>לא ניתן להשלים את המשימה</p>
+    <form popover='manual' id='completedTaskPop' className='pop w-4/5' onSubmit={onSubmit}>
+      <div className='grid gap-2 w-full'>
+        <button
+          type='button'
+          onClick={() => document.getElementById('completedTaskPop')?.hidePopover()}
+          className='absolute top-2 left-2'
+        >
+          <Icon name='circle-xmark' type='sol' className='size-5 m-1' />
+        </button>
+        <Textarea lbl='הוסף הערה על המשימה' name='note' placeholder='המשימה הושלמה...' required={false} />
+        <UploadMedia onUpload={onUpload} />
+        <Btn lbl='סיים משימה' className='w-full my-1' />
       </div>
-      <ul className='list-none pl-5 text-red-600'>
-        {errorMessages.map((msg, index) => (
-          <li key={index}>{msg}</li>
-        ))}
-      </ul>
-    </div>
+    </form>
   )
 }

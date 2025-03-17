@@ -1,3 +1,4 @@
+'use client'
 import { addProb } from '@/components/events/api'
 import { useState } from 'react'
 import { Btn } from 'zvijude/btns'
