@@ -18,13 +18,21 @@ export default async function Page({ params }) {
   const glassData = await getGlassInfoTbl(prjId)
 
   return (
-    <div>
-      <AddGlassPallet prjId={prjId} />
-      {/* <GlassPalletCard pallets={pallets} /> */}
-      <AddGlass pallets={pallets} glassInfo={glassInfo} />
+    <div className='grid'>
+      <div className='flex justify-between mb-2 items-end'>
+        <h1 className='text-xl font-semibold'>מיפוי זכוכיות</h1>
+        <span className='flex'>
+          <AddGlassPallet prjId={prjId} />
+          <AddGlass pallets={pallets} glassInfo={glassInfo} />
+        </span>
+      </div>
       <GlassTable data={glassTbl} />
 
-      <GlassInfo glassData={glassData} parts={prts} className='my-8' />
+      <GlassInfo glassData={glassData} parts={prts} className='my-8 grid' />
     </div>
   )
+}
+
+{
+  /* <GlassPalletCard pallets={pallets} /> */
 }

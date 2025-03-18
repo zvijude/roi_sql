@@ -3,6 +3,7 @@ import KablanStatsUi from '@/components/kablan/ui/kablanStatsUi'
 import KablanTbl from '@/components/kablan/ui/KablanTbl'
 import { isManager } from '@/db/types'
 import Link from 'next/link'
+import Icon from 'zvijude/icon'
 
 export default async function Kablan({ params }) {
   let { prjId, kablanId } = await params
@@ -13,7 +14,12 @@ export default async function Kablan({ params }) {
 
   return (
     <>
-      {isManager(user.role) && <Link href={`/project/${prjId}/kablan`}>חזרה לכל הקבלנים</Link>}
+      {isManager(user.role) && (
+        <Link href={`/project/${prjId}/kablan`} className='flex border-b w-fit border-slate-400 mb-4'>
+          <Icon name='arrow-right' className='size-3.5' />
+          <p className='text-slate-600'>חזרה לכל הקבלנים</p>
+        </Link>
+      )}
 
       <KablanStatsUi curKablanStats={curKablanStats} />
 

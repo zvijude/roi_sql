@@ -43,8 +43,12 @@ function getLinks(prjName?: string, prjId?: string | null) {
 
   let bottomLinks = [] as any
   if (isManager(user.role)) {
-    bottomLinks = [{ icon: 'gear', href: `/project/${prjId}/setup/users`, title: 'הגדרות' }] as LinksType[]
+    topLinks.push({ icon: 'gear', href: `/project/${prjId}/setup/users`, title: 'הגדרות פרויקט' })
   }
 
   return { topLinks, bottomLinks }
 }
+
+// if (isManager(user.role)) {
+//   bottomLinks = [{ icon: 'gear', href: `/project/${prjId}/setup/users`, title: 'הגדרות' }] as LinksType[]
+// }

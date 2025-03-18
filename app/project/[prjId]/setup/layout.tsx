@@ -2,6 +2,7 @@ import { getUser } from '@/auth/authFuncs'
 import { isManager } from '@/db/types'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { Btn } from 'zvijude/btns'
 
 export default async function SetupLayout({ children, params }) {
   const { prjId } = await params
@@ -18,17 +19,16 @@ export default async function SetupLayout({ children, params }) {
     },
     { icon: 'screwdriver-wrench', href: `/project/${prjId}/setup/tasks`, title: 'שלבי ביצוע' },
     { icon: 'print', href: `/project/${prjId}/setup/print`, title: 'הדפסת QR' },
-  ]
+  ] as any
 
   return (
     <div>
-      <div className='flex mb-4'>
+      <div className='flex'>
         {links.map((link, i) => (
-          <Link href={link.href} key={i} className=''>
-            {link.title}
-          </Link>
+          <Btn href={link.href} key={i} className='' lbl={link.title} clr='soft' icon={link.icon} />
         ))}
       </div>
+      <div className='w-full h-px bg-slate-300 my-4' />
 
       {children}
     </div>

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Select } from 'zvijude/form'
 
-export default function MedidotNav({ filter, midotOpt }) {
+export default function MedidotNav({ filter, medidotOpt }) {
   const router = useRouter()
 
   function onMissChange(e) {
@@ -18,7 +18,7 @@ export default function MedidotNav({ filter, midotOpt }) {
   }
 
   return (
-    <section className='flex mt-8 justify-between'>
+    <section className='flex mt-8 justify-between items-end'>
       <div className='flex gap-0'>
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>מדידות</div>
         <Link href={getNavLink({ filter, event: 'missing' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
@@ -26,7 +26,7 @@ export default function MedidotNav({ filter, midotOpt }) {
         </Link>
       </div>
       <div className='flex gap-0'>
-        <Select placeholder='פריט' options={midotOpt} onChange={onMissChange} />
+        <Select placeholder='פריט' options={medidotOpt} onChange={onMissChange} />
       </div>
     </section>
   )

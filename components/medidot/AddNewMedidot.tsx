@@ -44,7 +44,7 @@ export function AddNewMedidot({ prjId, medidotOpt, qrId = null, aptOpt, parts })
 
   return (
     <>
-      <Btn lbl='הוסף מידות' clr='text' popoverTarget='medidotPop' size='small' icon="smoke"/>
+      <Btn lbl='הוספת מידות' popoverTarget='medidotPop' className='w-fit' icon='plus' />
       {/* {medidot.length > 0 && (
         <div className='border bg-white rounded-md m-1 w-3/4 mx-auto'>
           <h3 className='font-semibold text-center'>

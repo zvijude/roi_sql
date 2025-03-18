@@ -18,14 +18,14 @@ export default function MissingNav({ filter, itemOpt }) {
   }
 
   return (
-    <section className='flex mt-8 justify-between'>
+    <section className='flex mt-8 justify-between items-end'>
       <div className='flex gap-0'>
         <Link href={getNavLink({ filter, event: 'medidot' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
           מדידות
         </Link>
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>חוסרים</div>
       </div>
-      <div className='flex gap-0'>
+      <div className='flex gap-0 items-end'>
         <NavLink lbl='הכל' active={!filter?.hasOwnProperty('isActive')} filter={filter} />
         <NavLink isActive={false} lbl='טופל' active={filter?.isActive === false} filter={filter} />
         <NavLink isActive={true} lbl='לא טופל' active={filter?.isActive === true} filter={filter} />
