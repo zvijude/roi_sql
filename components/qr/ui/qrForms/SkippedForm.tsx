@@ -7,7 +7,7 @@ import { getFormData } from 'zvijude/form/funcs'
 import { toast } from 'zvijude/pop'
 import Icon from 'zvijude/icon'
 import ImgsCom from '@/ui/imgsCom'
-import { updateSkippedTask } from '../tasks/api'
+import { updateSkippedTask } from '../../../tasks/api'
 
 export default function SkippedForm({ curTask }) {
   const [media, setMedia] = useState<string[]>([])
@@ -28,7 +28,7 @@ export default function SkippedForm({ curTask }) {
 
   async function onUploadMedia(url) {
     if (!url.length) return
-    setMedia([url])
+    setMedia([...media, url])
   }
 
   return (

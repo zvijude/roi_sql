@@ -10,9 +10,7 @@ import { Btn } from 'zvijude/btns'
 import { QrStatus } from '@prisma/client'
 
 export default async function Layout({ children, params }) {
-  let { prjId, qrNum } = params
-  prjId = Number(prjId)
-  qrNum = Number(qrNum)
+  let { prjId, qrNum } = await params
 
   const user = await getUser()
   if (!user) return null
@@ -22,13 +20,13 @@ export default async function Layout({ children, params }) {
   const missOpt = await getMissOpt(prjId)
   const aptOpt = await getAllAptOpt(prjId)
   const parts = await getPartsByPrj(prjId)
-  const qr = await scanQr(qrNum, prjId)
+  const qrData = await scanQr(qrNum, prjId)
 
   return (
     <>
       {children}
 
-      {qr?.QrId && (
+      {qrData?.QrId && (
         <div>
           <Btn
             popoverTarget='qr-menu'
@@ -38,7 +36,7 @@ export default async function Layout({ children, params }) {
             size='small'
             className='text-xs w-full shadow-none'
           />
-          <QrMenu qr={qr} prjId={prjId} medidotOpt={medidotOpt} missOpt={missOpt} aptOpt={aptOpt} parts={parts} />
+          <QrMenu qr={qrData} prjId={prjId} medidotOpt={medidotOpt} missOpt={missOpt} aptOpt={aptOpt} parts={parts} />
         </div>
       )}
     </>
@@ -62,26 +60,3 @@ function QrMenu({ qr, prjId, medidotOpt, missOpt, aptOpt, parts }) {
     </div>
   )
 }
-
-// {
-//   "QrId": 30,
-//   "id": 2,
-//   "qrNum": 566,
-//   "prjId": 1,
-//  ** "status": "IN_PROGRESS",
-//   "floor": 1,
-//   "aptNum": 1,
-//   "front": null,
-//   "locInApt": "מטבח",
-//   "totalTasksCount": 5,
-//   "totalTasksCompleted": 0,
-//   "partId": 2,
-//   "createdById": 1,
-//   "createdAt": "2025-03-10T09:46:10.871Z",
-//   "updatedAt": "2025-03-10T11:46:09.968Z",
-//   "loc": "קומה 1, דירה 1, מטבח",
-//   "name": "A-2",
-//   "desc": "description",
-//   "qntt": 30,
-//   "tasksId": 8400722
-// }

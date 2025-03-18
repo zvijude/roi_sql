@@ -6,7 +6,7 @@ import { toast } from 'zvijude/pop'
 import { QrStatus, TaskStatus } from '@prisma/client'
 import { approveTask } from '@/components/tasks/api'
 
-export default function QrForm({ curTask, userRole, qrStatus }) {
+export default function QrCompleteBtn({ curTask, userRole, qrStatus }) {
   const isAuthorized = roleLevels[userRole] >= roleLevels[curTask.for]
 
   async function onApproval() {

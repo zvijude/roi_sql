@@ -18,7 +18,7 @@ export async function setTaskCompletion(curTask: any, data) {
     .update({
       status: needApproval ? TaskStatus.WAITING : TaskStatus.COMPLETED,
       note: data.note,
-      media: [data.media],
+      media: data.media,
       kablanId: user?.kablanId,
       createdById: user.id,
     })
@@ -52,11 +52,13 @@ export async function updateSkippedTask({ data, curTask }) {
   const user = (await getUser()) as any
 
   const res = await db('Task')
-    .where({ id: curTask.id, media: [data.media], note: data.note })
+    .where({ id: curTask.id })
     .update({
       status: TaskStatus.SKIPPED,
       createdById: user.id,
       resAt: new Date(),
+      note: data.note,
+      media: data.media,
     })
 
   await connectQrToNextTask(curTask)

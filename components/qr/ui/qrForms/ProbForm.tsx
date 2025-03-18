@@ -33,7 +33,7 @@ export default function ProblemForm({ taskId, qrId }) {
 
   async function onUploadProbMedia(url) {
     if (!url.length) return
-    setMedia([url])
+    setMedia([...media, url])
   }
 
   return (

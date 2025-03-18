@@ -2,12 +2,12 @@ import { getCurTask, scanQr } from '@/components/qr/db'
 import { QrStatus } from '@prisma/client'
 import LocationForm from '@/components/qr/ui/LocForm'
 import QrHeader from '@/components/qr/ui/QrHeader'
-import QrForm from '@/components/qr/ui/QrForm'
+import QrCompleteBtn from '@/components/qr/ui/QrCompleteBtn'
 import CurTaskEvents from '@/components/qr/ui/QrActiveData'
-import ProblemForm from '@/components/probs/ProbForm'
-import BgtReqForm from '@/components/bgtReqs/BgtReqForm'
-import TaskCompletionForm from '@/components/tasks/TaskCompletionForm'
-import SkippedForm from '@/components/bgtReqs/SkippedForm'
+import ProblemForm from '@/components/qr/ui/qrForms/ProbForm'
+import BgtReqForm from '@/components/qr/ui/qrForms/BgtReqForm'
+import TaskCompletionForm from '@/components/qr/ui/qrForms/TaskCompletionForm'
+import SkippedForm from '@/components/qr/ui/qrForms/SkippedForm'
 import { getAllAptOpt } from '@/components/aptOpt/db'
 import { getUser } from '@/auth/authFuncs'
 import { getPartsByPrj } from '@/components/setup/part/db'
@@ -17,9 +17,7 @@ import { getMedidotByQr } from '@/components/medidot/db'
 import { getMissItemsByQr } from '@/components/missing/db'
 
 export default async function Page({ params }) {
-  let { prjId, qrNum } = params
-  prjId = Number(prjId)
-  qrNum = Number(qrNum)
+  let { prjId, qrNum } = await params
   const user = await getUser()
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
@@ -63,18 +61,15 @@ export default async function Page({ params }) {
             </div>
           )}
         </div>
-        <QrForm curTask={curTask} userRole={user.role} qrStatus={qrData.status} />
-        <CurTaskEvents events={curTask.probs} />
+        <QrCompleteBtn curTask={curTask} userRole={user.role} qrStatus={qrData.status} />
+        <CurTaskEvents events={curTask.probs} miss={missItemsByQr} medidot={medidot} />
       </div>
-      <pre>
-        {JSON.stringify(missItemsByQr, null, 2)}
-        {JSON.stringify(medidot, null, 2)}
-      </pre>
+     
 
       {/* Popups */}
       <ProblemForm taskId={curTask.TaskId} qrId={curTask.qrId} />
       <BgtReqForm taskId={curTask.TaskId} qrId={curTask.qrId} />
-      <TaskCompletionForm curTask={curTask} qrStatus={qrData.status} />
+      <TaskCompletionForm curTask={curTask} />
       <SkippedForm curTask={curTask} />
     </>
   )
