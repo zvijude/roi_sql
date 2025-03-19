@@ -17,11 +17,3 @@ export async function getProjectName(prjId) {
   const res = await db('Project').where({ id: prjId }).select('name').first()
   return res.name
 }
-
-export async function getPrjPrintQntt(prjId) {
-  prjId = Number(prjId)
-  //TODO - check print
-
-  const res = await db('Project').where({ id: prjId }).select('printQntt').first()
-  return res.printQntt
-}
