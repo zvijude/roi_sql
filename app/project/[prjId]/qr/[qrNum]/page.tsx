@@ -1,53 +1,40 @@
-import LocForm from '@/components/qr/ui/LocForm'
 import { getCurTask, scanQr } from '@/components/qr/db'
-import { getUser, userInPrj } from '@/auth/authFuncs'
-import { isManager } from '@/db/types'
-import { getPartsByPrj } from '@/components/setup/part/db'
-import { getAllAptOpt } from '@/components/aptOpt/db'
-import { QrTask } from '@/components/qr/ui/QrTask'
 import { QrStatus } from '@prisma/client'
+import LocationForm from '@/components/qr/ui/LocForm'
+import QrHeader from '@/components/qr/ui/QrHeader'
+import QrCompleteBtn from '@/components/qr/ui/QrCompleteBtn'
+import CurTaskEvents from '@/components/qr/ui/QrActiveData'
+import ProblemForm from '@/components/qr/ui/qrForms/ProbForm'
+import BgtReqForm from '@/components/qr/ui/qrForms/BgtReqForm'
+import TaskCompletionForm from '@/components/qr/ui/qrForms/TaskCompletionForm'
+import SkippedForm from '@/components/qr/ui/qrForms/SkippedForm'
+import { getAllAptOpt } from '@/components/aptOpt/db'
+import { getUser } from '@/auth/authFuncs'
+import { getPartsByPrj } from '@/components/setup/part/db'
+import { isManager } from '@/db/types'
 import { Btn } from 'zvijude/btns'
-import { getMissOpt, getMissItemsByQr } from '@/components/missing/db'
-import { AddNewMiss } from '@/components/missing/AddNewMiss'
-import { getMedidotOpt, getMedidotByQr } from '@/components/medidot/db'
-import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
+import { getMedidotByQr } from '@/components/medidot/db'
+import { getMissItemsByQr } from '@/components/missing/db'
 
 export default async function Page({ params }) {
   let { prjId, qrNum } = await params
-  prjId = Number(prjId)
-  qrNum = Number(qrNum)
-
   const user = await getUser()
-  if (!user) return
-  await userInPrj({ prjId, userId: user.id })
-
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
-  const medidotOpt = await getMedidotOpt(prjId)
-  const missOpt = await getMissOpt(prjId)
   const parts = await getPartsByPrj(prjId)
-
-  //! אלה צריכים להיות בקומפוננטה החדשה שתבנה
-  const missItemsByQr = await getMissItemsByQr(qrData.QrId)
-  const medidot = await getMedidotByQr(qrData.QrId)
 
   // Case 1: QR not initialized
   if (!qrData) {
     return isManager(user.role) ? (
-      <LocForm qrNum={qrNum} aptOpt={aptOpt} parts={parts} />
+      <LocationForm qrNum={qrNum} aptOpt={aptOpt} parts={parts} />
     ) : (
       <p className='text-center font-bold text-xl m-2'>QR מספר {qrNum} עדין לא מאותחל, פנה למנהל על מנת לאתחל אותו</p>
     )
   }
 
-  // Case 2: No Task in QR, page חוסרים ומידות
-  if (qrData.totalTasksCount === 0)
-    return (
-      <div>
-        <AddNewMiss prjId={prjId} missOpt={missOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
-        <AddNewMedidot prjId={prjId} medidotOpt={medidotOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
-      </div>
-    )
+  // we need to use both to show the miss & medidot of this QR
+  const missItemsByQr = await getMissItemsByQr(qrData.QrId)
+  const medidot = await getMedidotByQr(qrData.QrId)
 
   // Case 3: All tasks completed
   if (qrData.status === QrStatus.FINISH) {
@@ -55,19 +42,35 @@ export default async function Page({ params }) {
       <div>
         <p>כל המשימות של ברקוד מספר {qrNum} הושלמו</p>
         <Btn lbl='היסטורית QR' href={`/pops/project/${prjId}/qr/${qrNum}`} />
-        <AddNewMiss prjId={prjId} missOpt={missOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
-        <AddNewMedidot prjId={prjId} medidotOpt={medidotOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
       </div>
     )
   }
-
-  // Case 4: QR in action
   const curTask = await getCurTask(qrData.QrId)
   return (
-    <div>
-      <QrTask user={user} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
-      <AddNewMiss prjId={prjId} missOpt={missOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
-      <AddNewMedidot prjId={prjId} medidotOpt={medidotOpt} qrId={qrData.QrId} aptOpt={aptOpt} parts={parts} />
-    </div>
+    <>
+      <div className='grid place-items-center gap-4'>
+        <QrHeader userRole={user.role} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
+        <div className='w-full p-2 px-5 rounded shadow-3'>
+          <p className='text-[16px] font-bold border-b border-gray-200 text-center'>{curTask.title}</p>
+          <p className='my-1 py-1 text-sm text-gray-700'>{curTask.desc}</p>
+
+          {!(curTask.status === 'WAITING') && Boolean(curTask.needApproval || curTask.needMedia) && (
+            <div className='my-1 py-2 text-xs text-gray-700 font-semibold border-t border-gray-200'>
+              {curTask.needApproval && <p>* משימה זו תעבור לאישור מנהל בסיום העבודה</p>}
+              {curTask.needMedia && <p>* חובה להעלות תמונה או סרטון בסיום המשימה</p>}
+            </div>
+          )}
+        </div>
+        <QrCompleteBtn curTask={curTask} userRole={user.role} qrStatus={qrData.status} />
+        <CurTaskEvents events={curTask.probs} miss={missItemsByQr} medidot={medidot} />
+      </div>
+     
+
+      {/* Popups */}
+      <ProblemForm taskId={curTask.TaskId} qrId={curTask.qrId} />
+      <BgtReqForm taskId={curTask.TaskId} qrId={curTask.qrId} />
+      <TaskCompletionForm curTask={curTask} />
+      <SkippedForm curTask={curTask} />
+    </>
   )
 }

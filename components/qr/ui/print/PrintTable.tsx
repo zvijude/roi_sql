@@ -12,7 +12,7 @@ import { arrayOf } from '@/utils/func'
 import { getFormData } from 'zvijude/form/funcs'
 import TableTopbar from 'zvijude/table/TableTopbar'
 
-export default function PrintTable({ qrs, prjId, prjName, printQntt }) {
+export default function PrintTable({ qrs, prjId, prjName }) {
   const headers = [
     { key: 'qrNum', label: 'QR' },
     { key: 'name', label: 'פרט' },
@@ -25,8 +25,8 @@ export default function PrintTable({ qrs, prjId, prjName, printQntt }) {
 
   const [selectedQrs, setSelectedQrs] = useState<number[]>([])
 
-  const ref = useRef<HTMLDivElement>(null)
-  const handlePrint = useReactToPrint({ content: () => ref.current })
+  const contentRef = useRef<HTMLDivElement>(null)
+  const handlePrint = useReactToPrint({ contentRef })
 
   useEffect(() => {
     if (selectedQrs.length) handlePrint()
@@ -51,13 +51,7 @@ export default function PrintTable({ qrs, prjId, prjName, printQntt }) {
   return (
     <div>
       <form className='flex items-end mb-8 gap-3' onSubmit={onPrintQntt}>
-        <Input
-          className='w-28'
-          lbl='הדפס מברקוד'
-          placeholder='מספר ברקוד'
-          type='number'
-          name='num1'
-        />
+        <Input className='w-28' lbl='הדפס מברקוד' placeholder='מספר ברקוד' type='number' name='num1' />
         <Input className='w-28' lbl='עד ברקוד' placeholder='מספר ברקוד' type='number' name='num2' />
         <Btn lbl='הדפס כמות ברקודים' icon='print' />
       </form>
@@ -68,7 +62,7 @@ export default function PrintTable({ qrs, prjId, prjName, printQntt }) {
       </TableTopbar>
 
       <div className='hidden'>
-        <div id='content' ref={ref} dir='rtl'>
+        <div id='content' ref={contentRef} dir='rtl'>
           {selectedQrs.map((qrNum) => (
             <QrImg key={qrNum} qrNum={qrNum} prjId={prjId} prjName={prjName} />
           ))}

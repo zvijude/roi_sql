@@ -6,7 +6,7 @@ import { connectQrToNextTask, updateQrStatus } from '@/components/qr/api'
 import { QrStatus, TaskStatus } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 
-export async function setTaskCompletion(curTask: any, note: string) {
+export async function setTaskCompletion(curTask: any, data) {
   const user = await getUser()
   if (!user) return
 
@@ -17,7 +17,8 @@ export async function setTaskCompletion(curTask: any, note: string) {
     .where({ id: curTask.id })
     .update({
       status: needApproval ? TaskStatus.WAITING : TaskStatus.COMPLETED,
-      note,
+      note: data.note,
+      media: data.media,
       kablanId: user?.kablanId,
       createdById: user.id,
     })
@@ -47,14 +48,18 @@ export async function addMedia(taskId: number, media: string) {
   return res
 }
 
-export async function updateSkippedTask(curTask: any) {
+export async function updateSkippedTask({ data, curTask }) {
   const user = (await getUser()) as any
 
-  const res = await db('Task').where({ id: curTask.id }).update({
-    status: TaskStatus.SKIPPED,
-    createdById: user.id,
-    resAt: new Date(),
-  })
+  const res = await db('Task')
+    .where({ id: curTask.id })
+    .update({
+      status: TaskStatus.SKIPPED,
+      createdById: user.id,
+      resAt: new Date(),
+      note: data.note,
+      media: data.media,
+    })
 
   await connectQrToNextTask(curTask)
 

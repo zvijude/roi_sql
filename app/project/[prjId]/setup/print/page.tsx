@@ -1,6 +1,6 @@
 import PrintTable from '@/components/qr/ui/print/PrintTable'
 import Icon from 'zvijude/icon'
-import { getPrjPrintQntt, getProjectName } from '@/db/project/get'
+import { getProjectName } from '@/db/project/get'
 import { db } from '@/sql'
 
 export default async function print({ params }) {
@@ -9,7 +9,6 @@ export default async function print({ params }) {
   if (!prjId) return null
 
   const prjName = await getProjectName(prjId)
-  const printQntt = await getPrjPrintQntt(prjId)
 
   const qrs = await db("_print_qrs").where({ prjId })
 
@@ -21,7 +20,7 @@ export default async function print({ params }) {
       </h2>
 
       <div className='max-w-'>
-        <PrintTable qrs={qrs} prjId={prjId} prjName={prjName} printQntt={printQntt} />
+        <PrintTable qrs={qrs} prjId={prjId} prjName={prjName} />
       </div>
     </>
   )

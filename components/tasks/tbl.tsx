@@ -22,6 +22,7 @@ export default function TaskTable({ data }) {
     { key: 'title', label: 'משימה' },
     { key: 'desc', label: 'תיאור המשימה' },
     { key: 'media', label: 'תמונות', format: 'formatMedia' },
+    { key: 'note', label: 'הערה', format: 'formatNote' },
     { key: 'id', label: 'מזהה' },
   ]
 
@@ -35,13 +36,24 @@ export default function TaskTable({ data }) {
     if (!media?.[0]) return null
     return <BtnMedia media={media} item={item} />
   }
+  function formatNote(note, item) {
+    if (!note) return null
+    return (
+      <>
+        <Btn icon='note' clr='icon' popoverTarget={`note-${item.id}`} />
+        <div popover='auto' id={`note-${item.id}`} className='pop'>
+          {note}
+        </div>
+      </>
+    )
+  }
 
   const config = {
     columns,
     setColumns,
     data,
     noCheckboxs: true,
-    funcs: { formatStatus, formatMedia },
+    funcs: { formatStatus, formatMedia, formatNote },
     state,
     setState,
   } as ConfigT

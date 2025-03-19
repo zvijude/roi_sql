@@ -6,9 +6,9 @@ import { ProbStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 
-export default function CurTaskEvents({ events }) {
+export default function CurTaskEvents({ events, miss, medidot }) {
   const { PROB: probs = [], BGT_REQ: bgtReqs = [] } = groupBy(events, ({ type }) => type)
-  
+
   async function onProb(prob) {
     toast('loading')
     await updateProbStatus(prob.id, ProbStatus.CANCELED)
@@ -31,6 +31,10 @@ export default function CurTaskEvents({ events }) {
 
   return (
     <div className='max-w-[420px] w-full justify-self-center space-y-5'>
+      <pre>
+        {JSON.stringify(miss, null, 2)}
+        {JSON.stringify(medidot, null, 2)}
+      </pre>
       <Section title='בעיות לא פתורות' items={p_waiting} onClick={(p) => onProb(p)} />
       <Section title='בעיות שבוטלו' items={p_canceled} />
       <Section title='בעיות פתורות' items={p_solved} />
