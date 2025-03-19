@@ -5,21 +5,19 @@ import { Btn } from 'zvijude/btns'
 import { getFormData } from 'zvijude/form/funcs'
 import { useRouter } from 'next/navigation'
 import Icon from 'zvijude/icon'
-import { formToQueryPeriodic } from '@/utils/formToQuery'
-import { useState } from 'react'
-import { getTasksByPart } from '@/components/setup/part/db'
+// import { useState } from 'react'
+// import { getTasksByPart } from '@/components/setup/part/db'
 
-export default function PeriodicFilter({ query, fields, parts }) {
+export default function PeriodicFilter({ filter, fields, parts }) {
   const router = useRouter()
-  const { qrs = [], users = [], floors = [], aptNums = [] } = fields
-  const [partTasks, setPartTasks] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const { qrNums = [], users = [], floors = [], aptNums = [] } = fields
+  // const [partTasks, setPartTasks] = useState([])
+  // const [isLoading, setIsLoading] = useState(false)
 
   function onSubmit(e) {
-    const data = getFormData(e) as any
-    const query = formToQueryPeriodic(data)
+    const query = getFormData(e) as any
 
-    const url = new URLSearchParams({ query: JSON.stringify(query) })
+    const url = new URLSearchParams({ filter: JSON.stringify(query) })
     router.replace('?' + url, { scroll: false })
   }
 
@@ -31,20 +29,17 @@ export default function PeriodicFilter({ query, fields, parts }) {
     document.getElementById('periodic-filter')?.hidePopover()
   }
 
-  async function onChangePrt(e) {
-    if (!e.target.value) return setPartTasks([])
-    setIsLoading(true)
-    const prtId = JSON.parse(e.target.value).id
-    const tasks = (await getTasksByPart(prtId)) as any
-    setPartTasks(tasks || [])
-    setIsLoading(false)
-  }
+  // async function onChangePrt(e) {
+  //   if (!e.target.value) return setPartTasks([])
+  //   setIsLoading(true)
+  //   const prtId = e.target.value
+  //   const tasks = (await getTasksByPart(prtId)) as any
+  //   setPartTasks(tasks || [])
+  //   setIsLoading(false)
+  // }
 
   return (
-    <div
-      popover='auto'
-      className='pop max-h-[75vh] w-[560px] scroll-bar overflow-y-auto'
-      id='periodic-filter'>
+    <div popover='auto' className='pop max-h-[75vh] w-[560px] scroll-bar overflow-y-auto' id='periodic-filter'>
       <div className='inline-flex items-center gap-4 border-b pb-2 mb-6 border-slate-400'>
         <Icon name='filter' type='reg' />
         <p className='text-xl font-medium'>סינונים</p>
@@ -54,34 +49,27 @@ export default function PeriodicFilter({ query, fields, parts }) {
         <div className='grid grid-cols-2 gap-4'>
           <SelectObj
             lbl='פרט'
-            name='part'
-            val='id'
-            show='name'
+            name='partId'
             options={parts}
             placeholder='הכל...'
-            defaultValue={query?.part}
+            val='id'
+            show='name'
+            defaultValue={filter?.part}
             required={false}
-            returnJson
-            onChange={onChangePrt}
+            // onChange={onChangePrt}
           />
-          <div className='relative'>
+          {/* <div className='relative'>
             <SelectObj
               lbl='שלב ביצוע'
               name='taskStageId'
               options={partTasks}
               val='id'
               show='title'
-              defaultValue={query?.taskStageId}
-              placeholder={
-                isLoading
-                  ? 'טוען...'
-                  : partTasks.length !== 0
-                  ? 'בחר שלב ביצוע'
-                  : 'לקביעת שלב, בחר פרט'
-              }
+              defaultValue={filter?.taskStageId}
+              placeholder={isLoading ? 'טוען...' : partTasks.length !== 0 ? 'בחר שלב ביצוע' : 'לקביעת שלב, בחר פרט'}
               required={false}
             />
-          </div>
+          </div> */}
           <Select
             lbl='בחר חזית'
             options={['צפונית', 'דרומית', 'מזרחית', 'מערבית']}
@@ -93,27 +81,27 @@ export default function PeriodicFilter({ query, fields, parts }) {
           <Select
             lbl='מספר QR'
             name='qrNum'
-            options={qrs}
-            defaultValue={query?.qrNum}
+            options={qrNums}
+            defaultValue={filter?.qrNum}
             placeholder='הכל...'
             required={false}
           />
-          <SelectObj
+          {/* <SelectObj
             lbl='בוצע ע"י'
             name='user'
             val='id'
             show='name'
             options={users}
             placeholder='כולם...'
-            defaultValue={query?.createdBy?.name}
+            defaultValue={filter?.createdBy?.name}
             required={false}
-          />
+          /> */}
 
           <Select
             lbl='מספר קומה'
             name='floor'
             options={floors}
-            defaultValue={query?.floor}
+            defaultValue={filter?.floor}
             placeholder='הכל...'
             required={false}
           />
@@ -121,7 +109,7 @@ export default function PeriodicFilter({ query, fields, parts }) {
             lbl='מספר דירה'
             name='aptNum'
             options={aptNums}
-            defaultValue={query?.aptNum}
+            defaultValue={filter?.aptNum}
             placeholder='הכל...'
             required={false}
           />
