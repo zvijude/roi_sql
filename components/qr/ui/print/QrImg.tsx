@@ -14,7 +14,7 @@ export default function QrImg({ qrNum, prjId, prjName }) {
         </div>
         <Qr
 
-          value={`https://www.roicrmapp.com/project/${prjId}/qr/${qrNum}`}
+          value={`https://roi-sql.vercel.app/project/${prjId}/qr/${qrNum}`}
           className='mx-auto'
 
           style={{ width: '30cm', height: '30cm' }}

@@ -7,7 +7,7 @@ export default function BtnMedia({ media, item }) {
     <>
       <Btn icon='image' popoverTarget={`popMedia-${item.id}`} clr='icon' className='size-7 border-none shadow-none' />
       <div popover='auto' id={`popMedia-${item.id}`} className='pop size-96'>
-        <ImgsCom urls={media} />
+        <ImgsCom urls={[media]} />
       </div>
     </>
   )

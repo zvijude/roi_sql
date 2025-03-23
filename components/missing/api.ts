@@ -7,7 +7,6 @@ import { revalidatePath } from 'next/cache'
 export async function addMiss({ qrId = null, data, prjId }) {
   const user = await getUser()
   const insertData = { prjId, createdById: user.id, ...data }
-  if (qrId) insertData.qrId = Number(qrId)
 
   await db('missing').insert(insertData)
   qrId ? revalidatePath('/qr') : revalidatePath('/project')

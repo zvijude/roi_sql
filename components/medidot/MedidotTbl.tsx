@@ -25,7 +25,7 @@ export default function MedidotTbl({ data }) {
     { key: 'resAt', label: 'נענה בתאריך', format: 'formatDateTime' },
     { key: 'res_by', label: 'נענה ע"י' },
     { key: 'note', label: 'הערה' },
-    { key: 'media', label: 'תמונות', format: 'formatMedia' },
+    // { key: 'media', label: 'תמונות', format: 'formatMedia' },
   ]
 
   const [state, setState] = useState(data)
