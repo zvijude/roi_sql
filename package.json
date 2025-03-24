@@ -14,13 +14,8 @@
     "jose": "^5.10.0",
     "jwt-decode": "^4.0.0",
     "knex": "^3.1.0",
-<<<<<<< HEAD
-    "next": "^15.1.6",
-    "pg": "^8.13.1",
-=======
     "next": "^15.2.3",
     "pg": "^8.14.1",
->>>>>>> b013144674defcc1552efe7b9cfbe679497fd0a5
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-qr-code": "^2.0.15",
@@ -32,8 +27,8 @@
     "zvijude": "^0.1.114"
   },
   "devDependencies": {
-    "@types/node": "^22.13.10",
-    "@types/react": "^19.0.11",
+    "@types/node": "^22.13.12",
+    "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "postcss": "^8.5.3",
     "prisma": "^6.5.0",
