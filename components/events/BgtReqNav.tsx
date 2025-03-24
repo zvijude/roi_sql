@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 export default async function BgtReqNav({ filter }) {
   return (
-    <section className='flex mt-8 justify-between'>
-      <div className='flex gap-0'>
+    <section className='flex mt-8 justify-between gap-8'>
+      <div className='flex gap-0 mobile:grid mobile:grid-cols-3 items-end'>
         <Link href={getNavLink({ filter, event: 'tasks' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
           משימות
         </Link>
@@ -14,7 +14,7 @@ export default async function BgtReqNav({ filter }) {
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>בקשות חריגים</div>
       </div>
 
-      <div className='flex gap-0'>
+      <div className='flex gap-0 mobile:grid mobile:grid-cols-5 items-end'>
         <NavLink lbl='הכל' active={!filter?.status} filter={filter} />
         <NavLink status='WAITING' lbl='בהמתנה' active={filter?.status === 'WAITING'} filter={filter} />
         <NavLink status='GRANTED' lbl='אושרו' active={filter?.status === 'GRANTED'} filter={filter} />
@@ -33,7 +33,9 @@ function NavLink({ status, lbl, active, filter }: { status?: string; lbl: string
   return (
     <Link
       href={`?filter=${JSON.stringify(newFilter)}`}
-      className={`px-8 border-b-2 pb-1 ${active ? 'border-sec text-sec font-semibold' : 'text-slate-600 border-slate-300'}`}
+      className={`px-8 mobile:px-4 border-b-2 pb-1 ${
+        active ? 'border-sec text-sec font-semibold' : 'text-slate-600 border-slate-300'
+      }`}
     >
       {lbl}
     </Link>

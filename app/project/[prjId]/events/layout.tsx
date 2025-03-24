@@ -13,7 +13,7 @@ export default async function EventsLayout({ params, children }) {
   return (
     <div>
       <Btn lbl='תצוגת מפה' icon='map' href={`/project/${prjId}/map_qrs`} className='absolute top-14 left-4' />
-      <Filter className='mb-8' opts={opts} />
+      <Filter className='mb-8 mobile:mt-12' opts={opts} />
       {isManager(user.role) && <EventsStats prjId={prjId} />}
       {children}
     </div>

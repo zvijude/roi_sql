@@ -45,6 +45,9 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
 
     toast('loading')
 
+    console.log('newTasks', newTasks)
+    console.log('partIds', partIds)
+
     await crtMainTask({ tasks: newTasks, partIds, prjId })
     refresh()
     toast('success')
@@ -85,13 +88,13 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
     if (!newTasks) return
 
     toast('loading')
-    const res = await updateMainTask({
+    const res = (await updateMainTask({
       tasks: newTasks,
       oldTasks,
       partIds,
       oldPartsIds: store.oldParts?.map((el) => el.id),
       prjId,
-    }) as any
+    })) as any
 
     // refresh()
     toast(res?.err ? 'error' : 'success', res?.msg)
@@ -113,11 +116,7 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
                 <button type='button' title='הרם משימה למעלה' onClick={() => swap(i, -1)} disabled={i === 0}>
                   <Icon name='arrow-up' className='size-4' />
                 </button>
-                <button
-                  type='button'
-                  title='הורד משימה למטה'
-                  onClick={() => swap(i, 1)}
-                  disabled={tasks.length === i + 1}>
+                <button type='button' title='הורד משימה למטה' onClick={() => swap(i, 1)} disabled={tasks.length === i + 1}>
                   <Icon name='arrow-down' className='size-4' />
                 </button>
                 <button
@@ -127,7 +126,8 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
                   onClick={() => {
                     tmpIndex = i
                     deleteTask()
-                  }}>
+                  }}
+                >
                   <Icon name='trash' className='size-4' />
                 </button>
               </div>

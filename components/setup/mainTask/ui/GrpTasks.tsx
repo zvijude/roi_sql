@@ -1,4 +1,4 @@
-import { clone } from 'zvijude/funcs'
+import { clone, genId } from 'zvijude/funcs'
 import { toast } from 'zvijude/pop'
 import { Btn } from 'zvijude/btns'
 import { store } from '@/utils/store'
@@ -54,6 +54,18 @@ export default function GrpTasks({ grpTasks, parts, setTasks }) {
 
                     store.oldTasks = clone(grp)
                     store.oldParts = clone(grpParts)
+                    scroll(0, 70)
+                  }}
+                />
+
+                <Btn
+                  lbl='שכפול'
+                  icon='copy'
+                  className='bg-white'
+                  clr='text'
+                  disabled={hasTasks}
+                  onClick={() => {
+                    setTasks(grp.map((item) => ({ ...item, id: genId() })))
                     scroll(0, 70)
                   }}
                 />

@@ -24,7 +24,7 @@ export default function StatsBox({ data, sum, title }: Props) {
   return (
     <Link
       href={EVENT_LINKS[title] || '#'}
-      className='bg-white py-4 px-5 rounded-md shadow-1 hover:shadow-4 active:shadow-none transition-shadow cursor-pointer'
+      className='bg-white py-4 px-5 rounded-md shadow-1 hover:shadow-4 active:shadow-none transition-shadow cursor-pointer  mobile:w-full'
     >
       <section className='flex justify-between items-start'>
         <p className='font-bold text-xl'>{title}</p>
@@ -40,18 +40,21 @@ export default function StatsBox({ data, sum, title }: Props) {
 
       {/* Chart Section */}
       <section className='flex mt-4 gap-9 flex-nowrap'>
-        <EventPieChart data={data} />
+        <div className='mobile:hidden'>
+          <EventPieChart data={data} />
+        </div>
         <div className='grid gap-1 my-1'>
-          {data && data.map((el, i) => (
-            <div className='flex gap-4 flex-nowrap' key={i}>
-              <div className='size-3 rounded-full' style={{ background: COLORS[i] }} />
-              <div className='flex gap-x-3 gap-y-1 justify-between'>
-                <p className='font-semibold leading-none'>{el.name}</p>
-                <p className='text-lg'>{el.value}</p>
-                {el.sum ? <p className='text-slate-700'>{formatCurrency(el.sum)}</p> : null}
+          {data &&
+            data.map((el, i) => (
+              <div className='flex gap-4 flex-nowrap' key={i}>
+                <div className='size-3 rounded-full' style={{ background: COLORS[i] }} />
+                <div className='flex gap-x-3 gap-y-1 justify-between'>
+                  <p className='font-semibold leading-none'>{el.name}</p>
+                  <p className='text-lg'>{el.value}</p>
+                  {el.sum ? <p className='text-slate-700'>{formatCurrency(el.sum)}</p> : null}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </section>
     </Link>
@@ -64,9 +67,7 @@ function EventPieChart({ data }) {
     <ResponsiveContainer width={radius * 2} height={radius * 2} className='cursor-pointer'>
       <PieChart>
         <Pie dataKey='value' data={data} innerRadius={radius - 18} outerRadius={radius} isAnimationActive={false}>
-          {data && data.map((entry, i) => (
-            <Cell key={i} fill={COLORS[i]} className='cursor-pointer hover:opacity-70' />
-          ))}
+          {data && data.map((entry, i) => <Cell key={i} fill={COLORS[i]} className='cursor-pointer hover:opacity-70' />)}
         </Pie>
       </PieChart>
     </ResponsiveContainer>
