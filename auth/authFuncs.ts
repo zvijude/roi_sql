@@ -9,14 +9,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cache } from 'react'
 import { $Enums, Role } from '@prisma/client'
 
-const secretKey = 'secret'
+const secretKey = 'roi1985zvi598avichai'
 const key = new TextEncoder().encode(secretKey)
 
 export async function checkUserSuspended(user) {
   const cokis = await cookies()
 
   if (user?.suspended) {
-    cokis.delete('user')
+    cokis.delete('user_roi')
     redirect('/auth')
   }
 }
@@ -33,7 +33,7 @@ export async function checkUserSuspended(user) {
 
 export const getUser = cache(async () => {
   const cokis = await cookies()
-  const session = cokis.get('user')?.value
+  const session = cokis.get('user_roi')?.value
   if (!session) return null
   const decryptUser = await decrypt(session)
 
@@ -72,12 +72,12 @@ export async function saveUsercookie(cookieUser) {
 
   const expires = daysFromNow(365)
   const userToken = await encrypt({ ...cookieUser, expires })
-  cokis.set('user', userToken, { expires, httpOnly: true })
+  cokis.set('user_roi', userToken, { expires, httpOnly: true })
 }
 
 export async function deleteUserCookie() {
   const cokis = await cookies()
-  cokis.delete('user')
+  cokis.delete('user_roi')
 }
 
 export async function encrypt(payload: any) {
@@ -93,12 +93,12 @@ export async function decrypt(input: string): Promise<any> {
 
 export async function logout() {
   const cokis = await cookies()
-  cokis.delete('user')
+  cokis.delete('user_roi')
   redirect('/auth')
 }
 
 export async function updateSession(request: NextRequest) {
-  const user = request.cookies.get('user')?.value
+  const user = request.cookies.get('user_roi')?.value
   if (!user) return
 
   // Refresh the user session so it doesn't expire
@@ -106,7 +106,7 @@ export async function updateSession(request: NextRequest) {
   parsed.expires = daysFromNow(2)
   const res = NextResponse.next()
   res.cookies.set({
-    name: 'user',
+    name: 'user_roi',
     value: await encrypt(parsed),
     httpOnly: true,
     expires: parsed.expires,
@@ -116,7 +116,7 @@ export async function updateSession(request: NextRequest) {
 
 export async function checkCookie() {
   const cokis = await cookies()
-  const user = cokis.get('user')?.value
+  const user = cokis.get('user_roi')?.value
   if (!user) return null
   const parsed = await decrypt(user)
 }

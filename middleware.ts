@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  const user = request.cookies.get('user')?.value
+  const user = request.cookies.get('user_roi')?.value
   const url = new URL(request.url)
 
   // Allow access to the register page
