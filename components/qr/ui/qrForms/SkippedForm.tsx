@@ -32,7 +32,7 @@ export default function SkippedForm({ curTask }) {
   }
 
   return (
-    <form popover='manual' id='skippedForm' className='pop w-4/5' onSubmit={onSubmit}>
+    <form popover='manual' id='skippedForm' className='pop' onSubmit={onSubmit}>
       <div className='grid gap-2 w-full'>
         <button
           type='button'

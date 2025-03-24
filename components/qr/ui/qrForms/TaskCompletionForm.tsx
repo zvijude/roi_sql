@@ -34,7 +34,7 @@ export default function TaskCompletionForm({ curTask }) {
     setMedia([...media, url])
   }
   return (
-    <form popover='manual' id='completedTaskPop' className='pop w-4/5' onSubmit={onSubmit}>
+    <form popover='manual' id='completedTaskPop' className='pop' onSubmit={onSubmit}>
       <div className='grid gap-2 w-full'>
         <button
           type='button'

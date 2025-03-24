@@ -14,7 +14,7 @@ import Title from 'zvijude/general/Title'
 import { SelectAptOpt } from '../aptOpt/ui/SelectAptOpt'
 import { arrayOf } from '@/utils/func'
 
-export function AddNewMiss({ prjId, missOpt, qrId = null, aptOpt, parts }) {
+export function AddNewMiss({ prjId, missOpt, qr = null as any | null, aptOpt, parts }) {
   const [isEdit, setIsEdit] = useState(false)
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
@@ -26,7 +26,14 @@ export function AddNewMiss({ prjId, missOpt, qrId = null, aptOpt, parts }) {
 
     const data = getFormData(e)
     data.media = url
-    qrId ? await addMiss({ prjId, qrId, data }) : await addMiss({ prjId, data })
+    if (qr) {
+      data.front = qr.front
+      data.floor = qr.floor
+      data.aptNum = qr.aptNum
+      data.locInApt = qr.locInApt
+      data.qrId = qr.QrId
+    }
+    qr ? await addMiss({ prjId, qrId: qr.QrId, data }) : await addMiss({ prjId, data })
     toast('success', 'החוסרים נוספו בהצלחה')
 
     document.getElementById('missOptPop')?.hidePopover()
@@ -54,7 +61,15 @@ export function AddNewMiss({ prjId, missOpt, qrId = null, aptOpt, parts }) {
 
   return (
     <>
-      <Btn lbl='הוספת חוסרים' popoverTarget='missOptPop' className='w-fit' disabled={loading} icon='plus' />
+      <Btn
+        lbl='הוספת חוסרים'
+        popoverTarget='missOptPop'
+        className='w-full'
+        disabled={loading}
+        icon='plus'
+        clr='text'
+        size='small'
+      />
 
       {/* {missItems.length > 0 && (
         <div className='border bg-white rounded-md m-1 w-3/4 mx-auto'>
@@ -108,17 +123,19 @@ export function AddNewMiss({ prjId, missOpt, qrId = null, aptOpt, parts }) {
 
         {!isEdit && (
           <div className='grid gap-6 w-full'>
-            <section className='grid gap-4'>
-              <Title lbl='מיקום החוסר' icon='map-location-dot' />
+            {!qr && (
+              <section className='grid gap-4'>
+                <Title lbl='מיקום החוסר' icon='map-location-dot' />
 
-              <div className='grid grid-cols-2 gap-6'>
-                <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} />
-                <Select lbl='מספר דירה' name='aptNum' options={arrayOf(0, 1000)} />
-              </div>
-              <SelectAptOpt aptOpt={aptOpt} />
-              <SelectObj name='partId' options={parts} show='name' val='id' lbl='בחר סוג פרט' required={false} />
-              <Select lbl='בחר חזית' name='front' required={false} options={['צפונית', 'דרומית', 'מערבית', 'מזרחית']} />
-            </section>
+                <div className='grid grid-cols-2 gap-6'>
+                  <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} />
+                  <Select lbl='מספר דירה' name='aptNum' options={arrayOf(0, 1000)} />
+                </div>
+                <SelectAptOpt aptOpt={aptOpt} />
+                <SelectObj name='partId' options={parts} show='name' val='id' lbl='בחר סוג פרט' required={false} />
+                <Select lbl='בחר חזית' name='front' required={false} options={['צפונית', 'דרומית', 'מערבית', 'מזרחית']} />
+              </section>
+            )}
 
             <section className='grid gap-4'>
               <Title lbl='הוסף חוסרים' icon='box-open' />

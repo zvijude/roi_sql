@@ -37,7 +37,7 @@ export default function ProblemForm({ taskId, qrId }) {
   }
 
   return (
-    <form popover='manual' id='problemForm' className='pop w-4/5' onSubmit={onSubmit}>
+    <form popover='manual' id='problemForm' className='pop' onSubmit={onSubmit}>
       <div className='grid gap-2 w-full'>
         <button
           type='button'

@@ -36,7 +36,7 @@ export default async function Page({ params }) {
   const missItemsByQr = await getMissItemsByQr(qrData.QrId)
   const medidot = await getMedidotByQr(qrData.QrId)
 
-  // Case 3: All tasks completed
+  // Case 2: All tasks completed
   if (qrData.status === QrStatus.FINISH) {
     return (
       <div>
@@ -45,6 +45,13 @@ export default async function Page({ params }) {
       </div>
     )
   }
+
+  // case 3: QR has no tasks
+  if (!qrData.tasksId) {
+    return <div>לברקוד אין משימות</div>
+  }
+
+  // case 4: QR in progress
   const curTask = await getCurTask(qrData.QrId)
   return (
     <>
@@ -62,9 +69,8 @@ export default async function Page({ params }) {
           )}
         </div>
         <QrCompleteBtn curTask={curTask} userRole={user.role} qrStatus={qrData.status} />
-        <CurTaskEvents events={curTask.probs} miss={missItemsByQr} medidot={medidot} />
+        <CurTaskEvents events={curTask.probs} />
       </div>
-     
 
       {/* Popups */}
       <ProblemForm taskId={curTask.TaskId} qrId={curTask.qrId} />
