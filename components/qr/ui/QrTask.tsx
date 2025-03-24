@@ -1,47 +1,41 @@
-'use client'
+// 'use client'
 
-import QrForm from './QrForm'
-import CurTaskEvents from './QrActiveData'
-import QrHeader from './QrHeader'
-import { TaskStatus } from '@prisma/client'
-import BgtReqForm from '@/components/bgtReqs/BgtReqForm'
-import ProblemForm from '@/components/probs/ProbForm'
-import TaskCompletionForm from '@/components/tasks/TaskCompletionForm'
-import ImgsCom from '@/ui/imgsCom'
+// import QrForm from './QrForm'
+// import CurTaskEvents from './QrActiveData'
+// import QrHeader from './QrHeader'
+// import { TaskStatus } from '@prisma/client'
+// import BgtReqForm from '@/components/bgtReqs/BgtReqForm'
+// import ProblemForm from '@/components/probs/ProbForm'
+// import TaskCompletionForm from '@/components/tasks/TaskCompletionForm'
+// import SkippedForm from '@/components/bgtReqs/SkippedForm'
 
-export function QrTask({ user, qrData, aptOpt, curTask }) {
-  return (
-    <>
-      <div className='grid place-items-center gap-4'>
-        <TaskDetails curTask={curTask} />
-        <QrHeader userRole={user.role} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
-        <QrForm curTask={curTask} userRole={user.role} qrStatus={qrData.status} />
-        <ImgsCom urls={curTask.media} />
-        <CurTaskEvents events={curTask.probs} />
-      </div>
+// export function QrTask({ user, qrData, aptOpt, curTask }) {
+//   const isWaitingForApproval = curTask.status === TaskStatus.WAITING
+//   return (
+//     <>
+//       <div className='grid place-items-center gap-4'>
+//         <QrHeader userRole={user.role} qrData={qrData} aptOpt={aptOpt} curTask={curTask} />
+//         <div className='w-full p-2 px-5 rounded shadow-3'>
+//           <p className='text-[16px] font-bold border-b border-gray-200 text-center'>{curTask.title}</p>
+//           <p className='my-1 py-1 text-sm text-gray-700'>{curTask.desc}</p>
 
-      {/* Popups */}
-      <ProblemForm taskId={curTask.TaskId} qrId={curTask.qrId} />
-      <BgtReqForm taskId={curTask.TaskId} qrId={curTask.qrId} />
-      <TaskCompletionForm curTask={curTask} qrStatus={qrData.status} />
-    </>
-  )
-}
+//           {!isWaitingForApproval && Boolean(curTask.needApproval || curTask.needMedia) && (
+//             <div className='my-1 py-2 text-xs text-gray-700 font-semibold border-t border-gray-200'>
+//               {curTask.needApproval && <p>* משימה זו תעבור לאישור מנהל בסיום העבודה</p>}
+//               {curTask.needMedia && <p>* חובה להעלות תמונה או סרטון בסיום המשימה</p>}
+//             </div>
+//           )}
+//         </div>
+//         <QrForm curTask={curTask} userRole={user.role} qrStatus={qrData.status} />
+//         {/* <ImgsCom urls={curTask.media} /> */}
+//         <CurTaskEvents events={curTask.probs} />
+//       </div>
 
-function TaskDetails({ curTask }) {
-  const isWaitingForApproval = curTask.status === TaskStatus.WAITING
-
-  return (
-    <div className='w-full p-2 rounded shadow-1 bg-white'>
-      <p className='font-semibold border-b pb-2'>משימה: {curTask.title}</p>
-      <p className='py-2'>{curTask.desc}</p>
-
-      {!isWaitingForApproval && Boolean(curTask.needApproval || curTask.needMedia) && (
-        <div className='pt-2 text-xs text-gray-700 font-semibold border-t border-gray-200'>
-          {curTask.needApproval && <p>* משימה זו תעבור לאישור מנהל בסיום העבודה</p>}
-          {curTask.needMedia && <p>* חובה להעלות תמונה או סרטון בסיום המשימה</p>}
-        </div>
-      )}
-    </div>
-  )
-}
+//       {/* Popups */}
+//       <ProblemForm taskId={curTask.TaskId} qrId={curTask.qrId} />
+//       <BgtReqForm taskId={curTask.TaskId} qrId={curTask.qrId} />
+//       <TaskCompletionForm curTask={curTask} qrStatus={qrData.status} />
+//       <SkippedForm curTask={curTask} />
+//     </>
+//   )
+// }

@@ -42,7 +42,7 @@ export default function StatsBox({ data, sum, title }: Props) {
       <section className='flex mt-4 gap-9 flex-nowrap'>
         <EventPieChart data={data} />
         <div className='grid gap-1 my-1'>
-          {data.map((el, i) => (
+          {data && data.map((el, i) => (
             <div className='flex gap-4 flex-nowrap' key={i}>
               <div className='size-3 rounded-full' style={{ background: COLORS[i] }} />
               <div className='flex gap-x-3 gap-y-1 justify-between'>
@@ -64,7 +64,7 @@ function EventPieChart({ data }) {
     <ResponsiveContainer width={radius * 2} height={radius * 2} className='cursor-pointer'>
       <PieChart>
         <Pie dataKey='value' data={data} innerRadius={radius - 18} outerRadius={radius} isAnimationActive={false}>
-          {data.map((entry, i) => (
+          {data && data.map((entry, i) => (
             <Cell key={i} fill={COLORS[i]} className='cursor-pointer hover:opacity-70' />
           ))}
         </Pie>

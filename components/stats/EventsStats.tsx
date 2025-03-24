@@ -5,8 +5,8 @@ export default async function StatsDash({ prjId }) {
   let eventsStats = await db.raw(`SELECT * FROM _get_stats_grpd(?);`, [prjId])
   eventsStats = eventsStats.rows[0] || {}
 
-  const taskSum = eventsStats.tasks.pop()
-  const bgtReqsSum = eventsStats.bgtReqs.pop()
+  const taskSum = eventsStats.tasks?.pop()
+  const bgtReqsSum = eventsStats.bgtReqs?.pop()
 
   // flex gap-4 items-start flex-nowrap *:min-h-[232px]
   //   <div className='grid_fill gap-4' style={{ ['--size' as string]: '380px' }}>

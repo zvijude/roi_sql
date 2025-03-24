@@ -1,4 +1,3 @@
-'use server'
 import { db } from '@/sql'
 
 export async function getFields(prjId: number) {

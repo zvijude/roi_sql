@@ -1,3 +1,4 @@
+'use client'
 import { addProb } from '@/components/events/api'
 import { useState } from 'react'
 import { Btn } from 'zvijude/btns'
@@ -32,7 +33,7 @@ export default function ProblemForm({ taskId, qrId }) {
 
   async function onUploadProbMedia(url) {
     if (!url.length) return
-    setMedia([url])
+    setMedia([...media, url])
   }
 
   return (

@@ -5,39 +5,39 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "db": "pnpx prisma migrate dev",
-    "gen": "pnpx prisma generate",
-    "postinstall": "prisma generate",
-    "zvijude": "pnpm remove zvijude && pnpm add zvijude",
-    "showdb": "pnpx prisma studio"
+    "start": "next start"
   },
   "dependencies": {
-    "@prisma/client": "^6.2.1",
+    "@prisma/client": "^6.5.0",
     "diff-arrays-of-objects": "^1.1.9",
     "html5-qrcode": "^2.3.8",
-    "jose": "^5.9.6",
+    "jose": "^5.10.0",
     "jwt-decode": "^4.0.0",
     "knex": "^3.1.0",
+<<<<<<< HEAD
     "next": "^15.1.6",
     "pg": "^8.13.1",
+=======
+    "next": "^15.2.3",
+    "pg": "^8.14.1",
+>>>>>>> b013144674defcc1552efe7b9cfbe679497fd0a5
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-qr-code": "^2.0.15",
-    "react-to-print": "^2.15.1",
-    "recharts": "^2.15.0",
+    "react-to-print": "^3.0.5",
+    "recharts": "^2.15.1",
     "tailwind-merge": "^2.6.0",
     "valtio": "^1.13.2",
     "xlsx": "^0.18.5",
     "zvijude": "^0.1.114"
   },
   "devDependencies": {
-    "@types/node": "^22.10.10",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "postcss": "^8.5.1",
-    "prisma": "^6.2.1",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.11",
+    "@types/react-dom": "^19.0.4",
+    "postcss": "^8.5.3",
+    "prisma": "^6.5.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   }
 }

@@ -1,8 +1,8 @@
-import { getFields } from '@/components/filter/getFields'
+// import { getFields } from '@/components/filter/getFields'
 // import PeriodicCharts from '@/lib/graph/ui/PeriodicCharts'
-import { getPartsByPrj } from '@/components/setup/part/db'
+// import { getPartsByPrj } from '@/components/setup/part/db'
 // import { getPeriodic, getPeriodicChartData } from '@/lib/periodicTable/db/get'
-import PeriodicTable from '@/lib/periodicTable/ui/PeriodicTable'
+// import PeriodicTable from '@/lib/periodicTable/ui/PeriodicTable'
 import { redirect } from 'next/navigation'
 
 export default async function Page({ params, searchParams }) {

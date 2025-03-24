@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import { Btn } from 'zvijude/btns'
 import UploadMedia from '@/ui/UploadMedia'
@@ -32,7 +33,7 @@ export default function BgtReqForm({ taskId, qrId }) {
 
   async function onUploadMedia(url) {
     if (!url.length) return
-    setMedia([url])
+    setMedia([...media, url])
   }
 
   return (
