@@ -10,14 +10,14 @@
 -- ALTER TABLE "Prob"
 -- ALTER COLUMN "updatedAt" SET DEFAULT now();
 
-ALTER TABLE "User"
+ALTER TABLE "Part"
 ALTER COLUMN "updatedAt" SET DEFAULT now();
 
 
 ALTER TABLE "Company"
 ALTER COLUMN "updatedAt" SET DEFAULT now();
 
-
+-- THE FUNCTION
 CREATE OR REPLACE FUNCTION update_timestamp()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -26,8 +26,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- THE TRIGGER
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON missing
+BEFORE UPDATE ON "Part"
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 

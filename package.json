@@ -19,8 +19,8 @@
     "jose": "^5.9.6",
     "jwt-decode": "^4.0.0",
     "knex": "^3.1.0",
-    "pg": "^8.13.1",
     "next": "^15.1.6",
+    "pg": "^8.13.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-qr-code": "^2.0.15",
@@ -28,6 +28,7 @@
     "recharts": "^2.15.0",
     "tailwind-merge": "^2.6.0",
     "valtio": "^1.13.2",
+    "xlsx": "^0.18.5",
     "zvijude": "^0.1.114"
   },
   "devDependencies": {

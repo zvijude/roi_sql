@@ -8,9 +8,5 @@ export default async function partsPage({ params }) {
 
   const prts = await db('Part').where({ prjId }).orderBy('updatedAt', 'desc')
 
-  return (
-    <div className='grid grid-cols-2 gap-8'>
-      <Parts prts={prts} prjId={prjId} />
-    </div>
-  )
+  return <Parts prts={prts} prjId={prjId} />
 }

@@ -5,17 +5,13 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@/sql'
 
 export async function insertPart(data: Part) {
-  const res = (await db('Part').insert({
-    ...data,
-    name: data.name.trim(),
-    updatedAt: new Date(),
-  })) as { rowCount: number }
+  const res = (await db('Part').insert(data)) as { rowCount: number }
 
   revalidatePath(`/project`)
   return res.rowCount
 }
 
-//! 
+//!
 export async function updatePart({ id, data }: { id: number; data: Part }) {
   const res = await db('Part').where({ id }).update(data)
   revalidatePath(`/project`)
@@ -34,4 +30,11 @@ export async function deletePart(id) {
 
   revalidatePath(`/project`)
   return res
+}
+
+export async function insertManyParts(data: any[]) {
+  const res = (await db('Part').insert(data)) as { rowCount: number }
+
+  revalidatePath(`/project`)
+  return res.rowCount
 }
