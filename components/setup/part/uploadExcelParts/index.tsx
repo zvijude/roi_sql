@@ -18,6 +18,9 @@ export default function UploadExcelParts({ prjId }) {
     const { data, wrongData } = await uploadClientData(file, prjId)
     e.target.value = ''
 
+    console.log('data', data)
+    console.log('wrongData', wrongData)
+
     setClients(data)
     setWrongClients(wrongData)
 

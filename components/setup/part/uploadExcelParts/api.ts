@@ -4,7 +4,7 @@ import { db } from '@/sql'
 import * as XLSX from 'xlsx'
 
 export async function uploadClientData(file, prjId) {
-  const allParts = await db('Part').select('name')
+  const allParts = await db('Part').select('name').where({ prjId })
 
   const fileStream = file.stream()
   const chunks = [] as any[]

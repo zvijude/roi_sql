@@ -36,7 +36,7 @@ function NavLink({ status, lbl, active, filter }: { status?: string; lbl: string
   return (
     <Link
       href={`?filter=${JSON.stringify(newFilter)}`}
-      className={`px-8 mobile:px-4 w-full  border-b-2 pb-1 ${
+      className={`px-8 mobile:px-4 mobile:w-full  border-b-2 pb-1 ${
         active ? 'border-sec text-sec font-semibold' : 'text-slate-600 border-slate-300'
       }`}
     >
