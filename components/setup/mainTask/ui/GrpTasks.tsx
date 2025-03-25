@@ -1,4 +1,4 @@
-import { clone, genId } from 'zvijude/funcs'
+import { clone, formatCurrency, genId } from 'zvijude/funcs'
 import { toast } from 'zvijude/pop'
 import { Btn } from 'zvijude/btns'
 import { store } from '@/utils/store'
@@ -23,6 +23,9 @@ export default function GrpTasks({ grpTasks, parts, setTasks }) {
         const grpParts = parts.filter((el) => el.tasksId === grp[0].tasksId)
         // const hasTasks = grp.some((t) => t.tasks.length > 0)
         const hasTasks = false
+        let totalAmount = 0
+        grp.forEach((el) => (totalAmount += el.price))
+
         return (
           <main className='mt-12' key={grp[0].tasksId}>
             <div className='flex justify-between mb-2 gap-8 items-end'>
@@ -86,6 +89,10 @@ export default function GrpTasks({ grpTasks, parts, setTasks }) {
             </div>
 
             <MainTaskTable rowsData={grp} />
+
+            <div className='mt-2 ms-2'>
+              סה"כ עלות התקנת הפרט: <span className='text-lg font-semibold'>{formatCurrency(totalAmount)}</span>
+            </div>
           </main>
         )
       })}
