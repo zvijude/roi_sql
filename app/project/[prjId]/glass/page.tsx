@@ -25,7 +25,7 @@ export default async function Page({ params }) {
           <AddGlass pallets={pallets} glassInfo={glassInfo} />
         </span>
       </div>
-      <GlassTable data={glassTbl} />
+      <GlassTable data={glassTbl} key={Math.random()} />
 
       <GlassInfo glassData={glassData} parts={prts} className='my-8 grid' />
     </div>
