@@ -13,8 +13,10 @@ import { getUser } from '@/auth/authFuncs'
 import { getPartsByPrj } from '@/components/setup/part/db'
 import { isManager } from '@/db/types'
 import { Btn } from 'zvijude/btns'
-import { getMedidotByQr } from '@/components/medidot/db'
-import { getMissItemsByQr } from '@/components/missing/db'
+import { MedidotForm } from '@/components/qr/ui/qrForms/MedidotForm'
+import { MissForm } from '@/components/qr/ui/qrForms/MissForm'
+import { getMedidotOpt } from '@/components/medidot/db'
+import { getMissOpt } from '@/components/missing/db'
 
 export default async function Page({ params }) {
   let { prjId, qrNum } = await params
@@ -22,6 +24,8 @@ export default async function Page({ params }) {
   const qrData = await scanQr(qrNum, prjId)
   const aptOpt = await getAllAptOpt(prjId)
   const parts = await getPartsByPrj(prjId)
+  const medidotOpt = await getMedidotOpt(prjId)
+  const missOpt = await getMissOpt(prjId)
 
   // Case 1: QR not initialized
   if (!qrData) {
@@ -32,17 +36,17 @@ export default async function Page({ params }) {
     )
   }
 
-  // we need to use both to show the miss & medidot of this QR
-  const missItemsByQr = await getMissItemsByQr(qrData.QrId)
-  const medidot = await getMedidotByQr(qrData.QrId)
-
   // Case 2: All tasks completed
   if (qrData.status === QrStatus.FINISH) {
     return (
-      <div>
-        <p>כל המשימות של ברקוד מספר {qrNum} הושלמו</p>
-        <Btn lbl='היסטורית QR' href={`/pops/project/${prjId}/qr/${qrNum}`} />
-      </div>
+      <>
+        <div>
+          <p>כל המשימות של ברקוד מספר {qrNum} הושלמו</p>
+          <Btn lbl='היסטורית QR' href={`/pops/project/${prjId}/qr/${qrNum}`} />
+        </div>
+        <MedidotForm prjId={prjId} medidotOpt={medidotOpt} qr={qrData} aptOpt={aptOpt} parts={parts} />
+        <MissForm prjId={prjId} missOpt={missOpt} qr={qrData} aptOpt={aptOpt} parts={parts} />
+      </>
     )
   }
 
@@ -73,6 +77,8 @@ export default async function Page({ params }) {
       </div>
 
       {/* Popups */}
+      <MedidotForm prjId={prjId} medidotOpt={medidotOpt} qr={qrData} aptOpt={aptOpt} parts={parts} />
+      <MissForm prjId={prjId} missOpt={missOpt} qr={qrData} aptOpt={aptOpt} parts={parts} />
       <ProblemForm taskId={curTask.TaskId} qrId={curTask.qrId} />
       <BgtReqForm taskId={curTask.TaskId} qrId={curTask.qrId} />
       <TaskCompletionForm curTask={curTask} />

@@ -1,7 +1,7 @@
 import Filter from '@/components/filter'
-import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
+import { MedidotForm } from '@/components/qr/ui/qrForms/MedidotForm'
 import { getMedidotOpt } from '@/components/medidot/db'
-import { AddNewMiss } from '@/components/missing/AddNewMiss'
+import { MissForm } from '@/components/qr/ui/qrForms/MissForm'
 import { getMissOpt } from '@/components/missing/db'
 import { db } from '@/sql'
 

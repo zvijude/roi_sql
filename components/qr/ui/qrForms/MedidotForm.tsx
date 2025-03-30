@@ -4,16 +4,16 @@ import { Input, Select, SelectObj } from 'zvijude/form'
 import { Btn } from 'zvijude/btns'
 import { useState } from 'react'
 import { toast } from 'zvijude/pop'
-import EditMedidotOpts from './EditMedidotOpt'
-import { addMedida } from './api'
+import EditMedidotOpts from '../../../medidot/EditMedidotOpt'
+import { addMedida } from '../../../medidot/api'
 import UploadMedia from '@/ui/UploadMedia'
 import Icon from 'zvijude/icon'
 import Title from 'zvijude/general/Title'
 import { arrayOf } from '@/utils/func'
-import { SelectAptOpt } from '../aptOpt/ui/SelectAptOpt'
+import { SelectAptOpt } from '../../../aptOpt/ui/SelectAptOpt'
 import { getFormData } from 'zvijude/form/funcs'
 
-export function AddNewMedidot({ prjId, medidotOpt, qr = null as any | null, aptOpt, parts }) {
+export function MedidotForm({ prjId, medidotOpt, qr = null as any | null, aptOpt, parts }) {
   const [isEdit, setIsEdit] = useState(false)
   const [url, setUrl] = useState('')
 
@@ -32,20 +32,18 @@ export function AddNewMedidot({ prjId, medidotOpt, qr = null as any | null, aptO
     }
     qr ? await addMedida({ prjId, qr, data }) : await addMedida({ prjId, data })
     toast('success', 'המידות נוספו בהצלחה')
-    document.getElementById('medidotPop')?.hidePopover()
+    document.getElementById('medidotForm')?.hidePopover()
     e.target.reset()
     setUrl('')
   }
 
   return (
     <>
-      <Btn lbl='הוספת מדידה' popoverTarget='medidotPop' icon='plus' clr='text' size='small' className='w-full' />
-
-      <form className='pop px-4 py-6 min-w-80 ' popover='manual' id='medidotPop' onSubmit={onSubmit}>
+      <form className='pop px-4 py-6 min-w-80 ' popover='manual' id='medidotForm' onSubmit={onSubmit}>
         <button
           type='button'
           onClick={() => {
-            document.getElementById('medidotPop')?.hidePopover()
+            document.getElementById('medidotForm')?.hidePopover()
             setIsEdit(false)
           }}
           className='absolute top-1 left-1'
@@ -84,11 +82,7 @@ export function AddNewMedidot({ prjId, medidotOpt, qr = null as any | null, aptO
               <Input lbl='אורך' name='height' type='number' min={0} className='w-full' required={false} />
               <Input lbl='עומק' name='depth' type='number' min={0} className='w-full' required={false} />
               <Input lbl='הערה' name='note' type='text' className='w-full' required={false} />
-              <UploadMedia
-                onUpload={(url) => {
-                  setUrl(url)
-                }}
-              />
+              <UploadMedia onUpload={(url) => {setUrl(url)}} />
             </section>
             <Btn lbl='הוסף' type='submit' className='mt-1' />
           </div>
