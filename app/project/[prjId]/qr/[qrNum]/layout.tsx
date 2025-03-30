@@ -39,8 +39,8 @@ export default async function Layout({ children, params }) {
             className='text-xs w-full shadow-none'
           />
           <QrMenu qr={qrData} />
-          <MedidotCard medidot={medidot} />
-          <MissCard missItems={missItems} />
+          <MedidotCard medidot={medidot} userRole={user.role} />
+          <MissCard missItems={missItems} userRole={user.role} />
         </div>
       )}
     </>

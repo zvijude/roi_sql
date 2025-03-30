@@ -4,8 +4,9 @@ import BtnMedia from '@/ui/BtnMedia'
 import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 import { completeMedida } from './api'
+import { isManager } from '@/db/types'
 
-export default function MedidotCard({ medidot }) {
+export default function MedidotCard({ medidot, userRole }) {
   async function onCompletedMedida(id) {
     toast('loading', id)
     await completeMedida({ id })
@@ -22,7 +23,7 @@ export default function MedidotCard({ medidot }) {
           <div key={medida.id} className='flex justify-between items-center py-1 px-2 border-b last:border-0'>
             <div className='flex justify-between '>
               <span>{medida.item}</span>
-              {medida.isActive && (
+              {medida.isActive && isManager(userRole) && (
                 <div className='flex'>
                   <Btn lbl='הושלם' clr='text' className='size-5 text-xs' onClick={() => onCompletedMedida(medida.id)} />
                 </div>
