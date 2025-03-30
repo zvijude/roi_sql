@@ -4,8 +4,9 @@ import BtnMedia from '@/ui/BtnMedia'
 import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 import { missCompleted } from './api'
+import { isManager } from '@/db/types'
 
-export default function MissCard({ missItems }) {
+export default function MissCard({ missItems, userRole }) {
   async function onCompletedMedida(id) {
     toast('loading', id)
     await missCompleted({ id })
@@ -22,7 +23,7 @@ export default function MissCard({ missItems }) {
           <div key={miss.id} className='flex justify-between items-center py-1 px-2 border-b last:border-0'>
             <div className='flex justify-between '>
               <span>{miss.item}</span>
-              {miss.isActive && (
+              {miss.isActive && isManager(userRole) && (
                 <div className='flex'>
                   <Btn lbl='הושלם' clr='text' className='size-5 text-xs' onClick={() => onCompletedMedida(miss.id)} />
                 </div>

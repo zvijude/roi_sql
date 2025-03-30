@@ -1,6 +1,6 @@
 import { getAllAptOpt } from '@/components/aptOpt/db'
 import Medidot from '@/components/medidot'
-import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
+import { MedidotForm } from '@/components/qr/ui/qrForms/MedidotForm'
 import { getMedidotOpt } from '@/components/medidot/db'
 import MedidotNav from '@/components/medidot/MedidotNav'
 import { getPartsByPrj } from '@/components/setup/part/db'
@@ -15,7 +15,7 @@ export default async function Page({ params, searchParams }) {
 
   return (
     <div className='grid'>
-      <AddNewMedidot prjId={prjId} medidotOpt={medidotOpt} aptOpt={aptOpt} parts={parts} />
+      <MedidotForm prjId={prjId} medidotOpt={medidotOpt} aptOpt={aptOpt} parts={parts} />
 
       <MedidotNav filter={filter} medidotOpt={medidotOpt} />
       <Medidot prjId={prjId} filter={filter} />

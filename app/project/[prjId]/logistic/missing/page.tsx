@@ -1,6 +1,6 @@
 import { getAllAptOpt } from '@/components/aptOpt/db'
 import Missing from '@/components/missing'
-import { AddNewMiss } from '@/components/missing/AddNewMiss'
+import { MissForm } from '@/components/qr/ui/qrForms/MissForm'
 import { getMissOpt } from '@/components/missing/db'
 import MissingNav from '@/components/missing/MissingNav'
 import { getPartsByPrj } from '@/components/setup/part/db'
@@ -16,7 +16,7 @@ export default async function Page({ params, searchParams }) {
 
   return (
     <div className='grid'>
-      <AddNewMiss prjId={prjId} missOpt={missOpt} aptOpt={aptOpt} parts={parts} />
+      <MissForm prjId={prjId} missOpt={missOpt} aptOpt={aptOpt} parts={parts} />
 
       <MissingNav filter={filter} itemOpt={missOpt} />
       <Missing prjId={prjId} filter={filter} />

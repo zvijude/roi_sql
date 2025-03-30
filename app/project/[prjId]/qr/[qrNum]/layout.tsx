@@ -1,10 +1,6 @@
 import { getUser, userInPrj } from '@/auth/authFuncs'
-import { getAllAptOpt } from '@/components/aptOpt/db'
-import { getPartsByPrj } from '@/components/setup/part/db'
-import { getMissItemsByQr, getMissOpt } from '@/components/missing/db'
-import { getMedidotByQr, getMedidotOpt } from '@/components/medidot/db'
-import { AddNewMedidot } from '@/components/medidot/AddNewMedidot'
-import { AddNewMiss } from '@/components/missing/AddNewMiss'
+import { getMissItemsByQr } from '@/components/missing/db'
+import { getMedidotByQr } from '@/components/medidot/db'
 import { scanQr } from '@/components/qr/db'
 import { Btn } from 'zvijude/btns'
 import { QrStatus } from '@prisma/client'
@@ -18,10 +14,6 @@ export default async function Layout({ children, params }) {
   if (!user) return null
   await userInPrj({ prjId, userId: user.id })
 
-  const medidotOpt = await getMedidotOpt(prjId)
-  const missOpt = await getMissOpt(prjId)
-  const aptOpt = await getAllAptOpt(prjId)
-  const parts = await getPartsByPrj(prjId)
   const qrData = await scanQr(qrNum, prjId)
 
   let missItems = null
@@ -46,21 +38,21 @@ export default async function Layout({ children, params }) {
             size='small'
             className='text-xs w-full shadow-none'
           />
-          <QrMenu qr={qrData} prjId={prjId} medidotOpt={medidotOpt} missOpt={missOpt} aptOpt={aptOpt} parts={parts} />
-          <MedidotCard medidot={medidot} />
-          <MissCard missItems={missItems} />
+          <QrMenu qr={qrData} />
+          <MedidotCard medidot={medidot} userRole={user.role} />
+          <MissCard missItems={missItems} userRole={user.role} />
         </div>
       )}
     </>
   )
 }
 
-function QrMenu({ qr, prjId, medidotOpt, missOpt, aptOpt, parts }) {
+function QrMenu({ qr }) {
   return (
     <div popover='auto' popoverTargetAction='toggle' id='qr-menu' className='p-4 bg-white shadow-lg rounded-lg w-64'>
       <div className='grid w-full gap-3'>
-        <AddNewMedidot prjId={prjId} medidotOpt={medidotOpt} aptOpt={aptOpt} parts={parts} qr={qr} />
-        <AddNewMiss prjId={prjId} missOpt={missOpt} qr={qr} aptOpt={aptOpt} parts={parts} />
+        <Btn lbl='הוספת מדידות' popoverTarget='medidotForm' icon='ruler-combined' clr='text' size='small' flipIcon />
+        <Btn lbl='הוספת חוסרים' popoverTarget='missForm' icon='circle-exclamation' clr='text' size='small' flipIcon />
         {qr?.status !== QrStatus.FINISH && (
           <>
             <Btn lbl='העלאת בעיה' popoverTarget='problemForm' icon='triangle-exclamation' clr='text' size='small' />

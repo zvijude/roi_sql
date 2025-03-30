@@ -31,7 +31,7 @@ FROM medidot m
     LEFT JOIN "Part" p ON m."partId" = p.id
     LEFT JOIN "User" u_create ON m."createdById" = u_create.id
     LEFT JOIN "User" u_res ON m."updatedById" = u_res.id
-ORDER BY m."resAt" DESC;
+ORDER BY m."updatedAt" DESC;
 
 -- DROP VIEW IF EXISTS _medidot;
 

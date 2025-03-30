@@ -2,7 +2,6 @@ import { AddGlass } from '@/components/glass/AddGlass'
 import { AddGlassPallet } from '@/components/glass/AddGlassPallet'
 import { getGlassInfoTbl, getGlassPallets, getGlassTbl } from '@/components/glass/db'
 import GlassInfo from '@/components/glass/GlassInfo'
-import GlassPalletCard from '@/components/glass/GlassPalletCard'
 import GlassTable from '@/components/glass/tbl'
 import { db } from '@/sql'
 
@@ -26,13 +25,9 @@ export default async function Page({ params }) {
           <AddGlass pallets={pallets} glassInfo={glassInfo} />
         </span>
       </div>
-      <GlassTable data={glassTbl} />
+      <GlassTable data={glassTbl} key={Math.random()} />
 
       <GlassInfo glassData={glassData} parts={prts} className='my-8 grid' />
     </div>
   )
-}
-
-{
-  /* <GlassPalletCard pallets={pallets} /> */
 }

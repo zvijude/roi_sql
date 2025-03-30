@@ -28,7 +28,7 @@ $$ LANGUAGE plpgsql;
 
 -- THE TRIGGER
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON "Part"
+BEFORE UPDATE ON missing
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
