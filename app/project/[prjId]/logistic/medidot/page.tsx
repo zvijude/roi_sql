@@ -14,11 +14,11 @@ export default async function Page({ params, searchParams }) {
   const parts = await getPartsByPrj(prjId)
 
   return (
-    <div className='grid'>
+    <>
       <MedidotForm prjId={prjId} medidotOpt={medidotOpt} aptOpt={aptOpt} parts={parts} />
 
       <MedidotNav filter={filter} medidotOpt={medidotOpt} />
       <Medidot prjId={prjId} filter={filter} />
-    </div>
+    </>
   )
 }

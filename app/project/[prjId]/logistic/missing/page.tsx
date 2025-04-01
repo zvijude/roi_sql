@@ -15,11 +15,11 @@ export default async function Page({ params, searchParams }) {
   const parts = await getPartsByPrj(prjId)
 
   return (
-    <div className='grid'>
+    <>
       <MissForm prjId={prjId} missOpt={missOpt} aptOpt={aptOpt} parts={parts} />
 
       <MissingNav filter={filter} itemOpt={missOpt} />
       <Missing prjId={prjId} filter={filter} />
-    </div>
+    </>
   )
 }

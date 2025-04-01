@@ -82,8 +82,8 @@ function NavUi({
 
   function NavLink({ link, iconSize }: { link: any; iconSize?: string }) {
     const pathname = usePathname()
-    const { href, query, icon, flip, type } = link
-    const term = pathname.split('/')[3]
+    const { href, query, icon, flip, term } = link
+    // const term = pathname.split('/')[3]
 
     const isActive = () => {
       if (href === pathname) return true
@@ -127,6 +127,7 @@ export type LinksType = {
   query?: { [key: string]: string | number }
   title: string
   flip?: boolean
+  term?: string
 }
 
 // {active && link.children && <div className='ms-14 mt-1'>{link.children}</div>}

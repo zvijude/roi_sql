@@ -11,7 +11,7 @@ export default async function Medidot({ prjId, filter }) {
   const tblData = await query
 
   return (
-    <div>
+    <div className='grid'>
       <MedidotTbl data={tblData} key={Math.random()} />
     </div>
   )

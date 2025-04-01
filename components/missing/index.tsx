@@ -11,7 +11,7 @@ export default async function Missing({ prjId, filter }) {
   const tblData = await query
 
   return (
-    <div>
+    <div className='grid'>
       <MissTable data={tblData} key={Math.random()} />
     </div>
   )
