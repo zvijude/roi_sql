@@ -1,0 +1,285 @@
+[
+  {
+    "result": {
+      "history": {
+        "part": {
+          "id": 2,
+          "desc": "description",
+          "name": "A-2",
+          "qntt": 30,
+          "prjId": 1,
+          "tasksId": 8400722,
+          "createdAt": "2025-03-10T11:46:10.871",
+          "updatedAt": "2025-03-10T13:46:09.968"
+        },
+        "tasks": [
+          {
+            "task": {
+              "id": 297,
+              "note": null,
+              "qrId": 122,
+              "media": null,
+              "prjId": 1,
+              "resAt": null,
+              "status": null,
+              "resById": null,
+              "kablanId": null,
+              "createdAt": "2025-04-06T08:58:29.556",
+              "updatedAt": "2025-04-06T08:58:29.556",
+              "mainTaskId": 793278,
+              "createdById": null
+            },
+            "probs": null,
+            "mainTask": {
+              "id": 793278,
+              "for": "INSTALLER",
+              "desc": "חמישית\nבלי מדיה\nעם אישור",
+              "order": 4,
+              "price": 500,
+              "prjId": 1,
+              "title": "חמישית מחיר 500",
+              "tasksId": 8400722,
+              "createdAt": "2025-03-10T12:07:46.02",
+              "needMedia": false,
+              "updatedAt": "2025-03-10T12:07:46.02",
+              "needApproval": true
+            }
+          },
+          {
+            "task": {
+              "id": 293,
+              "note": null,
+              "qrId": 122,
+              "media": [],
+              "prjId": 1,
+              "resAt": null,
+              "status": "COMPLETED",
+              "resById": null,
+              "kablanId": null,
+              "createdAt": "2025-04-06T08:58:29.556",
+              "updatedAt": "2025-04-06T08:58:39.98",
+              "mainTaskId": 5956120,
+              "createdById": 1
+            },
+            "probs": null,
+            "mainTask": {
+              "id": 5956120,
+              "for": "INSTALLER",
+              "desc": "ראשונה ",
+              "order": 0,
+              "price": 50,
+              "prjId": 1,
+              "title": "ראשונה מחיר 50",
+              "tasksId": 8400722,
+              "createdAt": "2025-03-10T12:07:46.02",
+              "needMedia": false,
+              "updatedAt": "2025-03-10T12:07:46.02",
+              "needApproval": false
+            }
+          },
+          {
+            "task": {
+              "id": 294,
+              "note": null,
+              "qrId": 122,
+              "media": [],
+              "prjId": 1,
+              "resAt": null,
+              "status": "COMPLETED",
+              "resById": null,
+              "kablanId": null,
+              "createdAt": "2025-04-06T08:58:29.556",
+              "updatedAt": "2025-04-06T08:59:21.053",
+              "mainTaskId": 23349,
+              "createdById": 1
+            },
+            "probs": [
+              {
+                "id": 24,
+                "desc": "r4",
+                "type": "PROB",
+                "media": [
+                  "https://res.cloudinary.com/dfzjde8p7/image/upload/v1743929950/main/itgcghf83dxnqxzfllmn.png"
+                ],
+                "price": 0,
+                "prjId": 1,
+                "resAt": "2025-04-06T08:59:16.404",
+                "status": "CANCELED",
+                "taskId": 294,
+                "resById": 1,
+                "kablanId": null,
+                "createdAt": "2025-04-06T08:59:12.96",
+                "updatedAt": "2025-04-06T08:59:16.451",
+                "createdById": 1
+              }
+            ],
+            "mainTask": {
+              "id": 23349,
+              "for": "INSTALLER",
+              "desc": "שניה",
+              "order": 1,
+              "price": 200,
+              "prjId": 1,
+              "title": "שניה מחיר 200",
+              "tasksId": 8400722,
+              "createdAt": "2025-03-10T12:07:46.02",
+              "needMedia": false,
+              "updatedAt": "2025-03-10T12:07:46.02",
+              "needApproval": false
+            }
+          },
+          {
+            "task": {
+              "id": 295,
+              "note": null,
+              "qrId": 122,
+              "media": [
+                "https://res.cloudinary.com/dfzjde8p7/image/upload/v1743929972/main/vheicdiktwxepu4kxnoy.png"
+              ],
+              "prjId": 1,
+              "resAt": null,
+              "status": "COMPLETED",
+              "resById": null,
+              "kablanId": null,
+              "createdAt": "2025-04-06T08:58:29.556",
+              "updatedAt": "2025-04-06T08:59:35.775",
+              "mainTaskId": 40360,
+              "createdById": 1
+            },
+            "probs": null,
+            "mainTask": {
+              "id": 40360,
+              "for": "INSTALLER",
+              "desc": "שלישית \nעם מדיה\nבלי אישור",
+              "order": 2,
+              "price": 300,
+              "prjId": 1,
+              "title": "שלישית מחיר 300",
+              "tasksId": 8400722,
+              "createdAt": "2025-03-10T12:07:46.02",
+              "needMedia": true,
+              "updatedAt": "2025-03-10T12:07:46.02",
+              "needApproval": false
+            }
+          },
+          {
+            "task": {
+              "id": 296,
+              "note": null,
+              "qrId": 122,
+              "media": [],
+              "prjId": 1,
+              "resAt": "2025-04-06T09:22:26.212",
+              "status": "COMPLETED",
+              "resById": 1,
+              "kablanId": null,
+              "createdAt": "2025-04-06T08:58:29.556",
+              "updatedAt": "2025-04-06T09:22:26.259",
+              "mainTaskId": 402173,
+              "createdById": 1
+            },
+            "probs": [
+              {
+                "id": 25,
+                "desc": "need  more money",
+                "type": "BGT_REQ",
+                "media": [
+                  "https://res.cloudinary.com/dfzjde8p7/image/upload/v1743930111/main/xqkpqfi4sg5xrr1jp2o9.png"
+                ],
+                "price": 12000,
+                "prjId": 1,
+                "resAt": "2025-04-06T09:22:06.279",
+                "status": "CANCELED",
+                "taskId": 296,
+                "resById": 1,
+                "kablanId": null,
+                "createdAt": "2025-04-06T09:01:54.13",
+                "updatedAt": "2025-04-06T09:22:06.328",
+                "createdById": 1
+              }
+            ],
+            "mainTask": {
+              "id": 402173,
+              "for": "PRJ_MNGR",
+              "desc": "רביעית\nרק למנהל פרויקט\nעם אישור",
+              "order": 3,
+              "price": 0,
+              "prjId": 1,
+              "title": "רביעית מחיר 0 למנהל",
+              "tasksId": 8400722,
+              "createdAt": "2025-03-10T12:07:46.02",
+              "needMedia": false,
+              "updatedAt": "2025-03-10T12:07:46.02",
+              "needApproval": true
+            }
+          }
+        ],
+        "qrData": {
+          "id": 122,
+          "loc": "קומה 15, דירה 34, חדר הורים, חזית דרומית",
+          "floor": 15,
+          "front": "דרומית",
+          "prjId": 1,
+          "qrNum": 453,
+          "aptNum": 34,
+          "partId": 2,
+          "status": "IN_PROGRESS",
+          "locInApt": "חדר הורים",
+          "createdAt": "2025-04-06T08:58:29.452",
+          "updatedAt": "2025-04-06T08:58:29.452",
+          "createdById": 1,
+          "totalTasksCount": 5,
+          "totalTasksCompleted": 4
+        },
+        "medidot": [
+          {
+            "id": 38,
+            "loc": "קומה 15, דירה 34, חדר הורים, חזית דרומית",
+            "item": "זווית",
+            "note": "12defrsw12",
+            "qrId": 122,
+            "depth": 12,
+            "floor": 15,
+            "front": "דרומית",
+            "media": "",
+            "prjId": 1,
+            "resAt": null,
+            "width": 12,
+            "aptNum": "34",
+            "height": 12,
+            "partId": null,
+            "isActive": true,
+            "locInApt": "חדר הורים",
+            "createdAt": "2025-04-06T09:22:46.010797",
+            "updatedAt": "2025-04-06T09:22:46.010797",
+            "createdById": 1,
+            "updatedById": null
+          }
+        ],
+        "missing": [
+          {
+            "id": 91,
+            "loc": "קומה 15, דירה 34, חדר הורים, חזית דרומית",
+            "item": "בורג 6",
+            "note": "erferf23verf 3f23 234",
+            "qntt": 23,
+            "qrId": 122,
+            "floor": 15,
+            "front": "דרומית",
+            "media": "",
+            "prjId": 1,
+            "resAt": null,
+            "aptNum": "34",
+            "partId": null,
+            "isActive": true,
+            "locInApt": "חדר הורים",
+            "createdAt": "2025-04-06T09:24:35.322875",
+            "updatedAt": "2025-04-06T09:24:35.322875",
+            "createdById": 1,
+            "updatedById": null
+          }
+        ]
+      }
+    }
+  }
+]

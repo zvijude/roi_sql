@@ -1,3 +1,4 @@
+'use client'
 import { popImg } from '@/ui/popWindow'
 
 export default function ImgsCom({ urls }) {
