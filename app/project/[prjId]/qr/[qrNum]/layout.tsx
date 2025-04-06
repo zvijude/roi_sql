@@ -6,6 +6,7 @@ import { Btn } from 'zvijude/btns'
 import { QrStatus } from '@prisma/client'
 import MedidotCard from '@/components/medidot/MedidotCard'
 import MissCard from '@/components/missing/MissCard'
+import { isManager } from '@/db/types'
 
 export default async function Layout({ children, params }) {
   let { prjId, qrNum } = await params
@@ -38,7 +39,7 @@ export default async function Layout({ children, params }) {
             size='small'
             className='text-xs w-full shadow-none'
           />
-          <QrMenu qr={qrData} />
+          <QrMenu qr={qrData} role={user.role} />
           <MedidotCard medidot={medidot} userRole={user.role} />
           <MissCard missItems={missItems} userRole={user.role} />
         </div>
@@ -47,12 +48,16 @@ export default async function Layout({ children, params }) {
   )
 }
 
-function QrMenu({ qr }) {
+function QrMenu({ qr, role }) {
   return (
     <div popover='auto' popoverTargetAction='toggle' id='qr-menu' className='p-4 bg-white shadow-lg rounded-lg w-64'>
       <div className='grid w-full gap-3'>
-        <Btn lbl='הוספת מדידות' popoverTarget='medidotForm' icon='ruler-combined' clr='text' size='small' flipIcon />
-        <Btn lbl='הוספת חוסרים' popoverTarget='missForm' icon='circle-exclamation' clr='text' size='small' flipIcon />
+        {isManager(role) && (
+          <>
+            <Btn lbl='הוספת מדידות' popoverTarget='medidotForm' icon='ruler-combined' clr='text' size='small' flipIcon />
+            <Btn lbl='הוספת חוסרים' popoverTarget='missForm' icon='circle-exclamation' clr='text' size='small' flipIcon />
+          </>
+        )}
         {qr?.status !== QrStatus.FINISH && (
           <>
             <Btn lbl='העלאת בעיה' popoverTarget='problemForm' icon='triangle-exclamation' clr='text' size='small' />
