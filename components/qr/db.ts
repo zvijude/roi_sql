@@ -38,3 +38,9 @@ export async function getCurTask(qrId) {
     probs: events,
   }
 }
+
+export async function getQrHistory(prjId, qrNum) {
+  const result = await db.raw(`SELECT get_qr_history(?, ?) AS history`, [prjId, qrNum])
+
+  return result.rows?.[0]?.history || null
+}

@@ -1,7 +1,6 @@
 'use client'
 
 import { updateProbStatus } from '@/components/events/api'
-import MedidotCard from '@/components/medidot/MedidotCard'
 import { groupBy } from '@/utils/func'
 import { ProbStatus } from '@prisma/client'
 import { Btn } from 'zvijude/btns'
@@ -31,7 +30,7 @@ export default function CurTaskEvents({ events }) {
   } = groupBy(bgtReqs, ({ status }) => status)
 
   return (
-    <div className='max-w-[420px] w-full justify-self-center space-y-5'>
+    <div className='max-w-[420px] w-full justify-self-center space-y-5 mb-3'>
       <Section title='בעיות לא פתורות' items={p_waiting} onClick={(p) => onProb(p)} />
       <Section title='בעיות שבוטלו' items={p_canceled} />
       <Section title='בעיות פתורות' items={p_solved} />
