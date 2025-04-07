@@ -45,9 +45,6 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
 
     toast('loading')
 
-    console.log('newTasks', newTasks)
-    console.log('partIds', partIds)
-
     await crtMainTask({ tasks: newTasks, partIds, prjId })
     refresh()
     toast('success')
@@ -96,9 +93,16 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
       prjId,
     })) as any
 
-    // refresh()
+    cancelEdit()
     toast(res?.err ? 'error' : 'success', res?.msg)
     scrollBy(0, 200)
+  }
+
+  function cancelEdit() {
+    setTasks([initialTask])
+    store.editMode = false
+    store.tmpParts = []
+    scroll(0, 70)
   }
 
   return (
@@ -150,17 +154,7 @@ export default function MainTasksForm({ tasks, prjId, initialTask, setTasks }) {
         )}
         {editMode && (
           <div className='flex items-end mt-4'>
-            <Btn
-              lbl='בטל עריכה'
-              icon='xmark'
-              clr='text'
-              onClick={() => {
-                setTasks([initialTask])
-                store.editMode = false
-                store.tmpParts = []
-                scroll(0, 70)
-              }}
-            />
+            <Btn lbl='בטל עריכה' icon='xmark' clr='text' onClick={cancelEdit} />
             <Btn lbl='שמור עריכה' icon='floppy-disk-pen' onClick={updateTask} />
           </div>
         )}
