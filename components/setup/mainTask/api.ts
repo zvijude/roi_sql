@@ -30,6 +30,7 @@ export async function updateMainTask({ tasks, oldTasks, partIds, oldPartsIds, pr
   const removeParts = oldPartsIds.filter((element) => !partIds.includes(element))
   const addParts = partIds.filter((element) => !oldPartsIds.includes(element))
   updated.map((t) => (t.price = Number(t.price)))
+  added.map((t) => (t.price = Number(t.price)))
 
   const res = await db
     .transaction(async (trx) => {
