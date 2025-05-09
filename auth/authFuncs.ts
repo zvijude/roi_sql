@@ -43,8 +43,6 @@ export const getUser = cache(async () => {
     .first()
   if (!dbUser) return redirect('/auth')
 
-  // console.log('getUser dbUser: ', dbUser)
-
   return dbUser
 }) as () => Promise<UserDb>
 
