@@ -8,22 +8,23 @@ import Link from 'next/link'
 const COLORS = ['#20D1C2', '#F98B71', '#78B5FF', '#1E4DB4', '#0E1B3D']
 
 // URLs for different sections
-const EVENT_LINKS = {
-  'בקשות חריגים': '/project/1/events/budget_requests',
-  משימות: '/project/1/events/tasks',
-  'בעיות ביצוע': '/project/1/events/problems',
-}
+const EVENT_LINKS = (prjId: number) => ({
+  'בקשות חריגים': `/project/${prjId}/events/budget_requests`,
+  משימות: `/project/${prjId}/events/tasks`,
+  'בעיות ביצוע': `/project/${prjId}/events/problems`,
+})
 
 type Props = {
   data: Record<any, any>[]
   sum?: any
   title: string
+  prjId: number
 }
 
-export default function StatsBox({ data, sum, title }: Props) {
+export default function StatsBox({ data, sum, title, prjId }: Props) {
   return (
     <Link
-      href={EVENT_LINKS[title] || '#'}
+      href={EVENT_LINKS(prjId)[title] || '#'}
       className='bg-white py-4 px-5 rounded-md shadow-1 hover:shadow-4 active:shadow-none transition-shadow cursor-pointer  mobile:w-full'
     >
       <section className='flex justify-between items-start'>

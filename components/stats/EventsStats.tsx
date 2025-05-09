@@ -15,9 +15,9 @@ export default async function StatsDash({ prjId }) {
       className='flex gap-4 items-start *:min-h-[238px]'
       //style={{ ['--size' as string]: '380px' }}
     >
-      <StatsBox data={eventsStats.tasks} sum={taskSum} title='משימות' />
-      <StatsBox data={eventsStats.bgtReqs} sum={bgtReqsSum} title='בקשות חריגים' />
-      <StatsBox data={eventsStats.probs} title='בעיות ביצוע' />
+      <StatsBox data={eventsStats.tasks} sum={taskSum} title='משימות' prjId={prjId} />
+      <StatsBox data={eventsStats.bgtReqs} sum={bgtReqsSum} title='בקשות חריגים' prjId={prjId} />
+      <StatsBox data={eventsStats.probs} title='בעיות ביצוע' prjId={prjId} />
     </div>
   )
 }
