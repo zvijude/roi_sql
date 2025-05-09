@@ -2,11 +2,12 @@
 
 import { updateProbStatus } from '@/components/events/api'
 import { groupBy } from '@/utils/func'
-import { ProbStatus } from '@/db/types'
+import { isManager, ProbStatus } from '@/db/types'
 import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 
-export default function CurTaskEvents({ events }) {
+export default function CurTaskEvents({ events, user }) {
+  const isMngr = isManager(user.role)
   const { PROB: probs = [], BGT_REQ: bgtReqs = [] } = groupBy(events, ({ type }) => type)
 
   async function onProb(prob) {
@@ -31,19 +32,19 @@ export default function CurTaskEvents({ events }) {
 
   return (
     <div className='max-w-[420px] w-full justify-self-center space-y-5 mb-3'>
-      <Section title='בעיות לא פתורות' items={p_waiting} onClick={(p) => onProb(p)} />
-      <Section title='בעיות שבוטלו' items={p_canceled} />
-      <Section title='בעיות פתורות' items={p_solved} />
+      <Section title='בעיות לא פתורות' items={p_waiting} onClick={(p) => onProb(p)} isMngr={isMngr} />
+      <Section title='בעיות שבוטלו' items={p_canceled} isMngr={isMngr} />
+      <Section title='בעיות פתורות' items={p_solved} isMngr={isMngr} />
 
-      <Section title='בקשות תקציב ממתינות' items={b_waiting} onClick={(b) => onBgt(b)} />
-      <Section title='בקשות תקציב שנדחו' items={b_denied} />
-      <Section title='בקשות תקציב שאושרו' items={b_granted} />
-      <Section title='בקשות תקציב שבוטלו' items={b_canceled} />
+      <Section title='בקשות תקציב ממתינות' items={b_waiting} onClick={(b) => onBgt(b)} isMngr={isMngr} />
+      <Section title='בקשות תקציב שנדחו' items={b_denied} isMngr={isMngr} />
+      <Section title='בקשות תקציב שאושרו' items={b_granted} isMngr={isMngr} />
+      <Section title='בקשות תקציב שבוטלו' items={b_canceled} isMngr={isMngr} />
     </div>
   )
 }
 
-function Section({ title, items, onClick }: { title: string; items: any[]; onClick?: any }) {
+function Section({ title, items, onClick, isMngr }: { title: string; items: any[]; onClick?: any | null; isMngr: boolean }) {
   if (!items?.length) return null
 
   return (
@@ -52,7 +53,7 @@ function Section({ title, items, onClick }: { title: string; items: any[]; onCli
       {items.map((item, index) => (
         <div key={index} className='mb-2 flex justify-between'>
           <p className='max-w-[90%]'>{item.desc}</p>
-          {onClick && <Btn clr='text' size='small' lbl='בטל' onClick={() => onClick(item)} />}
+          {onClick && isMngr && <Btn clr='text' size='small' lbl='בטל' onClick={() => onClick(item)} />}
         </div>
       ))}
     </div>
