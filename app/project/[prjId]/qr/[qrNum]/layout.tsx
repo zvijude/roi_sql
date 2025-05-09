@@ -54,9 +54,9 @@ function QrMenu({ qr, role }) {
         {isManager(role) && (
           <>
             <Btn lbl='הוספת מדידות' popoverTarget='medidotForm' icon='ruler-combined' clr='text' size='small' flipIcon />
-            <Btn lbl='הוספת חוסרים' popoverTarget='missForm' icon='circle-exclamation' clr='text' size='small' flipIcon />
           </>
         )}
+        <Btn lbl='הוספת חוסרים' popoverTarget='missForm' icon='circle-exclamation' clr='text' size='small' flipIcon />
         {qr?.status !== QrStatus.FINISH && (
           <>
             <Btn lbl='העלאת בעיה' popoverTarget='problemForm' icon='triangle-exclamation' clr='text' size='small' />
