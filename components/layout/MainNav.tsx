@@ -14,20 +14,21 @@ export default function MainNav({ prjId, prjName }) {
 
   return <SideNav topLinks={topLinks} bottomLinks={bottomLinks} logout={logmeout} />
 }
+
 function calcUrl(prjId, user) {
-  if (user.role === Role.INSTALLER || user.role === Role.C_INSTALLER)
-    return {
-      icon: '',
-      href: ``,
-      title: '',
-    }
+  if (user.role === Role.INSTALLER || user.role === Role.C_INSTALLER) return []
   if (user.role === Role.KABLAN)
-    return {
-      icon: 'calculator',
-      href: `/project/${prjId}/kablan/${user.id}`,
-      title: 'החשבון שלי',
-    }
-  return { icon: 'calculator', href: `/project/${prjId}/kablan`, title: 'חשבונות קבלנים' }
+    return [
+      {
+        icon: 'calculator',
+        href: `/project/${prjId}/kablan/${user.id}`,
+        title: 'החשבון שלי',
+      },
+    ]
+  return [
+    { icon: 'calculator', href: `/project/${prjId}/kablan`, title: 'חשבונות קבלנים' },
+    { icon: 'ruler-triangle', type: 'reg', flip: true, href: `/project/${prjId}/logistic/medidot`, title: 'מדידות' },
+  ]
 }
 
 function getLinks(prjName?: string, prjId?: string | null) {
@@ -37,11 +38,10 @@ function getLinks(prjName?: string, prjId?: string | null) {
     { icon: 'building', href: `/project/${prjId}/events/tasks`, title: `פרויקט ${prjName}` },
     { icon: 'triangle-exclamation', href: `/project/${prjId}/events/problems`, title: 'בעיות' },
     { icon: 'hand-holding-dollar', href: `/project/${prjId}/events/budget_requests`, flip: true, title: 'בקשות תקציב' },
-    { icon: 'ruler-triangle', type: 'reg', flip: true, href: `/project/${prjId}/logistic/medidot`, title: 'מדידות' },
     { icon: 'notdef', type: 'reg', flip: true, href: `/project/${prjId}/logistic/missing`, title: 'חוסרים' },
     { icon: 'map', href: `/project/${prjId}/glass`, title: `מיפוי זכוכיות` },
 
-    calcUrl(prjId, user),
+    ...calcUrl(prjId, user),
   ] as LinksType[]
 
   let bottomLinks = [] as any
