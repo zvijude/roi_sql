@@ -112,6 +112,11 @@ function SelectEventStatus({ item }) {
           )}
         </div>
       )}
+      {item.status === 'WAITING' && !isMng && (
+        <div>
+          <p>רק מנהלים יכולים לשנות סטטוס!</p>
+        </div>
+      )}
     </div>
   )
 }
