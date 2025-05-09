@@ -14,6 +14,7 @@ import { getTasksByPart } from '@/components/setup/part/db'
 export default function LocationForm({ qrNum, aptOpt, parts }) {
   const [tasks, setTasks] = useState([]) as any
   const [isLoading, setIsLoading] = useState(false)
+  const [prtDesc, setPrtDesc] = useState('') as any
 
   async function onSubmit(e) {
     e.preventDefault()
@@ -34,10 +35,12 @@ export default function LocationForm({ qrNum, aptOpt, parts }) {
 
   async function onChangePrt(e) {
     setTasks([])
+    setPrtDesc('')
     setIsLoading(true)
     if (!e.target.value) return setTasks([])
     const prt = JSON.parse(e.target.value)
     const tasks = await getTasksByPart(prt.id)
+    setPrtDesc(prt.desc)
 
     setTasks(tasks || [])
     setIsLoading(false)
@@ -61,6 +64,7 @@ export default function LocationForm({ qrNum, aptOpt, parts }) {
           placeholder='בחר סוג פרט'
           onChange={onChangePrt}
         />
+        {prtDesc && <p className='text-center text-sm text-gray-500'>תיאור הפרט: {prtDesc}</p>}
         <Select
           lbl='חזית'
           placeholder='בחר חזית'
@@ -75,9 +79,7 @@ export default function LocationForm({ qrNum, aptOpt, parts }) {
           options={tasks}
           val='order'
           show='title'
-          placeholder={
-            isLoading ? 'טוען...' : tasks.length !== 0 ? 'בחר שלב ביצוע' : 'לקביעת שלב, בחר פרט'
-          }
+          placeholder={isLoading ? 'טוען...' : tasks.length !== 0 ? 'בחר שלב ביצוע' : 'לקביעת שלב, בחר פרט'}
           required={false}
         />
 
