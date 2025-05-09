@@ -1,4 +1,28 @@
-import { QrStatus, Role } from '@prisma/client'
+export enum Role {
+  ADMIN = 'ADMIN',
+  INSTALLER = 'INSTALLER',
+  PRJ_MNGR = 'PRJ_MNGR',
+  SITE_MNGR = 'SITE_MNGR',
+  KABLAN = 'KABLAN',
+  C_INSTALLER = 'C_INSTALLER',
+}
+
+export enum QrStatus {
+  FINISH = 'FINISH',
+  IN_PROGRESS = 'IN_PROGRESS',
+  WAITING_TASK = 'WAITING_TASK',
+  ON_BGT_REQ = 'ON_BGT_REQ',
+  ON_PROB = 'ON_PROB',
+}
+
+export interface Part {
+  id?: number
+  name: string
+  prjId: number
+  tasksId?: number | null
+  qntt: number
+  desc?: string
+}
 
 export enum TaskStatus {
   WAITING,
@@ -7,12 +31,11 @@ export enum TaskStatus {
 }
 
 export enum ProbStatus {
-  WAITING, // both
-  CANCELED, // BgtReq
-
-  SOLVED, // Prob
-  DENIED, // BgtReq
-  GRANTED, // BgtReq
+  WAITING = 'WAITING',
+  SOLVED = 'SOLVED',
+  CANCELED = 'CANCELED',
+  DENIED = 'DENIED', // BgtReq
+  GRANTED = 'GRANTED',
 }
 
 export const EventType = {

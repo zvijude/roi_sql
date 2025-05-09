@@ -7,7 +7,7 @@ import Icon from 'zvijude/icon'
 import { Input, Textarea } from 'zvijude/form'
 import { Btn } from 'zvijude/btns'
 import { getFormData } from 'zvijude/form/funcs'
-import { Part } from '@prisma/client'
+import { Part } from '@/db/types'
 import { sumBy } from '@/utils/func'
 import { insertPart, updatePart } from '@/components/setup/part/api'
 import UploadExcelParts from '../uploadExcelParts'
@@ -16,7 +16,7 @@ export default function Parts({ prts, prjId }) {
   const [tmpObj, setTmpObj] = useState({} as TmpPart)
 
   async function onSave(e) {
-    const data = getFormData(e) as Part
+    const data = getFormData(e) as unknown as Part
 
     const exist = prts.find((p) => p.name === data?.name.trim())
     if (exist) return toast('error', 'שם הפרט כבר קיים')

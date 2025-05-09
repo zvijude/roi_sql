@@ -1,8 +1,7 @@
 import { db } from '@/sql'
-import { Role } from '@prisma/client'
 import { getUser, userInPrj } from '@/auth/authFuncs'
 import { redirect } from 'next/navigation'
-import { isManager } from '@/db/types'
+import { isManager, Role } from '@/db/types'
 
 export async function checkKablan(prjId, kablanId) {
   kablanId = Number(kablanId)

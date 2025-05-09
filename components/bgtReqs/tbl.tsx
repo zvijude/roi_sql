@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
-import { probDic } from '@/db/types'
+import { probDic, ProbStatus } from '@/db/types'
 import { Btn } from 'zvijude/btns'
 
 // for format status
@@ -92,7 +92,7 @@ function SelectEventStatus({ item }) {
   function onProb() {
     if (!confirm('האם אתה בטוח שברצונך לסמן את הבעיה כפתורה?')) return
     toast('loading')
-    updateProbStatus(item.id, 'SOLVED')
+    updateProbStatus(item.id, ProbStatus.SOLVED)
     toast('success', `בעיה עודכנה בהצלחה`)
   }
   return (

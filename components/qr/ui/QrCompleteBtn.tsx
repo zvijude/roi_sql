@@ -3,7 +3,7 @@
 import { isManager, roleLevels } from '@/db/types'
 import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
-import { QrStatus, TaskStatus } from '@prisma/client'
+import { QrStatus, TaskStatus } from '@/db/types'
 import { approveTask } from '@/components/tasks/api'
 
 export default function QrCompleteBtn({ curTask, userRole, qrStatus }) {

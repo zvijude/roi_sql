@@ -2,7 +2,7 @@
 
 import { db } from '@/sql'
 import { revalidatePath } from 'next/cache'
-import { Role } from '@prisma/client'
+import { Role } from '@/db/types'
 import { getUser, isUserExist } from '@/auth/authFuncs'
 
 // add user
@@ -107,7 +107,7 @@ export async function connectExistingUser(prjId: number, email: string) {
   const user = (await isUserExist(email)) as any
   if (!user) return { fail: true, msg: `המשתמש ${email} לא קיים במערכת. צור חדש` } // case 1
 
-  const isInCurPrj = await db("_prj_user").where({ prjId, userId: user.id }).first()
+  const isInCurPrj = await db('_prj_user').where({ prjId, userId: user.id }).first()
   if (isInCurPrj?.userId) return { fail: true, msg: `המשתמש ${user.name} כבר קיים בפרויקט` } // case 2
 
   await db('_prj_user').insert({ prjId, userId: user.id })

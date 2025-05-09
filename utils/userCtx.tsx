@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext, useState, createContext } from 'react'
-import { Role } from '@prisma/client'
+import { Role } from '@/db/types'
 
 const UserCtx = createContext(null as any)
 

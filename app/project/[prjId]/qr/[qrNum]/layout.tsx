@@ -3,10 +3,9 @@ import { getMissItemsByQr } from '@/components/missing/db'
 import { getMedidotByQr } from '@/components/medidot/db'
 import { scanQr } from '@/components/qr/db'
 import { Btn } from 'zvijude/btns'
-import { QrStatus } from '@prisma/client'
 import MedidotCard from '@/components/medidot/MedidotCard'
 import MissCard from '@/components/missing/MissCard'
-import { isManager } from '@/db/types'
+import { isManager, QrStatus } from '@/db/types'
 
 export default async function Layout({ children, params }) {
   let { prjId, qrNum } = await params

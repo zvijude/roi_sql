@@ -2,7 +2,7 @@
 
 import { qrStatusDic } from '@/db/types'
 import { popWindow } from '@/ui/popWindow'
-import { QrStatus } from '@prisma/client'
+import { QrStatus } from '@/db/types'
 import Icon from 'zvijude/icon'
 
 const bgColors = {

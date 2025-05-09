@@ -1,6 +1,6 @@
 'use server'
 
-import { Part } from '@prisma/client'
+import { Part } from '@/db/types'
 import { revalidatePath } from 'next/cache'
 import { db } from '@/sql'
 

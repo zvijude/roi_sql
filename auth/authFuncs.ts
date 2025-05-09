@@ -7,7 +7,7 @@ import { db } from '@/sql'
 import { daysFromNow } from 'zvijude/dates/funcs'
 import { NextRequest, NextResponse } from 'next/server'
 import { cache } from 'react'
-import { $Enums, Role } from '@prisma/client'
+import { Role } from '@/db/types'
 
 const secretKey = 'roi1985zvi598avichai'
 const key = new TextEncoder().encode(secretKey)

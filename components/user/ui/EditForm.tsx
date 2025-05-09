@@ -7,7 +7,7 @@ import { getFormData } from 'zvijude/form/funcs'
 import { toast } from 'zvijude/pop'
 import { editUser } from '@/components/user/api'
 import { rolesOptions } from '@/db/types'
-import { Role } from '@prisma/client'
+import { Role } from '@/db/types'
 import { useState } from 'react'
 import { useParams } from 'next/navigation'
 

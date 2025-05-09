@@ -3,7 +3,7 @@
 import { logout } from '@/auth/authFuncs'
 import { isManager } from '@/db/types'
 import { useUser } from '@/utils/userCtx'
-import { Role } from '@prisma/client'
+import { Role } from '@/db/types'
 
 import SideNav, { LinksType } from './SideNav'
 

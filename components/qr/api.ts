@@ -3,7 +3,7 @@
 import { db } from '@/sql'
 import { getUser } from '@/auth/authFuncs'
 import { revalidatePath } from 'next/cache'
-import { QrStatus } from '@prisma/client'
+import { QrStatus } from '@/db/types'
 
 export async function insertQr(data: QrData) {
   const user = await getUser()

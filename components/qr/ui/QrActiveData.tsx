@@ -2,7 +2,7 @@
 
 import { updateProbStatus } from '@/components/events/api'
 import { groupBy } from '@/utils/func'
-import { ProbStatus } from '@prisma/client'
+import { ProbStatus } from '@/db/types'
 import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 

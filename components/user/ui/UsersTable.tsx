@@ -8,7 +8,7 @@ import { deleteUser } from '@/components/user/api'
 import { Btn } from 'zvijude/btns'
 import { roleDic } from '@/db/types'
 import { useParams } from 'next/navigation'
-import { Role } from '@prisma/client'
+import { Role } from '@/db/types'
 
 export default function UsersTable({ users, kablans }) {
   const prjId = Number(useParams().prjId)

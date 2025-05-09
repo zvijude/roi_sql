@@ -8,7 +8,7 @@ import { toast } from 'zvijude/pop'
 import { rolesOptions } from '@/db/types'
 import { addUser, connectExistingUser } from '@/components/user/api'
 import { useState } from 'react'
-import { Role } from '@prisma/client'
+import { Role } from '@/db/types'
 
 export default function UserForm({ prjId, kablans }) {
   async function onSubmit(e) {
@@ -36,10 +36,7 @@ export default function UserForm({ prjId, kablans }) {
           <h2 className='flex justify-end'>
             <Icon name='user-plus' type='reg' className='size-5' />
             <span className='text-xl font-semibold'>צור משתמש חדש</span>
-            <button
-              type='button'
-              popoverTarget='existingUserPop'
-              className='text-sm text-blue-600 ms-2 self-end'>
+            <button type='button' popoverTarget='existingUserPop' className='text-sm text-blue-600 ms-2 self-end'>
               חבר משתמש קיים לפרוקיט
             </button>
           </h2>
@@ -72,11 +69,7 @@ export default function UserForm({ prjId, kablans }) {
 
 function ExistingUserPop({ prjId }) {
   return (
-    <form
-      onSubmit={(e) => connectUser(e, prjId)}
-      popover='auto'
-      id='existingUserPop'
-      className='pop'>
+    <form onSubmit={(e) => connectUser(e, prjId)} popover='auto' id='existingUserPop' className='pop'>
       <Input lbl='הכנס את המייל הקיים במערכת' name='email' placeholder='example@gmail.com' />
       <Btn lbl='חבר משתמש' icon='link' className='self-center mt-2 mx-auto' />
     </form>

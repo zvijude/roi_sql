@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { db } from '@/sql'
 import { getUser } from '@/auth/authFuncs'
-import { ProbStatus, QrStatus } from '@prisma/client'
+import { ProbStatus, QrStatus } from '@/db/types'
 import { updateQrStatus } from '@/components/qr/api'
 
 // create prob

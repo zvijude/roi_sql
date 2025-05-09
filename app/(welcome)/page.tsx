@@ -2,9 +2,8 @@ import { getUser } from '@/auth/authFuncs'
 import Boxbtn from '@/components/Boxbtn'
 import NewProject from '@/components/popovers/NewProject'
 import { getUserProjects } from '@/db/project/get'
-import { roleDic } from '@/db/types'
+import { Role, roleDic } from '@/db/types'
 import { redirect } from 'next/navigation'
-import { Role } from '@prisma/client'
 import InstallApp from '@/ui/InstallApp'
 
 export default async function my_projects() {
