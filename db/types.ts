@@ -25,9 +25,10 @@ export interface Part {
 }
 
 export enum TaskStatus {
-  WAITING,
-  SKIPPED,
-  COMPLETED,
+  WAITING = 'WAITING',
+  SKIPPED = 'SKIPPED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
 }
 
 export enum ProbStatus {
