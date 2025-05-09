@@ -12,14 +12,16 @@ export async function addUser(prjId: number, data: TAddUser) {
   const isExist = await isUserExist(data.email)
   if (isExist) return { fail: true, msg: 'המשתמש כבר קיים במערכת, חבר משתמש קיים!' }
 
-  const res = (await db('User')
+  const res = await db('User')
     .insert({
       companyId: user.companyId,
       ...data,
       email: data.email.toLowerCase(),
       kablanId: Number(data.kablanId) || null,
     })
-    .returning('id')) as any
+    .returning('id')
+    .catch(() => null)
+  if (!res) return { fail: true, msg: `שגיאה בשמירת המשתמש מייל או טלפון` }
 
   const newId = res[0].id
 
