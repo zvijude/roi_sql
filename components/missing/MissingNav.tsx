@@ -2,6 +2,7 @@
 import { getNavLink } from '@/utils/getEventLink'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { Btn } from 'zvijude/btns'
 import { Select } from 'zvijude/form'
 
 export default function MissingNav({ filter, itemOpt }) {
@@ -30,7 +31,8 @@ export default function MissingNav({ filter, itemOpt }) {
         <NavLink isActive={false} lbl='טופל' active={filter?.isActive === false} filter={filter} />
         <NavLink isActive={true} lbl='לא טופל' active={filter?.isActive === true} filter={filter} />
 
-        <Select placeholder='פריט' options={itemOpt} onChange={onChangeItem} />
+        <Select placeholder='פריט' options={itemOpt} onChange={onChangeItem} className='' />
+        <Btn popoverTarget='missForm' lbl='הוספת חוסרים' icon='plus' className='ms-2' />
       </div>
     </section>
   )

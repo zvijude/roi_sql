@@ -2,6 +2,7 @@
 import { getNavLink } from '@/utils/getEventLink'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { Btn } from 'zvijude/btns'
 import { Select } from 'zvijude/form'
 
 export default function MedidotNav({ filter, medidotOpt }) {
@@ -27,6 +28,7 @@ export default function MedidotNav({ filter, medidotOpt }) {
       </div>
       <div className='flex gap-0'>
         <Select placeholder='פריט' options={medidotOpt} onChange={onMissChange} />
+        <Btn popoverTarget='medidotForm' lbl='הוספת מידות' icon='plus' className='ms-2' />
       </div>
     </section>
   )
