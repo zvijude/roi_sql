@@ -4,13 +4,10 @@ import { toast } from 'zvijude/pop'
 import { addCompany } from '@/components/user/api'
 import { Input } from 'zvijude/form'
 import { getFormData } from 'zvijude/form/funcs'
-import { useRouter } from 'next/navigation'
 import { Btn } from 'zvijude/btns'
 import Link from 'next/link'
 
 export default function RegisterPage() {
-  const router = useRouter()
-
   async function createAccount(e) {
     const data = getFormData(e)
     toast('loading')
@@ -18,7 +15,7 @@ export default function RegisterPage() {
 
     toast('success', 'החשבון נוצר בהצלחה, התחבר עם חשבון המייל שלך')
 
-    router.push('/auth')
+    window.location.href = '/auth'
   }
 
   return (
