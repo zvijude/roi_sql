@@ -7,7 +7,7 @@ export default function InputFile({
   multiple = false,
   required = false,
   accept,
-  name = 'file',
+  name = '',
   onChange,
   ...props
 }: BtnProps & { multiple?: boolean; required?: boolean; name?: string; accept?: string; onChange?: (e) => void }) {

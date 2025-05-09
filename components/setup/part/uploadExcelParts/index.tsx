@@ -39,7 +39,7 @@ export default function UploadExcelParts({ prjId }) {
         <p> עמודות: פרט, תיאור, כמות</p>
       </div>
 
-      <InputFile required lbl='העלאת קובץ excel' accept='.xlsx,.xls' onChange={onChange} clr='solid' />
+      <InputFile lbl='העלאת קובץ excel' accept='.xlsx,.xls' onChange={onChange} clr='solid' />
 
       <div className='grid gap-8 grid-cols-2 mt-4'>
         {clients && (
