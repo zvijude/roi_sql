@@ -72,7 +72,7 @@ export default async function Page({ params }) {
           )}
         </div>
         <QrCompleteBtn curTask={curTask} userRole={user.role} qrStatus={qrData.status} />
-        <CurTaskEvents events={curTask.probs} />
+        <CurTaskEvents events={curTask.probs} user={user}/>
       </div>
 
       {/* Popups */}

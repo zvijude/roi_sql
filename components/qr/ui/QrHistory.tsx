@@ -4,7 +4,7 @@ import { formatDateTime } from 'zvijude/dates/funcs'
 import { formatCurrency } from 'zvijude/funcs'
 
 export default function QrHistory({ history }) {
-  const { qrData, tasks, medidot, missing, probs } = history
+  const { qrData, tasks, medidot, missing, probs, part } = history
 
   const Section = ({ title, children }) => (
     <div className='rounded-2xl border shadow-sm p-5 bg-white space-y-3'>
@@ -15,12 +15,17 @@ export default function QrHistory({ history }) {
 
   const ItemBlock = ({ children }) => <div className='border-b last:border-none py-3 space-y-1'>{children}</div>
 
+  // return <pre>
+  //   {JSON.stringify(history, null, 2)}
+  // </pre>
   return (
     <div className='p-6 w-full max-w-3xl mx-auto space-y-6 text-sm text-gray-800'>
       {/* QR Info */}
       <Section title='פרטי QR'>
         <div>מספר QR: {qrData.qrNum}</div>
         <div>סטטוס: {qrData.status}</div>
+        <div>שם הפרט: {part.name}</div>
+        <div>תיאור הפרט: {part.desc}</div>
         <div>מיקום: {qrData.loc}</div>
         <div>סה"כ משימות: {qrData.totalTasksCount}</div>
         <div>בוצעו: {qrData.totalTasksCompleted}</div>
