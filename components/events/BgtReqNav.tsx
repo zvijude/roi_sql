@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default async function BgtReqNav({ filter }) {
   return (
     <section className='flex mt-8 justify-between gap-8'>
-      <div className='flex gap-0 mobile:grid mobile:grid-cols-3 items-end'>
+      {/* <div className='flex gap-0 mobile:grid mobile:grid-cols-3 items-end'>
         <Link href={getNavLink({ filter, event: 'tasks' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
           משימות
         </Link>
@@ -12,7 +12,7 @@ export default async function BgtReqNav({ filter }) {
           בעיות ביצוע
         </Link>
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>בקשות חריגים</div>
-      </div>
+      </div> */}
 
       <div className='flex gap-0 mobile:grid mobile:grid-cols-5 items-end'>
         <NavLink lbl='הכל' active={!filter?.status} filter={filter} />
