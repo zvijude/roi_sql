@@ -27,7 +27,7 @@ export default function EditLocQrPop({ qrData, aptOpt }) {
         <Title lbl='עריכת מיקום הפרט' icon='map-location-dot' />
         <div className='grid grid-cols-2 gap-6'>
           {/* <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} defaultValue={floor} /> */}
-          <Input lbl='מספר קומה' name='floor' type='number' min={-5} max={50} defaultValue={floor} />
+          <Input lbl='מספר קומה' name='floor' type='number' min={-5} defaultValue={floor} />
           <Select lbl='מספר דירה' name='aptNum' options={arrayOf(0, 1000)} defaultValue={aptNum} />
         </div>
 

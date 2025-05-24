@@ -52,7 +52,7 @@ export default function LocationForm({ qrNum, aptOpt, parts }) {
         <Title lbl='מיקום הפריט' icon='map-location-dot' />
         <div className='grid grid-cols-2 gap-6'>
           {/* <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} defaultValue='1' /> */}
-           <Input lbl='מספר קומה' name='floor' type='number' min={-5} max={50} />
+           <Input lbl='מספר קומה' name='floor' type='number' min={-5} />
           <Select lbl='מספר דירה' name='aptNum' options={arrayOf(0, 1000)} defaultValue='1' />
         </div>
         <SelectAptOpt aptOpt={aptOpt} />
