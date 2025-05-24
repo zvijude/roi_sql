@@ -23,13 +23,13 @@ export default function ProbTable({ data }) {
     { key: 'qrNum', label: 'QR' },
     { key: 'loc', label: 'מיקום' },
     { key: 'part_name', label: 'פרט' },
+    { key: 'title', label: 'משימה' },
+    { key: 'desc', label: 'תיאור' },
+    { key: 'media', label: 'תמונות', format: 'formatMedia' },
     { key: 'create_name', label: 'נוצר ע"י' },
     { key: 'createdAt', label: 'נוצר בתאריך', format: 'formatDateTime' },
     { key: 'res_name', label: 'נענה ע"י' },
     { key: 'resAt', label: 'נענה בתאריך', format: 'formatDateTime' },
-    { key: 'title', label: 'משימה' },
-    { key: 'desc', label: 'תיאור' },
-    { key: 'media', label: 'תמונות', format: 'formatMedia' },
     { key: 'id', label: 'מזהה' },
   ]
 

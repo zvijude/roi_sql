@@ -8,13 +8,13 @@ import { getFields } from '@/components/filter/getFields'
 export default async function EventsLayout({ params, children }) {
   let { prjId } = await params
   const opts = await getFields(prjId)
-  const user = await getUser()
+  // const user = await getUser()
 
   return (
     <div>
-      <Btn lbl='תצוגת מפה' icon='map' href={`/project/${prjId}/map_qrs`} className='absolute top-14 left-4' />
+      {/* <Btn lbl='תצוגת מפה' icon='map' href={`/project/${prjId}/map_qrs`} className='absolute top-14 left-4' /> */}
       <Filter className='mb-8 mobile:mt-12' opts={opts} />
-      {isManager(user.role) && <EventsStats prjId={prjId} />}
+      {/* {isManager(user.role) && <EventsStats prjId={prjId} />} */}
       {children}
     </div>
   )

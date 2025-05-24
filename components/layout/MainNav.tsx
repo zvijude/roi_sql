@@ -27,19 +27,27 @@ function calcUrl(prjId, user) {
     ]
   return [
     { icon: 'calculator', href: `/project/${prjId}/kablan`, title: 'חשבונות קבלנים' },
-    { icon: 'ruler-triangle', type: 'reg', flip: true, href: `/project/${prjId}/logistic/medidot`, title: 'מדידות' },
+    // { icon: 'ruler-triangle', type: 'reg', flip: true, href: `/project/${prjId}/logistic/medidot`, title: 'מדידות' },
   ]
 }
 
 function getLinks(prjName?: string, prjId?: string | null) {
   const { user } = useUser() as any
   const topLinks = [
+    // section 1
     { icon: 'city', href: '/', title: 'הפרוייקטים שלי' },
-    { icon: 'building', href: `/project/${prjId}/events/tasks`, title: `פרויקט ${prjName}` },
-    { icon: 'triangle-exclamation', href: `/project/${prjId}/events/problems`, title: 'בעיות' },
-    { icon: 'hand-holding-dollar', href: `/project/${prjId}/events/budget_requests`, flip: true, title: 'בקשות תקציב' },
+    { icon: 'building', href: `/project/${prjId}`, title: `פרויקט ${prjName}` },
+    { icon: 'map-location-dot', href: `/project/${prjId}/map_qrs`, title: `מפת הפרויקט` },
+    { icon: 'hammer', href: `/project/${prjId}/events/tasks`, title: 'משימות' },
+
+    // section 2
     { icon: 'notdef', type: 'reg', flip: true, href: `/project/${prjId}/logistic/missing`, title: 'חוסרים' },
+    { icon: 'scale-balanced', type: 'reg', flip: true, href: `/project/${prjId}/logistic/medidot`, title: 'מדידות' },
     { icon: 'map', href: `/project/${prjId}/glass`, title: `מיפוי זכוכיות` },
+
+    //section 3
+    { icon: 'triangle-exclamation', href: `/project/${prjId}/events/problems`, title: 'בעיות ביצוע' },
+    { icon: 'hand-holding-dollar', href: `/project/${prjId}/events/budget_requests`, flip: true, title: 'בקשות חריגים' },
 
     ...calcUrl(prjId, user),
   ] as LinksType[]

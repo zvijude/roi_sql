@@ -62,7 +62,8 @@ export function MissForm({ prjId, missOpt, qr = null as any | null, aptOpt, part
                 <Title lbl='מיקום החוסר' icon='map-location-dot' />
 
                 <div className='grid grid-cols-2 gap-6'>
-                  <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} />
+                  {/* <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} /> */}
+                   <Input lbl='מספר קומה' name='floor' type='number' min={-5} />
                   <Select lbl='מספר דירה' name='aptNum' options={arrayOf(0, 1000)} />
                 </div>
                 <SelectAptOpt aptOpt={aptOpt} />

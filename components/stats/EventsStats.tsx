@@ -12,7 +12,7 @@ export default async function StatsDash({ prjId }) {
   //   <div className='grid_fill gap-4' style={{ ['--size' as string]: '380px' }}>
   return (
     <div
-      className='flex gap-4 items-start *:min-h-[238px]'
+      className='flex gap-4 items-start *:min-h-[238px] justify-around'
       //style={{ ['--size' as string]: '380px' }}
     >
       <StatsBox data={eventsStats.tasks} sum={taskSum} title='משימות' prjId={prjId} />

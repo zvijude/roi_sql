@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default async function TaskNav({ filter }) {
   return (
     <section className='flex mt-8 justify-between gap-8'>
-      <div className='flex gap-y-4 gap-x-0 mobile:grid mobile:grid-cols-3 items-end'>
+      {/* <div className='flex gap-y-4 gap-x-0 mobile:grid mobile:grid-cols-3 items-end'>
         <div className='px-8 border-b-2 pb-1 border-solid text-solid font-semibold'>משימות</div>
         <Link href={getNavLink({ filter, event: 'problems' })} className='px-8 border-b-2 pb-1 text-slate-600 border-slate-300'>
           בעיות ביצוע
@@ -15,7 +15,7 @@ export default async function TaskNav({ filter }) {
         >
           בקשות חריגים
         </Link>
-      </div>
+      </div> */}
 
       <div className='flex gap-0 mobile:grid mobile:grid-cols-4 items-end  justify-items-center mobile:w-full'>
         <NavLink lbl='הכל' active={!filter?.status} filter={filter} />

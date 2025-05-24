@@ -2,22 +2,24 @@
 import { PieChart, Pie, Cell } from 'recharts'
 import WrapChart from './WrapChart'
 
-export default function QrsCircleChart({ data, total }) {
+export default function QrsCircleChart({ data }) {
   const {
-    IN_PROGRESS: inProgress = [],
-    FINISH: finish = [],
-    WAITING_TASK: waitingTask = [],
-    ON_PROB: onProb = [],
-    ON_BGT_REQ: onBgtReq = [],
-  } = data
+  in_progress_count,
+  waiting_task_count,
+  finish_count,
+  on_prob_count,
+  on_bgt_req_count,
+  total_count,
+} = data;
 
-  const chartData = [
-    { name: 'בתהליך', value: (inProgress.length / total) * 100, color: '#32CD32' },
-    { name: 'ממתינים לאישור', value: (waitingTask.length / total) * 100, color: '#FFA500' },
-    { name: 'הושלמו', value: (finish.length / total) * 100, color: '#1E90FF' },
-    { name: 'בעיות פתוחות', value: (onProb.length / total) * 100, color: '#FF0000' },
-    { name: 'בקשות חריגים', value: (onBgtReq.length / total) * 100, color: '#FF4500' },
-  ]
+const chartData = [
+  { name: 'בתהליך', value: (in_progress_count / total_count) * 100, color: '#32CD32' },
+  { name: 'ממתינים לאישור', value: (waiting_task_count / total_count) * 100, color: '#FFA500' },
+  { name: 'הושלמו', value: (finish_count / total_count) * 100, color: '#1E90FF' },
+  { name: 'בעיות פתוחות', value: (on_prob_count / total_count) * 100, color: '#FF0000' },
+  { name: 'בקשות חריגים', value: (on_bgt_req_count / total_count) * 100, color: '#FF4500' },
+];
+
 
   return (
     <WrapChart title='סטטוס הברקודים'>
