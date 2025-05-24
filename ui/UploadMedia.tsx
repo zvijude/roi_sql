@@ -43,7 +43,7 @@ export default function UploadMedia({ onUpload, setLoading }: PropsT) {
 
   function openNativeCamera() {
     const isMobile = navigator.userAgent.match(/(Android|iPhone|iPad|iPod|Mobile)/g)
-    // if (!isMobile) return toast('error', 'לא ניתן לצלם תמונה ממכשיר זה')
+    if (!isMobile) return toast('error', 'לא ניתן לצלם תמונה ממכשיר זה')
     if (nativeCameraRef.current) nativeCameraRef.current.click()
   }
 
@@ -54,7 +54,8 @@ export default function UploadMedia({ onUpload, setLoading }: PropsT) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    // <div className="grid grid-cols-2 gap-2">
+    <div className="flex">
       <Btn
         lbl="צלם תמונה"
         icon="camera"
@@ -64,7 +65,7 @@ export default function UploadMedia({ onUpload, setLoading }: PropsT) {
         size="small"
         type='button'
       />
-      <Btn
+      {/* <Btn
         lbl="צלם סרטון"
         icon="video"
         className="w-full"
@@ -72,7 +73,7 @@ export default function UploadMedia({ onUpload, setLoading }: PropsT) {
         onClick={openNativeVideo}
         size="small"
         type='button'
-      />
+      /> */}
       <input
         ref={nativeCameraRef}
         type="file"
@@ -81,14 +82,14 @@ export default function UploadMedia({ onUpload, setLoading }: PropsT) {
         onChange={onFileChange}
         className="hidden"
       />
-      <input
+      {/* <input
         ref={nativeVideoRef}
         type="file"
         accept="video/*" // allow video only
         capture="environment"
         onChange={onFileChange}
         className="hidden"
-      />
+      /> */}
     </div>
   )
 }
