@@ -3,7 +3,7 @@
 import { SelectAptOpt } from '@/components/aptOpt/ui/SelectAptOpt'
 import { arrayOf } from '@/utils/func'
 import { Btn } from 'zvijude/btns'
-import { Select } from 'zvijude/form'
+import { Input, Select } from 'zvijude/form'
 import { getFormData } from 'zvijude/form/funcs'
 import Title from 'zvijude/general/Title'
 import { toast } from 'zvijude/pop'
@@ -26,7 +26,8 @@ export default function EditLocQrPop({ qrData, aptOpt }) {
       <form onSubmit={onEditSubmit} className='grid gap-4'>
         <Title lbl='עריכת מיקום הפרט' icon='map-location-dot' />
         <div className='grid grid-cols-2 gap-6'>
-          <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} defaultValue={floor} />
+          {/* <Select lbl='מספר קומה' name='floor' options={arrayOf(-20, 100)} defaultValue={floor} /> */}
+          <Input lbl='מספר קומה' name='floor' type='number' min={-5} max={50} defaultValue={floor} />
           <Select lbl='מספר דירה' name='aptNum' options={arrayOf(0, 1000)} defaultValue={aptNum} />
         </div>
 
