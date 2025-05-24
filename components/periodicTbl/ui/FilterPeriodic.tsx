@@ -11,6 +11,7 @@ import Icon from 'zvijude/icon'
 export default function PeriodicFilter({ filter, fields, parts }) {
   const router = useRouter()
   const { qrNums = [], users = [], floors = [], aptNums = [] } = fields
+  if(!qrNums) return null 
   // const [partTasks, setPartTasks] = useState([])
   // const [isLoading, setIsLoading] = useState(false)
 

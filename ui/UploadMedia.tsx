@@ -43,7 +43,7 @@ export default function UploadMedia({ onUpload, setLoading }: PropsT) {
 
   function openNativeCamera() {
     const isMobile = navigator.userAgent.match(/(Android|iPhone|iPad|iPod|Mobile)/g)
-    if (!isMobile) return toast('error', 'לא ניתן לצלם תמונה ממכשיר זה')
+    // if (!isMobile) return toast('error', 'לא ניתן לצלם תמונה ממכשיר זה')
     if (nativeCameraRef.current) nativeCameraRef.current.click()
   }
 
