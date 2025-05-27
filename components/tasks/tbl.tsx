@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
+import ExportTable from 'zvijude/table/export'
 import TableTopbar from 'zvijude/table/TableTopbar'
 import { Btn } from 'zvijude/btns'
 import EventChip from '../global/EventChip'
@@ -63,8 +64,11 @@ export default function TaskTable({ data }) {
 
   return (
     <>
-      <TableTopbar className=''>
+      <TableTopbar className='justify-between'>
         <Search config={config} />
+        <div className='flex gap-2'>
+          <ExportTable data={data} columns={headers} />
+        </div>
       </TableTopbar>
       <Table config={config} tblCls='rounded-t-none' />
     </>

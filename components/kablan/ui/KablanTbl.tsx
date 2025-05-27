@@ -5,6 +5,7 @@ import Table, { ConfigT } from 'zvijude/table'
 import { formatCurrency } from 'zvijude/funcs'
 import TableTopbar from 'zvijude/table/TableTopbar'
 import Search from 'zvijude/table/Search'
+import ExportTable from 'zvijude/table/export'
 
 export default function KablanTbl({ kablan }) {
   const headers = [
@@ -31,8 +32,11 @@ export default function KablanTbl({ kablan }) {
 
   return (
     <div>
-      <TableTopbar>
+      <TableTopbar className='justify-between'>
         <Search config={config} />
+        <div className='flex gap-2'>
+          <ExportTable data={kablan} columns={headers} />
+        </div>
       </TableTopbar>
 
       <Table config={config} tblCls='rounded-t-none' />

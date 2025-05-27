@@ -8,6 +8,7 @@ import { Btn } from 'zvijude/btns'
 import { toast } from 'zvijude/pop'
 import { deleteMiss, missCompleted } from './api'
 import BtnMedia from '@/ui/BtnMedia'
+import ExportTable from 'zvijude/table/export'
 
 export default function MissTable({ data }) {
   const headers = [
@@ -24,7 +25,6 @@ export default function MissTable({ data }) {
     { key: 'res_by', label: 'נענה ע"י' },
     { key: 'note', label: 'הערה' },
     { key: 'media', label: 'תמונות', format: 'formatMedia' },
-
   ]
 
   const [state, setState] = useState(data)
@@ -78,8 +78,11 @@ export default function MissTable({ data }) {
 
   return (
     <>
-      <TableTopbar>
+      <TableTopbar className='justify-between'>
         <Search config={config} />
+        <div className='flex gap-2'>
+          <ExportTable data={data} columns={headers} />
+        </div>
       </TableTopbar>
       <Table config={config} tblCls='rounded-t-none' />
     </>

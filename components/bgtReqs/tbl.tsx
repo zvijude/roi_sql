@@ -15,6 +15,7 @@ import { SelectObj } from 'zvijude/form'
 import { toast } from 'zvijude/pop'
 import EventChip from '../global/EventChip'
 import BtnMedia from '@/ui/BtnMedia'
+import ExportTable from 'zvijude/table/export'
 
 export default function BgtReqTable({ data }) {
   const headers = [
@@ -71,8 +72,11 @@ export default function BgtReqTable({ data }) {
 
   return (
     <>
-      <TableTopbar>
+      <TableTopbar className='justify-between'>
         <Search config={config} />
+        <div className='flex gap-2'>
+          <ExportTable data={data} columns={headers} />
+        </div>
       </TableTopbar>
       <Table config={config} tblCls='rounded-t-none' />
     </>

@@ -8,6 +8,7 @@ import { formatCurrency } from 'zvijude/funcs'
 import TableTopbar from 'zvijude/table/TableTopbar'
 import Search from 'zvijude/table/Search'
 import { blue } from 'tailwindcss/colors'
+import ExportTable from 'zvijude/table/export'
 
 export default function AllKablansTable({ kablans, prjId }) {
   const headers = [
@@ -39,8 +40,11 @@ export default function AllKablansTable({ kablans, prjId }) {
 
   return (
     <div>
-      <TableTopbar>
+      <TableTopbar className='justify-between'>
         <Search config={config} />
+        <div className='flex gap-2'>
+          <ExportTable data={kablans} columns={headers} />
+        </div>
       </TableTopbar>
 
       <Table config={config} tblCls='rounded-t-none' />

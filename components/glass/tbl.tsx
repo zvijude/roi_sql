@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Search from 'zvijude/table/Search'
 import Table, { ConfigT } from 'zvijude/table'
 import TableTopbar from 'zvijude/table/TableTopbar'
+import ExportTable from 'zvijude/table/export'
 
 export default function GlassTable({ data }) {
   const headers = [
@@ -21,8 +22,8 @@ export default function GlassTable({ data }) {
   function formatPallet(data) {
     let formattedData = [] as any
     let lastPalletName = null
-  
-    data.forEach(d => {
+
+    data.forEach((d) => {
       if (lastPalletName !== null && lastPalletName !== d.palletName) {
         formattedData.push({
           palletName: '',
@@ -39,10 +40,10 @@ export default function GlassTable({ data }) {
       formattedData.push(d)
       lastPalletName = d.palletName
     })
-  
+
     return formattedData
   }
-  
+
   const [state, setState] = useState(formatPallet(data))
   const [columns, setColumns] = useState(headers)
 
@@ -57,8 +58,11 @@ export default function GlassTable({ data }) {
 
   return (
     <>
-      <TableTopbar>
+      <TableTopbar className='justify-between'>
         <Search config={config} />
+        <div className='flex gap-2'>
+          <ExportTable data={data} columns={headers} />
+        </div>
       </TableTopbar>
       <Table config={config} tblCls='rounded-t-none' />
     </>
